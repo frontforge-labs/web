@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Palette, Lightbulb, BookOpen } from 'lucide-react';
+import { PageHeader } from '@frontenzo/ui';
 import { getToolIcon } from '../../lib/toolIcons.tsx';
-import { PageHeader } from '../../components/PageHeader';
+import { Breadcrumb } from '../../components/Breadcrumb';
 
 const colorTools = [
   {
@@ -57,6 +58,7 @@ export function ColorToolsScreen() {
         title="Color Tools"
         subtitle="Professional color utilities for modern web design"
         icon={<Palette size={24} />}
+        breadcrumbs={<Breadcrumb />}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -70,9 +72,9 @@ export function ColorToolsScreen() {
                 <Link
                   key={tool.name}
                   to={tool.path}
-                  className={`group border border-[var(--fe-border)] rounded-lg p-4 transition-all duration-200 ${
+                  className={`group bg-surface-1 border border-border rounded-lg p-4 shadow-sm transition-all duration-200 ${
                     tool.status === 'ready'
-                      ? 'hover:border-[var(--fe-accent)] hover:shadow-md cursor-pointer'
+                      ? 'hover:border-accent/20 hover:shadow-md cursor-pointer'
                       : 'opacity-60 cursor-not-allowed'
                   }`}
                   onClick={(e) => {
@@ -88,7 +90,7 @@ export function ColorToolsScreen() {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
-                        <h3 className="font-semibold text-base group-hover:text-[var(--fe-accent)] transition-colors">
+                        <h3 className="font-semibold text-base group-hover:text-accent transition-colors">
                           {tool.name}
                         </h3>
                         <span
@@ -102,19 +104,19 @@ export function ColorToolsScreen() {
                         </span>
                       </div>
 
-                      <p className="text-sm text-[var(--fe-text)]/70 mb-3 line-clamp-2">
+                      <p className="text-sm text-muted mb-3 line-clamp-2">
                         {tool.description}
                       </p>
 
                       <div className="grid grid-cols-1 gap-1">
                         {tool.features.slice(0, 2).map((feature) => (
-                          <div key={feature} className="text-xs text-[var(--fe-text)]/60 flex items-center">
-                            <div className="w-1 h-1 bg-[var(--fe-accent)] rounded-full mr-2 flex-shrink-0" />
+                          <div key={feature} className="text-xs text-muted flex items-center">
+                            <div className="w-1 h-1 bg-accent rounded-full mr-2 flex-shrink-0" />
                             <span className="truncate">{feature}</span>
                           </div>
                         ))}
                         {tool.features.length > 2 && (
-                          <div className="text-xs text-[var(--fe-text)]/40">
+                          <div className="text-xs text-muted opacity-60">
                             +{tool.features.length - 2} more features
                           </div>
                         )}
@@ -130,28 +132,28 @@ export function ColorToolsScreen() {
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-6">Master CSS Colors for Modern Web Design</h2>
 
-            <p className="text-[var(--fe-text)]/80 leading-relaxed mb-6">
+            <p className="text-muted leading-relaxed mb-6">
               Color is one of the most powerful tools in web design. It influences user emotions, guides attention,
               and creates visual hierarchy. Modern CSS provides extensive color capabilities, from simple hex values
               to complex gradients and color functions.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">Understanding CSS Color Formats</h3>
-            <p className="text-[var(--fe-text)]/80 leading-relaxed mb-4">
+            <p className="text-muted leading-relaxed mb-4">
               CSS supports multiple color formats: HEX (#FF5733), RGB (rgb(255, 87, 51)), HSL (hsl(9, 100%, 60%)),
               and newer formats like LCH and P3. Each format has its strengths - HSL is intuitive for adjustments,
               while LCH provides perceptually uniform color space.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">CSS Gradients: Beyond Simple Colors</h3>
-            <p className="text-[var(--fe-text)]/80 leading-relaxed mb-4">
+            <p className="text-muted leading-relaxed mb-4">
               Linear and radial gradients add depth and visual interest to designs. Modern browsers support
               complex gradient syntax including multiple color stops, custom angles, and gradient shapes.
               Our gradient tool simplifies this process while maintaining full CSS control.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">Color Accessibility in Web Design</h3>
-            <p className="text-[var(--fe-text)]/80 leading-relaxed mb-6">
+            <p className="text-muted leading-relaxed mb-6">
               Accessible color design ensures your content is usable by everyone. Follow WCAG guidelines
               for contrast ratios: 4.5:1 for normal text, 3:1 for large text. Consider color blindness
               by testing your designs with tools that simulate different types of color vision deficiency.
@@ -162,58 +164,58 @@ export function ColorToolsScreen() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Quick Tips */}
-          <div className="bg-[var(--fe-border)]/10 rounded-lg border border-[var(--fe-border)] p-6">
+          <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
-              <Lightbulb size={20} className="text-yellow-500" />
+              <Lightbulb size={20} className="text-warning" />
               <h3 className="font-semibold">Pro Tips</h3>
             </div>
             <div className="space-y-4">
               {colorTips.map((tip, index) => (
                 <div key={index}>
                   <h4 className="font-medium text-sm mb-1">{tip.title}</h4>
-                  <p className="text-xs text-[var(--fe-text)]/70 leading-relaxed">{tip.content}</p>
+                  <p className="text-xs text-muted leading-relaxed">{tip.content}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Related Resources */}
-          <div className="bg-[var(--fe-border)]/10 rounded-lg border border-[var(--fe-border)] p-6">
+          <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
-              <BookOpen size={20} className="text-blue-500" />
+              <BookOpen size={20} className="text-info" />
               <h3 className="font-semibold">Learn More</h3>
             </div>
             <div className="space-y-3">
-              <a href="#" className="block text-sm text-[var(--fe-accent)] hover:underline">
+              <a href="#" className="block text-sm text-accent hover:underline">
                 CSS Color Module Level 4 Specification
               </a>
-              <a href="#" className="block text-sm text-[var(--fe-accent)] hover:underline">
+              <a href="#" className="block text-sm text-accent hover:underline">
                 Web Content Accessibility Guidelines
               </a>
-              <a href="#" className="block text-sm text-[var(--fe-accent)] hover:underline">
+              <a href="#" className="block text-sm text-accent hover:underline">
                 Color Theory for Web Designers
               </a>
-              <a href="#" className="block text-sm text-[var(--fe-accent)] hover:underline">
+              <a href="#" className="block text-sm text-accent hover:underline">
                 Modern CSS Color Functions
               </a>
             </div>
           </div>
 
           {/* Quick Stats */}
-          <div className="bg-[var(--fe-border)]/10 rounded-lg border border-[var(--fe-border)] p-6">
+          <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
             <h3 className="font-semibold mb-4">Color Tools Stats</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-sm text-[var(--fe-text)]/70">Tools Available</span>
-                <span className="font-medium">3</span>
+                <span className="text-sm text-muted">Tools Available</span>
+                <span className="font-medium">4</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-[var(--fe-text)]/70">Ready to Use</span>
+                <span className="text-sm text-muted">Ready to Use</span>
                 <span className="font-medium">1</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-[var(--fe-text)]/70">Coming Soon</span>
-                <span className="font-medium">2</span>
+                <span className="text-sm text-muted">Coming Soon</span>
+                <span className="font-medium">3</span>
               </div>
             </div>
           </div>

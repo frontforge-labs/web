@@ -1,5 +1,5 @@
 import { useWorkspaceStore } from '../store/workspace';
-import { Sidebar } from '@frontenzo/ui';
+import { Sidebar, ThemeToggle } from '@frontenzo/ui';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toolCategories } from '../lib/constants.tsx';
 import {
@@ -69,36 +69,37 @@ export function ToolsLayout({ children }: ToolsLayoutProps) {
   };
 
   return (
-    <div className="h-screen flex bg-[var(--fe-bg)] text-[var(--fe-text)]">
+    <div className="h-screen flex bg-bg text-text">
       {/* Sidebar */}
       <Sidebar
         items={sidebarItems}
         activeId={getActiveId()}
         collapsed={sidebarCollapsed}
         onSelect={() => {}}
-        className="border-r border-[var(--fe-border)]"
+        className="border-r border-border"
       />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Top Bar */}
-        <header className="h-14 border-b border-[var(--fe-border)] bg-[var(--fe-bg)]/80 backdrop-blur-sm flex items-center justify-between px-6">
+        <header className="h-14 border-b border-border bg-bg/80 backdrop-blur-sm flex items-center justify-between px-6">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="p-2 hover:bg-[var(--fe-border)]/50 rounded-lg transition-colors"
+              className="p-2 hover:bg-surface-1 rounded-lg transition-colors"
               title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
               <Settings size={18} />
             </button>
-            <div className="h-6 w-px bg-[var(--fe-border)]" />
+            <div className="h-6 w-px bg-border" />
             <h2 className="font-semibold text-lg">FrontEnzo</h2>
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="text-sm text-[var(--fe-text)]/60 font-medium">
+            <span className="text-sm text-muted font-medium">
               CSS Generator Tools
             </span>
+            <ThemeToggle variant="colorful" size="md" />
           </div>
         </header>
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown, ChevronRight } from 'lucide-react';
+import { Badge } from '@frontenzo/ui';
 
 interface Tool {
   name: string;
@@ -48,7 +49,7 @@ export function ToolCategoryCard({
   };
 
   return (
-    <div className="border border-[var(--fe-border)] rounded-lg overflow-hidden hover:border-[var(--fe-accent)] transition-colors">
+    <div className="bg-surface-1 border border-border rounded-lg overflow-hidden hover:border-accent/20 hover:shadow-md transition-all duration-200 shadow-sm">
       {/* Card Header */}
       <div
         className="p-6 cursor-pointer"
@@ -61,14 +62,14 @@ export function ToolCategoryCard({
             </div>
             <div className="flex-1">
               <h3 className="text-xl font-semibold mb-2">{title}</h3>
-              <p className="text-[var(--fe-text)]/70">{description}</p>
+              <p className="text-muted">{description}</p>
             </div>
           </div>
 
           {/* Expand/Collapse Button */}
           <button
             onClick={handleExpandClick}
-            className="p-2 hover:bg-[var(--fe-border)] rounded transition-colors ml-4"
+            className="p-2 hover:bg-surface-2 rounded transition-colors ml-4"
           >
             {isExpanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
           </button>
@@ -77,36 +78,36 @@ export function ToolCategoryCard({
 
       {/* Expanded Tools List */}
       {isExpanded && (
-        <div className="border-t border-[var(--fe-border)] p-6 bg-[var(--fe-border)]/5">
+        <div className="border-t border-border p-6 bg-surface-2">
           <div className="space-y-3">
             {tools.map((tool) => (
               <div key={tool.name} className="flex items-center justify-between">
                 <Link
                   to={tool.path}
-                  className="text-sm hover:text-[var(--fe-accent)] transition-colors font-medium"
+                  className="text-sm hover:text-accent transition-colors font-medium"
                 >
                   {tool.name}
                 </Link>
-                <span
-                  className={`text-xs px-2 py-1 rounded ${
+                <Badge
+                  variant={
                     tool.status === 'ready'
-                      ? 'bg-green-100 text-green-700'
+                      ? 'success'
                       : tool.status === 'coming-soon'
-                      ? 'bg-yellow-100 text-yellow-700'
-                      : 'bg-gray-100 text-gray-700'
-                  }`}
+                      ? 'warning'
+                      : 'outline'
+                  }
                 >
                   {tool.status === 'ready' ? 'Ready' : tool.status === 'coming-soon' ? 'Soon' : 'Planned'}
-                </span>
+                </Badge>
               </div>
             ))}
           </div>
 
           {/* Category Page Link */}
-          <div className="mt-4 pt-4 border-t border-[var(--fe-border)]">
+          <div className="mt-4 pt-4 border-t border-border">
             <Link
               to={`/tools/${id}`}
-              className="text-sm text-[var(--fe-accent)] hover:underline font-medium"
+              className="text-sm text-accent hover:underline font-medium"
             >
               View all {title.toLowerCase()} tools →
             </Link>

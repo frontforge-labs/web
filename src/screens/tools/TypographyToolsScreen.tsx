@@ -1,126 +1,126 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Palette, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { Type, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader, Button } from "@frontenzo/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
-const colorTools = [
+const typographyTools = [
   {
-    name: "CSS Gradient",
-    path: "/tools/color/gradient",
+    name: "Font Pairing Previewer",
+    path: "/tools/typography/font-pairing",
     status: "ready" as const,
     description:
-      "Create beautiful linear and radial gradients with live preview",
+      "Test Google Fonts side by side to find perfect font combinations for your designs",
     features: [
+      "500+ Google Fonts",
+      "Real-time pairing preview",
+      "Font weight variations",
+      "Export CSS imports",
+    ],
+  },
+  {
+    name: "Text Shadow Generator",
+    path: "/tools/typography/text-shadow",
+    status: "ready" as const,
+    description:
+      "Create custom text shadows with live preview and CSS code generation",
+    features: [
+      "Multiple shadow layers",
+      "Color and blur controls",
+      "Interactive positioning",
+      "Copy CSS output",
+    ],
+  },
+  {
+    name: "Gradient Text Generator",
+    path: "/tools/typography/gradient-text",
+    status: "ready" as const,
+    description:
+      "Apply beautiful linear and radial gradient fills to text elements",
+    features: [
+      "Linear & radial gradients",
       "Multiple color stops",
-      "Angle control",
-      "Quick presets",
-      "Copy CSS code",
+      "Angle adjustments",
+      "Browser compatibility",
     ],
   },
   {
-    name: "Color Studio",
-    path: "/tools/color/studio",
+    name: "Variable Font Playground",
+    path: "/tools/typography/variable-fonts",
     status: "ready" as const,
     description:
-      "Advanced color picker, converter, and harmony generator with modern CSS support",
+      "Interactive sliders for weight, width, and custom axes in variable fonts",
     features: [
-      "Multiple format support",
-      "Color harmony generator",
-      "Interactive controls",
-      "OKLCH color space",
-    ],
-  },
-  {
-    name: "Contrast Checker",
-    path: "/tools/color/contrast",
-    status: "ready" as const,
-    description:
-      "Verify color combinations meet WCAG accessibility standards for optimal readability",
-    features: [
-      "WCAG AA/AAA compliance",
-      "Live contrast ratios",
-      "Common presets",
-      "Accessibility guidance",
-    ],
-  },
-  {
-    name: "Palette Builder",
-    path: "/tools/color/palette",
-    status: "ready" as const,
-    description:
-      "Build cohesive color palettes using color theory and harmony rules",
-    features: [
-      "Color harmony generator",
-      "Preset palettes",
-      "CSS/JSON export",
-      "Custom naming",
+      "Real-time axis control",
+      "Popular variable fonts",
+      "CSS font-variation",
+      "Animation examples",
     ],
   },
 ];
 
-const colorTips = [
+const typographyTips = [
   {
-    title: "Use the 60-30-10 Color Rule",
+    title: "Limit Your Font Pairs",
     content:
-      "Apply 60% dominant color, 30% secondary color, and 10% accent color for balanced, professional designs that guide user attention effectively.",
+      "Use no more than 2-3 typefaces in a design. Pair a serif with a sans-serif for classic contrast, or combine fonts with different weights from the same family for subtle harmony.",
   },
   {
-    title: "Master Color Psychology",
+    title: "Establish Type Hierarchy",
     content:
-      "Blue builds trust and reliability, green suggests growth and nature, red creates urgency and excitement. Choose colors that align with your brand message and user emotions.",
+      "Create clear visual hierarchy using font size, weight, and spacing. Headlines should be 2-4 times larger than body text, with consistent spacing between elements.",
   },
   {
-    title: "Ensure Color Accessibility",
+    title: "Mind Your Line Height",
     content:
-      "Maintain WCAG contrast ratios: 4.5:1 for normal text, 3:1 for large text. Test with color blindness simulators to ensure inclusive design for all users.",
+      "Set line-height to 1.4-1.6 times the font size for optimal readability. Tighter leading works for headlines, while body text needs more breathing room.",
   },
   {
-    title: "Leverage HSL for Better Control",
+    title: "Consider Reading Distance",
     content:
-      "HSL (Hue, Saturation, Lightness) offers intuitive color manipulation. Adjust lightness for variations while keeping hue consistent for cohesive color schemes.",
+      "Body text should be 16px minimum for web. Increase font size for mobile devices and consider your audience - older users benefit from larger, higher-contrast text.",
   },
   {
-    title: "Create Semantic Color Systems",
+    title: "Use Variable Fonts Wisely",
     content:
-      "Define CSS custom properties for colors: --primary, --success, --warning, --error. This creates maintainable, scalable color systems across your application.",
+      "Variable fonts reduce file size and offer design flexibility, but use restraint. Subtle weight adjustments work better than dramatic axis changes in UI text.",
   },
   {
-    title: "Use Gradients Strategically",
+    title: "Test Across Devices",
     content:
-      "Subtle gradients add depth without overwhelming content. Use 2-3 color stops maximum and keep angle between 45-135 degrees for natural, pleasing effects.",
+      "Fonts render differently across operating systems and browsers. Test your typography on various devices to ensure consistent appearance and readability.",
   },
   {
-    title: "Test in Different Lighting",
+    title: "Embrace White Space",
     content:
-      "Colors appear differently across devices and lighting conditions. Test your color choices on various screens and in different environments for consistency.",
+      "Generous margins and padding improve readability. Use letter-spacing sparingly - it can enhance headlines but hurts body text legibility when overdone.",
   },
   {
-    title: "Build Harmonious Palettes",
+    title: "Choose Fonts for Purpose",
     content:
-      "Use color theory principles: complementary colors for contrast, analogous colors for harmony, triadic colors for vibrant yet balanced combinations.",
+      "Select typefaces that match your content's tone. Corporate sites need reliable, professional fonts while creative projects can embrace more personality.",
   },
 ];
 
-export function ColorToolsScreen() {
+export function TypographyToolsScreen() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const nextTip = () => {
-    setCurrentTipIndex((prev) => (prev + 1) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev + 1) % typographyTips.length);
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + colorTips.length) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev - 1 + typographyTips.length) % typographyTips.length);
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
       <PageHeader
-        title="Color Tools"
-        subtitle="Professional CSS color generators, pickers, and palette builders for modern web design"
-        icon={<Palette size={24} />}
+        title="Typography Tools"
+        subtitle="Professional text styling, font pairing, and typography effects for modern web design"
+        icon={<Type size={24} />}
         breadcrumbs={<Breadcrumb />}
       />
 
@@ -131,7 +131,7 @@ export function ColorToolsScreen() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-6">Available Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {colorTools.map((tool) => (
+              {typographyTools.map((tool) => (
                 <Link
                   key={tool.name}
                   to={tool.path}
@@ -147,7 +147,7 @@ export function ColorToolsScreen() {
                   }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center text-white">
                       {getToolIcon(tool.name)}
                     </div>
 
@@ -197,61 +197,39 @@ export function ColorToolsScreen() {
           {/* Article Content */}
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-6">
-              Master CSS Colors for Professional Web Design
+              Master Typography for Professional Web Design
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Color is the cornerstone of effective web design, influencing user
-              emotions, behavior, and brand perception. Our comprehensive CSS
-              color tools help you create stunning gradients, pick perfect
-              colors, build harmonious palettes, and convert between formats
-              with precision and ease.
+              Typography is the voice of your design - it communicates tone, hierarchy, and brand personality while ensuring optimal readability. Our comprehensive typography tools help you create stunning text effects, discover perfect font pairings, and implement modern variable font features with precision and creativity.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Advanced CSS Color Formats & Functions
+              Modern Font Technologies
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Modern CSS supports powerful color formats including HEX
-              (#FF5733), RGB (rgb(255, 87, 51)), HSL (hsl(9, 100%, 60%)), and
-              cutting-edge formats like LCH and P3 for wider color gamuts. Each
-              format serves specific purposes: HSL for intuitive color
-              manipulation, RGB for device compatibility, and LCH for
-              perceptually uniform adjustments.
+              Variable fonts revolutionize web typography by providing infinite design variations within a single font file. Adjust weight, width, slant, and custom axes in real-time, creating responsive typography that adapts to different screen sizes and contexts while maintaining optimal performance.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              CSS Gradients: Creating Visual Depth
+              Typography Hierarchy & Rhythm
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Linear and radial gradients transform flat designs into engaging
-              visual experiences. Master advanced gradient techniques including
-              multiple color stops, custom easing functions, conic gradients,
-              and repeating patterns. Our gradient generator provides real-time
-              preview with professional presets for instant inspiration.
+              Establish clear visual hierarchy through consistent use of font sizes, weights, and spacing. A well-defined typographic scale creates rhythm and guides readers through your content naturally. Use modular scales based on mathematical ratios for harmonious proportions across all text elements.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Accessibility & WCAG Compliance
+              Performance & Accessibility
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Accessible color design ensures inclusive user experiences. Follow
-              WCAG 2.1 guidelines with contrast ratios of 4.5:1 for normal text
-              and 3:1 for large text. Consider color blindness affecting 8% of
-              men and 0.5% of women by testing with deuteranopia, protanopia,
-              and tritanopia simulators.
+              Optimize font loading with modern techniques like font-display: swap and preloading critical fonts. Ensure accessibility with sufficient color contrast, appropriate font sizes, and readable font choices. Consider users with dyslexia and other reading challenges when selecting typefaces.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Theory in Digital Design
+              Creative Text Effects
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Build compelling color schemes using proven color theory
-              principles. Complementary colors create high contrast and visual
-              impact, analogous colors provide harmony and unity, while triadic
-              schemes offer vibrant yet balanced combinations. Our palette
-              builder automates these relationships while allowing manual
-              fine-tuning.
+              Enhance your designs with subtle text shadows, gradient fills, and custom effects. These tools help you create eye-catching headlines and decorative text while maintaining readability and performance. Learn when to use effects sparingly for maximum impact.
             </p>
           </div>
         </div>
@@ -266,14 +244,14 @@ export function ColorToolsScreen() {
                 <h3 className="font-semibold">Pro Tips</h3>
               </div>
               <div className="flex items-center gap-1 text-xs text-muted">
-                {currentTipIndex + 1} of {colorTips.length}
+                {currentTipIndex + 1} of {typographyTips.length}
               </div>
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{colorTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">{typographyTips[currentTipIndex].title}</h4>
               <p className="text-sm text-muted leading-relaxed">
-                {colorTips[currentTipIndex].content}
+                {typographyTips[currentTipIndex].content}
               </p>
             </div>
 
@@ -282,7 +260,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={prevTip}
-                disabled={colorTips.length <= 1}
+                disabled={typographyTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 <ChevronLeft size={14} />
@@ -290,7 +268,7 @@ export function ColorToolsScreen() {
               </Button>
 
               <div className="flex gap-1">
-                {colorTips.map((_, index) => (
+                {typographyTips.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTipIndex(index)}
@@ -305,7 +283,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={nextTip}
-                disabled={colorTips.length <= 1}
+                disabled={typographyTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 Next
@@ -328,29 +306,29 @@ export function ColorToolsScreen() {
                 Browse All Articles →
               </Link>
               <Link
-                to="/articles/css-color-module"
+                to="/articles/typography-fundamentals"
                 className="block text-sm text-accent hover:underline"
               >
-                CSS Color Module Level 4 Specification
+                Typography Fundamentals
               </Link>
               <Link
-                to="/articles/accessibility-guidelines"
+                to="/articles/variable-fonts-guide"
                 className="block text-sm text-accent hover:underline"
               >
-                Web Content Accessibility Guidelines
+                Variable Fonts Complete Guide
               </Link>
               <Link
-                to="/articles/color-theory"
+                to="/articles/font-pairing-principles"
                 className="block text-sm text-accent hover:underline"
               >
-                Color Theory for Web Designers
+                Font Pairing Principles
               </Link>
             </div>
           </div>
 
           {/* Quick Stats */}
           <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
-            <h3 className="font-semibold mb-4">Color Tools Stats</h3>
+            <h3 className="font-semibold mb-4">Typography Tools Stats</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-muted">Tools Available</span>

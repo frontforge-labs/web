@@ -1,126 +1,126 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Palette, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { Zap, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader, Button } from "@frontenzo/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
-const colorTools = [
+const animationTools = [
   {
-    name: "CSS Gradient",
-    path: "/tools/color/gradient",
+    name: "Keyframes Generator",
+    path: "/tools/animation/keyframes",
     status: "ready" as const,
     description:
-      "Create beautiful linear and radial gradients with live preview",
+      "Visual keyframe builder for creating custom CSS animations with timeline control",
     features: [
-      "Multiple color stops",
-      "Angle control",
-      "Quick presets",
-      "Copy CSS code",
+      "Visual keyframe timeline",
+      "Property animation curves",
+      "Duration & easing control",
+      "Animation preview loop",
     ],
   },
   {
-    name: "Color Studio",
-    path: "/tools/color/studio",
+    name: "Transition Playground",
+    path: "/tools/animation/transitions",
     status: "ready" as const,
     description:
-      "Advanced color picker, converter, and harmony generator with modern CSS support",
+      "Interactive CSS transition builder with hover states and timing function controls",
     features: [
-      "Multiple format support",
-      "Color harmony generator",
-      "Interactive controls",
-      "OKLCH color space",
+      "Property transition setup",
+      "Hover state triggers",
+      "Easing function picker",
+      "Delay & duration tuning",
     ],
   },
   {
-    name: "Contrast Checker",
-    path: "/tools/color/contrast",
+    name: "Easing Curve Visualizer",
+    path: "/tools/animation/easing",
     status: "ready" as const,
     description:
-      "Verify color combinations meet WCAG accessibility standards for optimal readability",
+      "Visualize and customize timing functions with bezier curve editing and presets",
     features: [
-      "WCAG AA/AAA compliance",
-      "Live contrast ratios",
-      "Common presets",
-      "Accessibility guidance",
+      "Bezier curve editor",
+      "Easing presets library",
+      "Curve comparison tool",
+      "CSS timing functions",
     ],
   },
   {
-    name: "Palette Builder",
-    path: "/tools/color/palette",
+    name: "Scroll Animation Builder",
+    path: "/tools/animation/scroll-animations",
     status: "ready" as const,
     description:
-      "Build cohesive color palettes using color theory and harmony rules",
+      "Create scroll-triggered animations with Intersection Observer and CSS keyframes",
     features: [
-      "Color harmony generator",
-      "Preset palettes",
-      "CSS/JSON export",
-      "Custom naming",
+      "Scroll trigger setup",
+      "Intersection thresholds",
+      "Animation sequences",
+      "Performance optimization",
     ],
   },
 ];
 
-const colorTips = [
+const animationTips = [
   {
-    title: "Use the 60-30-10 Color Rule",
+    title: "Performance-First Animation Design",
     content:
-      "Apply 60% dominant color, 30% secondary color, and 10% accent color for balanced, professional designs that guide user attention effectively.",
+      "Animate only transform and opacity properties for 60fps performance. Avoid animating layout properties like width, height, or positioning as they trigger expensive browser reflows and repaints.",
   },
   {
-    title: "Master Color Psychology",
+    title: "Easing Functions Create Personality",
     content:
-      "Blue builds trust and reliability, green suggests growth and nature, red creates urgency and excitement. Choose colors that align with your brand message and user emotions.",
+      "Use ease-out for elements entering the viewport, ease-in for exiting elements, and ease-in-out for looping animations. Custom cubic-bezier curves can express brand personality through motion.",
   },
   {
-    title: "Ensure Color Accessibility",
+    title: "Animation Duration Sweet Spots",
     content:
-      "Maintain WCAG contrast ratios: 4.5:1 for normal text, 3:1 for large text. Test with color blindness simulators to ensure inclusive design for all users.",
+      "Keep micro-interactions under 300ms, interface transitions between 300-500ms, and complex animations under 1000ms. Longer animations feel sluggish and impact perceived performance.",
   },
   {
-    title: "Leverage HSL for Better Control",
+    title: "Respect User Preferences",
     content:
-      "HSL (Hue, Saturation, Lightness) offers intuitive color manipulation. Adjust lightness for variations while keeping hue consistent for cohesive color schemes.",
+      "Always implement prefers-reduced-motion media queries to disable or simplify animations for users with vestibular disorders or those who prefer less motion in their interfaces.",
   },
   {
-    title: "Create Semantic Color Systems",
+    title: "Stagger Animation Timing",
     content:
-      "Define CSS custom properties for colors: --primary, --success, --warning, --error. This creates maintainable, scalable color systems across your application.",
+      "When animating lists or groups, stagger the delays by 50-100ms per item to create natural, flowing motion. This technique makes bulk animations feel more organic and less mechanical.",
   },
   {
-    title: "Use Gradients Strategically",
+    title: "Use Transform Origin Strategically",
     content:
-      "Subtle gradients add depth without overwhelming content. Use 2-3 color stops maximum and keep angle between 45-135 degrees for natural, pleasing effects.",
+      "Transform-origin controls the pivot point for scale and rotation animations. Set it to create more natural motion that originates from interaction points or visual focal areas.",
   },
   {
-    title: "Test in Different Lighting",
+    title: "Hardware Acceleration Triggers",
     content:
-      "Colors appear differently across devices and lighting conditions. Test your color choices on various screens and in different environments for consistency.",
+      "Use transform3d(0,0,0) or will-change property to trigger hardware acceleration for smooth animations. Remove will-change after animations complete to avoid memory issues.",
   },
   {
-    title: "Build Harmonious Palettes",
+    title: "Animation State Management",
     content:
-      "Use color theory principles: complementary colors for contrast, analogous colors for harmony, triadic colors for vibrant yet balanced combinations.",
+      "Manage animation states carefully - ensure animations can be interrupted gracefully and don't interfere with user interactions. Use animation-fill-mode to control start and end states.",
   },
 ];
 
-export function ColorToolsScreen() {
+export function AnimationToolsScreen() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const nextTip = () => {
-    setCurrentTipIndex((prev) => (prev + 1) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev + 1) % animationTips.length);
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + colorTips.length) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev - 1 + animationTips.length) % animationTips.length);
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
       <PageHeader
-        title="Color Tools"
-        subtitle="Professional CSS color generators, pickers, and palette builders for modern web design"
-        icon={<Palette size={24} />}
+        title="Animation"
+        subtitle="Keyframe builder, transitions, and easing visualizer for smooth, performant web animations"
+        icon={<Zap size={24} />}
         breadcrumbs={<Breadcrumb />}
       />
 
@@ -131,7 +131,7 @@ export function ColorToolsScreen() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-6">Available Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {colorTools.map((tool) => (
+              {animationTools.map((tool) => (
                 <Link
                   key={tool.name}
                   to={tool.path}
@@ -147,7 +147,7 @@ export function ColorToolsScreen() {
                   }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-600 flex items-center justify-center text-white">
                       {getToolIcon(tool.name)}
                     </div>
 
@@ -197,61 +197,39 @@ export function ColorToolsScreen() {
           {/* Article Content */}
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-6">
-              Master CSS Colors for Professional Web Design
+              Modern Web Animation and Motion Design
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Color is the cornerstone of effective web design, influencing user
-              emotions, behavior, and brand perception. Our comprehensive CSS
-              color tools help you create stunning gradients, pick perfect
-              colors, build harmonious palettes, and convert between formats
-              with precision and ease.
+              Web animation enhances user experience through purposeful motion that guides attention, provides feedback, and creates emotional connections. Our animation toolkit provides professional-grade tools for creating smooth, performant animations while maintaining accessibility and respecting user preferences.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Advanced CSS Color Formats & Functions
+              CSS Keyframes and Timeline Control
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Modern CSS supports powerful color formats including HEX
-              (#FF5733), RGB (rgb(255, 87, 51)), HSL (hsl(9, 100%, 60%)), and
-              cutting-edge formats like LCH and P3 for wider color gamuts. Each
-              format serves specific purposes: HSL for intuitive color
-              manipulation, RGB for device compatibility, and LCH for
-              perceptually uniform adjustments.
+              Keyframe animations provide precise control over complex motion sequences. Define multiple animation states, control timing between frames, and create sophisticated effects that would be impossible with simple transitions. Master percentage-based keyframes for ultimate flexibility in animation choreography.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              CSS Gradients: Creating Visual Depth
+              Transition Design and Easing Psychology
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Linear and radial gradients transform flat designs into engaging
-              visual experiences. Master advanced gradient techniques including
-              multiple color stops, custom easing functions, conic gradients,
-              and repeating patterns. Our gradient generator provides real-time
-              preview with professional presets for instant inspiration.
+              CSS transitions create smooth property changes that feel natural and responsive. Understanding easing functions is crucial - they communicate personality and context through motion. Ease-out feels fast and responsive, ease-in provides gentle conclusions, while custom bezier curves express unique brand characteristics.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Accessibility & WCAG Compliance
+              Performance and Hardware Acceleration
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Accessible color design ensures inclusive user experiences. Follow
-              WCAG 2.1 guidelines with contrast ratios of 4.5:1 for normal text
-              and 3:1 for large text. Consider color blindness affecting 8% of
-              men and 0.5% of women by testing with deuteranopia, protanopia,
-              and tritanopia simulators.
+              Modern animation leverages GPU acceleration for smooth 60fps performance. Stick to animating transform and opacity properties, use will-change hints judiciously, and understand the browser's rendering pipeline to avoid expensive layout recalculations that cause animation jank.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Theory in Digital Design
+              Scroll-Triggered Animation Patterns
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Build compelling color schemes using proven color theory
-              principles. Complementary colors create high contrast and visual
-              impact, analogous colors provide harmony and unity, while triadic
-              schemes offer vibrant yet balanced combinations. Our palette
-              builder automates these relationships while allowing manual
-              fine-tuning.
+              Scroll animations create engaging, narrative experiences as users explore content. Use Intersection Observer for performance-conscious trigger detection, implement proper animation lifecycles, and design animations that enhance rather than distract from content consumption.
             </p>
           </div>
         </div>
@@ -266,14 +244,14 @@ export function ColorToolsScreen() {
                 <h3 className="font-semibold">Pro Tips</h3>
               </div>
               <div className="flex items-center gap-1 text-xs text-muted">
-                {currentTipIndex + 1} of {colorTips.length}
+                {currentTipIndex + 1} of {animationTips.length}
               </div>
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{colorTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">{animationTips[currentTipIndex].title}</h4>
               <p className="text-sm text-muted leading-relaxed">
-                {colorTips[currentTipIndex].content}
+                {animationTips[currentTipIndex].content}
               </p>
             </div>
 
@@ -282,7 +260,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={prevTip}
-                disabled={colorTips.length <= 1}
+                disabled={animationTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 <ChevronLeft size={14} />
@@ -290,7 +268,7 @@ export function ColorToolsScreen() {
               </Button>
 
               <div className="flex gap-1">
-                {colorTips.map((_, index) => (
+                {animationTips.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTipIndex(index)}
@@ -305,7 +283,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={nextTip}
-                disabled={colorTips.length <= 1}
+                disabled={animationTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 Next
@@ -328,29 +306,29 @@ export function ColorToolsScreen() {
                 Browse All Articles →
               </Link>
               <Link
-                to="/articles/css-color-module"
+                to="/articles/css-animation-performance"
                 className="block text-sm text-accent hover:underline"
               >
-                CSS Color Module Level 4 Specification
+                CSS Animation Performance Guide
               </Link>
               <Link
-                to="/articles/accessibility-guidelines"
+                to="/articles/motion-design-principles"
                 className="block text-sm text-accent hover:underline"
               >
-                Web Content Accessibility Guidelines
+                Motion Design Principles
               </Link>
               <Link
-                to="/articles/color-theory"
+                to="/articles/scroll-animation-patterns"
                 className="block text-sm text-accent hover:underline"
               >
-                Color Theory for Web Designers
+                Scroll Animation Patterns
               </Link>
             </div>
           </div>
 
           {/* Quick Stats */}
           <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
-            <h3 className="font-semibold mb-4">Color Tools Stats</h3>
+            <h3 className="font-semibold mb-4">Animation Tools Stats</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-muted">Tools Available</span>

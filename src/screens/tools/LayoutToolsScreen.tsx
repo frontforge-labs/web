@@ -1,126 +1,126 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Palette, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { LayoutGrid, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader, Button } from "@frontenzo/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
-const colorTools = [
+const layoutTools = [
   {
-    name: "CSS Gradient",
-    path: "/tools/color/gradient",
+    name: "Flexbox Playground",
+    path: "/tools/layout/flexbox",
     status: "ready" as const,
     description:
-      "Create beautiful linear and radial gradients with live preview",
+      "Interactive Flexbox playground with visual controls for container and item properties",
     features: [
-      "Multiple color stops",
-      "Angle control",
-      "Quick presets",
-      "Copy CSS code",
+      "Visual flex container setup",
+      "Drag & drop flex items",
+      "Real-time CSS generation",
+      "Common layout patterns",
     ],
   },
   {
-    name: "Color Studio",
-    path: "/tools/color/studio",
+    name: "Grid Generator",
+    path: "/tools/layout/grid",
     status: "ready" as const,
     description:
-      "Advanced color picker, converter, and harmony generator with modern CSS support",
+      "Visual CSS Grid generator with template areas and responsive design controls",
     features: [
-      "Multiple format support",
-      "Color harmony generator",
-      "Interactive controls",
-      "OKLCH color space",
+      "Visual grid builder",
+      "Named grid areas",
+      "Responsive breakpoints",
+      "Gap & sizing controls",
     ],
   },
   {
-    name: "Contrast Checker",
-    path: "/tools/color/contrast",
+    name: "CSS Positioning Playground",
+    path: "/tools/layout/positioning",
     status: "ready" as const,
     description:
-      "Verify color combinations meet WCAG accessibility standards for optimal readability",
+      "Master CSS positioning with interactive examples and visual feedback",
     features: [
-      "WCAG AA/AAA compliance",
-      "Live contrast ratios",
-      "Common presets",
-      "Accessibility guidance",
+      "Position value demos",
+      "Z-index management",
+      "Stacking context guide",
+      "Visual positioning aid",
     ],
   },
   {
-    name: "Palette Builder",
-    path: "/tools/color/palette",
+    name: "Responsive Breakpoint Tester",
+    path: "/tools/layout/breakpoints",
     status: "ready" as const,
     description:
-      "Build cohesive color palettes using color theory and harmony rules",
+      "Test responsive designs across device sizes with custom breakpoint definitions",
     features: [
-      "Color harmony generator",
-      "Preset palettes",
-      "CSS/JSON export",
-      "Custom naming",
+      "Device size testing",
+      "Custom breakpoints",
+      "Media query generator",
+      "Viewport simulation",
     ],
   },
 ];
 
-const colorTips = [
+const layoutTips = [
   {
-    title: "Use the 60-30-10 Color Rule",
+    title: "Flexbox vs Grid Decision Matrix",
     content:
-      "Apply 60% dominant color, 30% secondary color, and 10% accent color for balanced, professional designs that guide user attention effectively.",
+      "Use Flexbox for one-dimensional layouts (rows or columns) and component-level alignment. Use CSS Grid for two-dimensional layouts and page-level structure. Grid excels at complex layouts with overlapping elements.",
   },
   {
-    title: "Master Color Psychology",
+    title: "Flex-Grow, Flex-Shrink, and Flex-Basis",
     content:
-      "Blue builds trust and reliability, green suggests growth and nature, red creates urgency and excitement. Choose colors that align with your brand message and user emotions.",
+      "Master the flex shorthand property: flex-grow defines how much space an item should take, flex-shrink controls how much it can shrink, and flex-basis sets the initial size before free space is distributed.",
   },
   {
-    title: "Ensure Color Accessibility",
+    title: "Grid Template Areas for Readability",
     content:
-      "Maintain WCAG contrast ratios: 4.5:1 for normal text, 3:1 for large text. Test with color blindness simulators to ensure inclusive design for all users.",
+      "Use grid-template-areas to create semantic, readable grid layouts. Named grid areas make your CSS self-documenting and easier to maintain, especially for complex responsive designs.",
   },
   {
-    title: "Leverage HSL for Better Control",
+    title: "Positioning Context and Stacking",
     content:
-      "HSL (Hue, Saturation, Lightness) offers intuitive color manipulation. Adjust lightness for variations while keeping hue consistent for cohesive color schemes.",
+      "Positioned elements create new stacking contexts. Use z-index judiciously and understand that position: relative on a parent creates the positioning context for absolutely positioned children.",
   },
   {
-    title: "Create Semantic Color Systems",
+    title: "Mobile-First Responsive Design",
     content:
-      "Define CSS custom properties for colors: --primary, --success, --warning, --error. This creates maintainable, scalable color systems across your application.",
+      "Start with mobile layouts and progressively enhance for larger screens using min-width media queries. This approach ensures better performance and accessibility on mobile devices.",
   },
   {
-    title: "Use Gradients Strategically",
+    title: "Intrinsic vs Extrinsic Sizing",
     content:
-      "Subtle gradients add depth without overwhelming content. Use 2-3 color stops maximum and keep angle between 45-135 degrees for natural, pleasing effects.",
+      "Prefer intrinsic sizing (min-content, max-content, fit-content) over fixed dimensions. This creates more flexible layouts that adapt to content changes and different languages.",
   },
   {
-    title: "Test in Different Lighting",
+    title: "Container Queries for Component Layout",
     content:
-      "Colors appear differently across devices and lighting conditions. Test your color choices on various screens and in different environments for consistency.",
+      "Use container queries (@container) for component-based responsive design. This allows components to adapt based on their container size rather than viewport size.",
   },
   {
-    title: "Build Harmonious Palettes",
+    title: "Layout Performance Optimization",
     content:
-      "Use color theory principles: complementary colors for contrast, analogous colors for harmony, triadic colors for vibrant yet balanced combinations.",
+      "Minimize layout recalculation by avoiding changes to properties that trigger reflow. Use transform and opacity for animations, and will-change to hint at upcoming changes.",
   },
 ];
 
-export function ColorToolsScreen() {
+export function LayoutToolsScreen() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const nextTip = () => {
-    setCurrentTipIndex((prev) => (prev + 1) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev + 1) % layoutTips.length);
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + colorTips.length) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev - 1 + layoutTips.length) % layoutTips.length);
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
       <PageHeader
-        title="Color Tools"
-        subtitle="Professional CSS color generators, pickers, and palette builders for modern web design"
-        icon={<Palette size={24} />}
+        title="Layout Tools"
+        subtitle="Flexbox playground, grid generator, and layout helpers for modern responsive design"
+        icon={<LayoutGrid size={24} />}
         breadcrumbs={<Breadcrumb />}
       />
 
@@ -131,7 +131,7 @@ export function ColorToolsScreen() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-6">Available Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {colorTools.map((tool) => (
+              {layoutTools.map((tool) => (
                 <Link
                   key={tool.name}
                   to={tool.path}
@@ -147,7 +147,7 @@ export function ColorToolsScreen() {
                   }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-white">
                       {getToolIcon(tool.name)}
                     </div>
 
@@ -197,61 +197,39 @@ export function ColorToolsScreen() {
           {/* Article Content */}
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-6">
-              Master CSS Colors for Professional Web Design
+              Modern CSS Layout Systems and Responsive Design
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Color is the cornerstone of effective web design, influencing user
-              emotions, behavior, and brand perception. Our comprehensive CSS
-              color tools help you create stunning gradients, pick perfect
-              colors, build harmonious palettes, and convert between formats
-              with precision and ease.
+              CSS layout has evolved dramatically with Flexbox and Grid providing powerful tools for creating responsive, maintainable designs. Our layout toolkit enables you to master these modern layout systems through interactive exploration and visual feedback, building confidence with positioning, alignment, and responsive design patterns.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Advanced CSS Color Formats & Functions
+              Flexbox for Component Layout
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Modern CSS supports powerful color formats including HEX
-              (#FF5733), RGB (rgb(255, 87, 51)), HSL (hsl(9, 100%, 60%)), and
-              cutting-edge formats like LCH and P3 for wider color gamuts. Each
-              format serves specific purposes: HSL for intuitive color
-              manipulation, RGB for device compatibility, and LCH for
-              perceptually uniform adjustments.
+              Flexbox excels at one-dimensional layouts and component-level alignment. Master flex-direction, justify-content, align-items, and the flex shorthand to create flexible components that adapt to content changes. Flexbox is particularly powerful for navigation bars, card layouts, and form controls.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              CSS Gradients: Creating Visual Depth
+              CSS Grid for Page Structure
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Linear and radial gradients transform flat designs into engaging
-              visual experiences. Master advanced gradient techniques including
-              multiple color stops, custom easing functions, conic gradients,
-              and repeating patterns. Our gradient generator provides real-time
-              preview with professional presets for instant inspiration.
+              CSS Grid enables sophisticated two-dimensional layouts with precise control over rows and columns. Grid template areas provide semantic layout definitions, while grid line names create maintainable code. Grid excels at page-level structure, complex overlapping layouts, and responsive design patterns.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Accessibility & WCAG Compliance
+              Strategic Positioning and Z-Index Management
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Accessible color design ensures inclusive user experiences. Follow
-              WCAG 2.1 guidelines with contrast ratios of 4.5:1 for normal text
-              and 3:1 for large text. Consider color blindness affecting 8% of
-              men and 0.5% of women by testing with deuteranopia, protanopia,
-              and tritanopia simulators.
+              CSS positioning creates layered interfaces with careful attention to stacking contexts. Understand how relative, absolute, and fixed positioning interact, and manage z-index systematically to avoid common pitfalls. Proper positioning enables tooltips, modals, and complex interactive elements.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Theory in Digital Design
+              Responsive Design with Container Queries
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Build compelling color schemes using proven color theory
-              principles. Complementary colors create high contrast and visual
-              impact, analogous colors provide harmony and unity, while triadic
-              schemes offer vibrant yet balanced combinations. Our palette
-              builder automates these relationships while allowing manual
-              fine-tuning.
+              Container queries revolutionize responsive design by enabling component-based breakpoints. Design components that adapt to their container size rather than viewport dimensions, creating truly modular responsive designs that work in any context.
             </p>
           </div>
         </div>
@@ -266,14 +244,14 @@ export function ColorToolsScreen() {
                 <h3 className="font-semibold">Pro Tips</h3>
               </div>
               <div className="flex items-center gap-1 text-xs text-muted">
-                {currentTipIndex + 1} of {colorTips.length}
+                {currentTipIndex + 1} of {layoutTips.length}
               </div>
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{colorTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">{layoutTips[currentTipIndex].title}</h4>
               <p className="text-sm text-muted leading-relaxed">
-                {colorTips[currentTipIndex].content}
+                {layoutTips[currentTipIndex].content}
               </p>
             </div>
 
@@ -282,7 +260,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={prevTip}
-                disabled={colorTips.length <= 1}
+                disabled={layoutTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 <ChevronLeft size={14} />
@@ -290,7 +268,7 @@ export function ColorToolsScreen() {
               </Button>
 
               <div className="flex gap-1">
-                {colorTips.map((_, index) => (
+                {layoutTips.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTipIndex(index)}
@@ -305,7 +283,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={nextTip}
-                disabled={colorTips.length <= 1}
+                disabled={layoutTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 Next
@@ -328,29 +306,29 @@ export function ColorToolsScreen() {
                 Browse All Articles →
               </Link>
               <Link
-                to="/articles/css-color-module"
+                to="/articles/flexbox-mastery"
                 className="block text-sm text-accent hover:underline"
               >
-                CSS Color Module Level 4 Specification
+                Complete Flexbox Guide
               </Link>
               <Link
-                to="/articles/accessibility-guidelines"
+                to="/articles/css-grid-layouts"
                 className="block text-sm text-accent hover:underline"
               >
-                Web Content Accessibility Guidelines
+                CSS Grid Layout Patterns
               </Link>
               <Link
-                to="/articles/color-theory"
+                to="/articles/responsive-design-system"
                 className="block text-sm text-accent hover:underline"
               >
-                Color Theory for Web Designers
+                Responsive Design Systems
               </Link>
             </div>
           </div>
 
           {/* Quick Stats */}
           <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
-            <h3 className="font-semibold mb-4">Color Tools Stats</h3>
+            <h3 className="font-semibold mb-4">Layout Tools Stats</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-muted">Tools Available</span>

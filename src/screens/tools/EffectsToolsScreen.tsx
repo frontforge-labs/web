@@ -1,126 +1,126 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Palette, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { Sparkles, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader, Button } from "@frontenzo/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
-const colorTools = [
+const effectsTools = [
   {
-    name: "CSS Gradient",
-    path: "/tools/color/gradient",
+    name: "Box Shadow Generator",
+    path: "/tools/effects/box-shadow",
     status: "ready" as const,
     description:
-      "Create beautiful linear and radial gradients with live preview",
+      "Create multi-layer box shadows with precise control over inset, outset, and positioning",
     features: [
-      "Multiple color stops",
-      "Angle control",
-      "Quick presets",
-      "Copy CSS code",
+      "Multiple shadow layers",
+      "Inset & outset shadows",
+      "Live preview updates",
+      "CSS code output",
     ],
   },
   {
-    name: "Color Studio",
-    path: "/tools/color/studio",
+    name: "CSS Filter Playground",
+    path: "/tools/effects/filters",
     status: "ready" as const,
     description:
-      "Advanced color picker, converter, and harmony generator with modern CSS support",
+      "Interactive playground for CSS filters including blur, brightness, contrast, and more",
     features: [
-      "Multiple format support",
-      "Color harmony generator",
-      "Interactive controls",
-      "OKLCH color space",
+      "All CSS filter functions",
+      "Real-time preview",
+      "Combine multiple filters",
+      "Export CSS code",
     ],
   },
   {
-    name: "Contrast Checker",
-    path: "/tools/color/contrast",
+    name: "Glassmorphism Generator",
+    path: "/tools/effects/glassmorphism",
     status: "ready" as const,
     description:
-      "Verify color combinations meet WCAG accessibility standards for optimal readability",
+      "Generate frosted glass UI effects with backdrop-filter and transparency",
     features: [
-      "WCAG AA/AAA compliance",
-      "Live contrast ratios",
-      "Common presets",
-      "Accessibility guidance",
+      "Backdrop blur control",
+      "Transparency options",
+      "Border styles",
+      "Modern glass effects",
     ],
   },
   {
-    name: "Palette Builder",
-    path: "/tools/color/palette",
+    name: "Noise Texture Generator",
+    path: "/tools/effects/noise-texture",
     status: "ready" as const,
     description:
-      "Build cohesive color palettes using color theory and harmony rules",
+      "Create subtle CSS-based noise and texture overlays for backgrounds",
     features: [
-      "Color harmony generator",
-      "Preset palettes",
-      "CSS/JSON export",
-      "Custom naming",
+      "Noise pattern generation",
+      "Opacity control",
+      "Pattern scaling",
+      "CSS background output",
     ],
   },
 ];
 
-const colorTips = [
+const effectsTips = [
   {
-    title: "Use the 60-30-10 Color Rule",
+    title: "Layer Your Box Shadows",
     content:
-      "Apply 60% dominant color, 30% secondary color, and 10% accent color for balanced, professional designs that guide user attention effectively.",
+      "Use multiple shadow layers for depth. Start with a subtle close shadow, add a larger blurred shadow for depth, and finish with an optional inset shadow for dimension.",
   },
   {
-    title: "Master Color Psychology",
+    title: "Keep Filter Performance in Mind",
     content:
-      "Blue builds trust and reliability, green suggests growth and nature, red creates urgency and excitement. Choose colors that align with your brand message and user emotions.",
+      "CSS filters can impact performance, especially blur and drop-shadow. Use them sparingly on elements that don't change frequently, and test on lower-end devices.",
   },
   {
-    title: "Ensure Color Accessibility",
+    title: "Glassmorphism Best Practices",
     content:
-      "Maintain WCAG contrast ratios: 4.5:1 for normal text, 3:1 for large text. Test with color blindness simulators to ensure inclusive design for all users.",
+      "Effective glassmorphism requires proper backdrop content. Use backdrop-filter: blur() with semi-transparent backgrounds and ensure sufficient contrast for readability.",
   },
   {
-    title: "Leverage HSL for Better Control",
+    title: "Subtle Effects Work Best",
     content:
-      "HSL (Hue, Saturation, Lightness) offers intuitive color manipulation. Adjust lightness for variations while keeping hue consistent for cohesive color schemes.",
+      "Visual effects should enhance, not dominate your design. Start with subtle values and gradually increase intensity until you achieve the desired impact without overwhelming content.",
   },
   {
-    title: "Create Semantic Color Systems",
+    title: "Consider Dark Mode",
     content:
-      "Define CSS custom properties for colors: --primary, --success, --warning, --error. This creates maintainable, scalable color systems across your application.",
+      "Effects like glows and shadows behave differently in dark themes. Test your effects in both light and dark modes, adjusting colors and intensities accordingly.",
   },
   {
-    title: "Use Gradients Strategically",
+    title: "Use CSS Custom Properties",
     content:
-      "Subtle gradients add depth without overwhelming content. Use 2-3 color stops maximum and keep angle between 45-135 degrees for natural, pleasing effects.",
+      "Define shadow and filter values as CSS custom properties for easy theming and dynamic adjustments. This enables consistent effects across your design system.",
   },
   {
-    title: "Test in Different Lighting",
+    title: "Optimize for Accessibility",
     content:
-      "Colors appear differently across devices and lighting conditions. Test your color choices on various screens and in different environments for consistency.",
+      "Respect user preferences for reduced motion. Some effects can trigger vestibular disorders, so provide alternatives when prefers-reduced-motion is enabled.",
   },
   {
-    title: "Build Harmonious Palettes",
+    title: "Progressive Enhancement",
     content:
-      "Use color theory principles: complementary colors for contrast, analogous colors for harmony, triadic colors for vibrant yet balanced combinations.",
+      "Not all browsers support modern CSS effects equally. Use @supports queries to provide fallbacks and ensure your design works without advanced effects.",
   },
 ];
 
-export function ColorToolsScreen() {
+export function EffectsToolsScreen() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const nextTip = () => {
-    setCurrentTipIndex((prev) => (prev + 1) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev + 1) % effectsTips.length);
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + colorTips.length) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev - 1 + effectsTips.length) % effectsTips.length);
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
       <PageHeader
-        title="Color Tools"
-        subtitle="Professional CSS color generators, pickers, and palette builders for modern web design"
-        icon={<Palette size={24} />}
+        title="Effects & Filters"
+        subtitle="Professional visual effects, shadows, filters, and modern UI effects for contemporary web design"
+        icon={<Sparkles size={24} />}
         breadcrumbs={<Breadcrumb />}
       />
 
@@ -131,7 +131,7 @@ export function ColorToolsScreen() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-6">Available Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {colorTools.map((tool) => (
+              {effectsTools.map((tool) => (
                 <Link
                   key={tool.name}
                   to={tool.path}
@@ -147,7 +147,7 @@ export function ColorToolsScreen() {
                   }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-orange-500 to-red-600 flex items-center justify-center text-white">
                       {getToolIcon(tool.name)}
                     </div>
 
@@ -197,61 +197,39 @@ export function ColorToolsScreen() {
           {/* Article Content */}
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-6">
-              Master CSS Colors for Professional Web Design
+              Modern CSS Effects and Visual Enhancement
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Color is the cornerstone of effective web design, influencing user
-              emotions, behavior, and brand perception. Our comprehensive CSS
-              color tools help you create stunning gradients, pick perfect
-              colors, build harmonious palettes, and convert between formats
-              with precision and ease.
+              Visual effects are the finishing touches that elevate web designs from functional to exceptional. Our effects toolkit provides professional-grade shadow generators, CSS filters, and modern glassmorphism effects that enhance user interfaces while maintaining optimal performance and accessibility standards.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Advanced CSS Color Formats & Functions
+              Box Shadows and Depth Psychology
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Modern CSS supports powerful color formats including HEX
-              (#FF5733), RGB (rgb(255, 87, 51)), HSL (hsl(9, 100%, 60%)), and
-              cutting-edge formats like LCH and P3 for wider color gamuts. Each
-              format serves specific purposes: HSL for intuitive color
-              manipulation, RGB for device compatibility, and LCH for
-              perceptually uniform adjustments.
+              Shadows create visual hierarchy through simulated depth, guiding user attention and establishing element relationships. Multi-layered shadows combine close, sharp shadows for definition with distant, soft shadows for elevation, creating realistic lighting effects that improve interface comprehension.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              CSS Gradients: Creating Visual Depth
+              CSS Filters for Dynamic Enhancement
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Linear and radial gradients transform flat designs into engaging
-              visual experiences. Master advanced gradient techniques including
-              multiple color stops, custom easing functions, conic gradients,
-              and repeating patterns. Our gradient generator provides real-time
-              preview with professional presets for instant inspiration.
+              CSS filter functions enable real-time image and element manipulation directly in the browser. Combine blur, brightness, contrast, and hue adjustments for hover states, focus indicators, and interactive feedback without requiring additional images or JavaScript processing.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Accessibility & WCAG Compliance
+              Glassmorphism and Modern Transparency
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Accessible color design ensures inclusive user experiences. Follow
-              WCAG 2.1 guidelines with contrast ratios of 4.5:1 for normal text
-              and 3:1 for large text. Consider color blindness affecting 8% of
-              men and 0.5% of women by testing with deuteranopia, protanopia,
-              and tritanopia simulators.
+              Glassmorphism creates sophisticated frosted glass effects using backdrop-filter and careful transparency. This design trend works particularly well for overlay elements, modal dialogs, and navigation components, providing visual separation while maintaining content context.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Theory in Digital Design
+              Performance and Browser Compatibility
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Build compelling color schemes using proven color theory
-              principles. Complementary colors create high contrast and visual
-              impact, analogous colors provide harmony and unity, while triadic
-              schemes offer vibrant yet balanced combinations. Our palette
-              builder automates these relationships while allowing manual
-              fine-tuning.
+              Modern CSS effects leverage GPU acceleration for smooth performance, but require careful implementation. Use transform3d() to trigger hardware acceleration, implement progressive enhancement for older browsers, and consider user preferences for reduced motion to ensure inclusive experiences.
             </p>
           </div>
         </div>
@@ -266,14 +244,14 @@ export function ColorToolsScreen() {
                 <h3 className="font-semibold">Pro Tips</h3>
               </div>
               <div className="flex items-center gap-1 text-xs text-muted">
-                {currentTipIndex + 1} of {colorTips.length}
+                {currentTipIndex + 1} of {effectsTips.length}
               </div>
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{colorTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">{effectsTips[currentTipIndex].title}</h4>
               <p className="text-sm text-muted leading-relaxed">
-                {colorTips[currentTipIndex].content}
+                {effectsTips[currentTipIndex].content}
               </p>
             </div>
 
@@ -282,7 +260,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={prevTip}
-                disabled={colorTips.length <= 1}
+                disabled={effectsTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 <ChevronLeft size={14} />
@@ -290,7 +268,7 @@ export function ColorToolsScreen() {
               </Button>
 
               <div className="flex gap-1">
-                {colorTips.map((_, index) => (
+                {effectsTips.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTipIndex(index)}
@@ -305,7 +283,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={nextTip}
-                disabled={colorTips.length <= 1}
+                disabled={effectsTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 Next
@@ -328,29 +306,29 @@ export function ColorToolsScreen() {
                 Browse All Articles →
               </Link>
               <Link
-                to="/articles/css-color-module"
+                to="/articles/css-effects-guide"
                 className="block text-sm text-accent hover:underline"
               >
-                CSS Color Module Level 4 Specification
+                CSS Effects Complete Guide
               </Link>
               <Link
-                to="/articles/accessibility-guidelines"
+                to="/articles/glassmorphism-design"
                 className="block text-sm text-accent hover:underline"
               >
-                Web Content Accessibility Guidelines
+                Glassmorphism Design Principles
               </Link>
               <Link
-                to="/articles/color-theory"
+                to="/articles/shadow-design-systems"
                 className="block text-sm text-accent hover:underline"
               >
-                Color Theory for Web Designers
+                Shadow Design Systems
               </Link>
             </div>
           </div>
 
           {/* Quick Stats */}
           <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
-            <h3 className="font-semibold mb-4">Color Tools Stats</h3>
+            <h3 className="font-semibold mb-4">Effects Tools Stats</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-muted">Tools Available</span>

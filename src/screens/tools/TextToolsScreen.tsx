@@ -1,126 +1,126 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Palette, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { FileText, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader, Button } from "@frontenzo/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
-const colorTools = [
+const textTools = [
   {
-    name: "CSS Gradient",
-    path: "/tools/color/gradient",
+    name: "Case Converter",
+    path: "/tools/text/case-converter",
     status: "ready" as const,
     description:
-      "Create beautiful linear and radial gradients with live preview",
+      "Convert text between different cases including camelCase, snake_case, kebab-case, and more",
     features: [
-      "Multiple color stops",
-      "Angle control",
-      "Quick presets",
-      "Copy CSS code",
+      "Multiple case formats",
+      "Bulk text processing",
+      "Preserve line breaks",
+      "Copy individual outputs",
     ],
   },
   {
-    name: "Color Studio",
-    path: "/tools/color/studio",
+    name: "Lorem Ipsum Generator",
+    path: "/tools/text/lorem-ipsum",
     status: "ready" as const,
     description:
-      "Advanced color picker, converter, and harmony generator with modern CSS support",
+      "Generate placeholder text in various formats with customizable length and styling",
     features: [
-      "Multiple format support",
-      "Color harmony generator",
-      "Interactive controls",
-      "OKLCH color space",
+      "Word/paragraph control",
+      "Multiple text formats",
+      "HTML output options",
+      "Custom start text",
     ],
   },
   {
-    name: "Contrast Checker",
-    path: "/tools/color/contrast",
+    name: "Slugify Tool",
+    path: "/tools/text/slugify",
     status: "ready" as const,
     description:
-      "Verify color combinations meet WCAG accessibility standards for optimal readability",
+      "Convert text to URL-friendly slugs with customizable separators and rules",
     features: [
-      "WCAG AA/AAA compliance",
-      "Live contrast ratios",
-      "Common presets",
-      "Accessibility guidance",
+      "URL-safe conversion",
+      "Custom separators",
+      "Unicode support",
+      "Batch processing",
     ],
   },
   {
-    name: "Palette Builder",
-    path: "/tools/color/palette",
+    name: "Base64 Encoder/Decoder",
+    path: "/tools/text/base64",
     status: "ready" as const,
     description:
-      "Build cohesive color palettes using color theory and harmony rules",
+      "Encode and decode text using Base64 with support for files and binary data",
     features: [
-      "Color harmony generator",
-      "Preset palettes",
-      "CSS/JSON export",
-      "Custom naming",
+      "Text & file support",
+      "Bidirectional conversion",
+      "Error handling",
+      "Format validation",
     ],
   },
 ];
 
-const colorTips = [
+const textTips = [
   {
-    title: "Use the 60-30-10 Color Rule",
+    title: "Consistent Naming Conventions",
     content:
-      "Apply 60% dominant color, 30% secondary color, and 10% accent color for balanced, professional designs that guide user attention effectively.",
+      "Use consistent case conventions across your codebase. JavaScript uses camelCase for variables and functions, kebab-case for CSS classes, and snake_case is common in databases and Python.",
   },
   {
-    title: "Master Color Psychology",
+    title: "SEO-Friendly URL Slugs",
     content:
-      "Blue builds trust and reliability, green suggests growth and nature, red creates urgency and excitement. Choose colors that align with your brand message and user emotions.",
+      "Create URL slugs that are descriptive, keyword-rich, and readable. Avoid special characters, use hyphens instead of underscores, and keep them concise while maintaining meaning.",
   },
   {
-    title: "Ensure Color Accessibility",
+    title: "Lorem Ipsum Best Practices",
     content:
-      "Maintain WCAG contrast ratios: 4.5:1 for normal text, 3:1 for large text. Test with color blindness simulators to ensure inclusive design for all users.",
+      "Use Lorem Ipsum for layout testing, but replace with real content early in development. Different languages have varying text patterns that can affect layout and design decisions.",
   },
   {
-    title: "Leverage HSL for Better Control",
+    title: "Base64 Encoding Applications",
     content:
-      "HSL (Hue, Saturation, Lightness) offers intuitive color manipulation. Adjust lightness for variations while keeping hue consistent for cohesive color schemes.",
+      "Base64 is ideal for embedding small images in CSS/HTML, encoding data for APIs, and handling binary data in text-only contexts. Avoid for large files due to 33% size increase.",
   },
   {
-    title: "Create Semantic Color Systems",
+    title: "Text Processing Performance",
     content:
-      "Define CSS custom properties for colors: --primary, --success, --warning, --error. This creates maintainable, scalable color systems across your application.",
+      "For large text transformations, consider processing in chunks to avoid blocking the UI. Use Web Workers for intensive text processing tasks in production applications.",
   },
   {
-    title: "Use Gradients Strategically",
+    title: "Internationalization Considerations",
     content:
-      "Subtle gradients add depth without overwhelming content. Use 2-3 color stops maximum and keep angle between 45-135 degrees for natural, pleasing effects.",
+      "When processing text, consider Unicode normalization, right-to-left languages, and character encoding. Some case conversions behave differently across languages and locales.",
   },
   {
-    title: "Test in Different Lighting",
+    title: "Accessibility in Text Tools",
     content:
-      "Colors appear differently across devices and lighting conditions. Test your color choices on various screens and in different environments for consistency.",
+      "Ensure text transformations maintain readability and meaning. Screen readers may struggle with certain case formats, so provide context when content meaning changes.",
   },
   {
-    title: "Build Harmonious Palettes",
+    title: "Data Validation and Sanitization",
     content:
-      "Use color theory principles: complementary colors for contrast, analogous colors for harmony, triadic colors for vibrant yet balanced combinations.",
+      "Always validate and sanitize text inputs, especially when processing user-generated content. Implement proper escaping for different output contexts (HTML, JSON, CSV).",
   },
 ];
 
-export function ColorToolsScreen() {
+export function TextToolsScreen() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const nextTip = () => {
-    setCurrentTipIndex((prev) => (prev + 1) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev + 1) % textTips.length);
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + colorTips.length) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev - 1 + textTips.length) % textTips.length);
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
       <PageHeader
-        title="Color Tools"
-        subtitle="Professional CSS color generators, pickers, and palette builders for modern web design"
-        icon={<Palette size={24} />}
+        title="Text Utilities"
+        subtitle="Text transformers, encoders, and string utilities for efficient content processing"
+        icon={<FileText size={24} />}
         breadcrumbs={<Breadcrumb />}
       />
 
@@ -131,7 +131,7 @@ export function ColorToolsScreen() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-6">Available Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {colorTools.map((tool) => (
+              {textTools.map((tool) => (
                 <Link
                   key={tool.name}
                   to={tool.path}
@@ -147,7 +147,7 @@ export function ColorToolsScreen() {
                   }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center text-white">
                       {getToolIcon(tool.name)}
                     </div>
 
@@ -197,61 +197,39 @@ export function ColorToolsScreen() {
           {/* Article Content */}
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-6">
-              Master CSS Colors for Professional Web Design
+              Text Processing and Content Transformation Tools
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Color is the cornerstone of effective web design, influencing user
-              emotions, behavior, and brand perception. Our comprehensive CSS
-              color tools help you create stunning gradients, pick perfect
-              colors, build harmonious palettes, and convert between formats
-              with precision and ease.
+              Text processing is fundamental to modern development workflows, from converting naming conventions to generating placeholder content. Our text utilities provide efficient, reliable tools for common text transformations, encoding operations, and content generation tasks.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Advanced CSS Color Formats & Functions
+              Case Conversion and Naming Standards
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Modern CSS supports powerful color formats including HEX
-              (#FF5733), RGB (rgb(255, 87, 51)), HSL (hsl(9, 100%, 60%)), and
-              cutting-edge formats like LCH and P3 for wider color gamuts. Each
-              format serves specific purposes: HSL for intuitive color
-              manipulation, RGB for device compatibility, and LCH for
-              perceptually uniform adjustments.
+              Consistent naming conventions improve code readability and maintainability. Different contexts require different case formats - camelCase for JavaScript variables, kebab-case for CSS classes, snake_case for database fields. Automated conversion ensures consistency across large codebases.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              CSS Gradients: Creating Visual Depth
+              URL Slugification and SEO Optimization
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Linear and radial gradients transform flat designs into engaging
-              visual experiences. Master advanced gradient techniques including
-              multiple color stops, custom easing functions, conic gradients,
-              and repeating patterns. Our gradient generator provides real-time
-              preview with professional presets for instant inspiration.
+              URL slugs should be descriptive, search-engine friendly, and human-readable. Proper slugification removes special characters, handles Unicode correctly, and creates clean URLs that improve both SEO performance and user experience.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Accessibility & WCAG Compliance
+              Content Generation and Placeholder Text
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Accessible color design ensures inclusive user experiences. Follow
-              WCAG 2.1 guidelines with contrast ratios of 4.5:1 for normal text
-              and 3:1 for large text. Consider color blindness affecting 8% of
-              men and 0.5% of women by testing with deuteranopia, protanopia,
-              and tritanopia simulators.
+              Lorem Ipsum and similar placeholder text enable design and layout testing without content dependencies. While useful for prototyping, consider the impact of different languages and text patterns on your designs when planning for international audiences.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Theory in Digital Design
+              Encoding and Data Transformation
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Build compelling color schemes using proven color theory
-              principles. Complementary colors create high contrast and visual
-              impact, analogous colors provide harmony and unity, while triadic
-              schemes offer vibrant yet balanced combinations. Our palette
-              builder automates these relationships while allowing manual
-              fine-tuning.
+              Base64 encoding enables safe transmission of binary data through text-only channels. Understanding when and how to use different encoding schemes is crucial for APIs, data URLs, and handling file uploads in web applications.
             </p>
           </div>
         </div>
@@ -266,14 +244,14 @@ export function ColorToolsScreen() {
                 <h3 className="font-semibold">Pro Tips</h3>
               </div>
               <div className="flex items-center gap-1 text-xs text-muted">
-                {currentTipIndex + 1} of {colorTips.length}
+                {currentTipIndex + 1} of {textTips.length}
               </div>
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{colorTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">{textTips[currentTipIndex].title}</h4>
               <p className="text-sm text-muted leading-relaxed">
-                {colorTips[currentTipIndex].content}
+                {textTips[currentTipIndex].content}
               </p>
             </div>
 
@@ -282,7 +260,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={prevTip}
-                disabled={colorTips.length <= 1}
+                disabled={textTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 <ChevronLeft size={14} />
@@ -290,7 +268,7 @@ export function ColorToolsScreen() {
               </Button>
 
               <div className="flex gap-1">
-                {colorTips.map((_, index) => (
+                {textTips.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTipIndex(index)}
@@ -305,7 +283,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={nextTip}
-                disabled={colorTips.length <= 1}
+                disabled={textTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 Next
@@ -328,29 +306,29 @@ export function ColorToolsScreen() {
                 Browse All Articles →
               </Link>
               <Link
-                to="/articles/css-color-module"
+                to="/articles/text-processing-patterns"
                 className="block text-sm text-accent hover:underline"
               >
-                CSS Color Module Level 4 Specification
+                Text Processing Patterns
               </Link>
               <Link
-                to="/articles/accessibility-guidelines"
+                to="/articles/url-design-best-practices"
                 className="block text-sm text-accent hover:underline"
               >
-                Web Content Accessibility Guidelines
+                URL Design Best Practices
               </Link>
               <Link
-                to="/articles/color-theory"
+                to="/articles/encoding-security-guide"
                 className="block text-sm text-accent hover:underline"
               >
-                Color Theory for Web Designers
+                Encoding and Security Guide
               </Link>
             </div>
           </div>
 
           {/* Quick Stats */}
           <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
-            <h3 className="font-semibold mb-4">Color Tools Stats</h3>
+            <h3 className="font-semibold mb-4">Text Tools Stats</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-muted">Tools Available</span>

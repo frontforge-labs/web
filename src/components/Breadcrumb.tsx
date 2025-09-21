@@ -38,6 +38,25 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
         }
       }
     }
+    else if (currentPath.startsWith('/articles')) {
+      breadcrumbItems.push({ label: 'Articles', href: '/articles' });
+
+      if (currentPath !== '/articles') {
+        // Extract article title from path
+        const articlePath = currentPath.replace('/articles/', '');
+        const articleTitles: Record<string, string> = {
+          'css-color-module': 'CSS Color Module',
+          'accessibility-guidelines': 'Accessibility Guidelines',
+          'color-theory': 'Color Theory',
+          'modern-css-color-functions': 'Modern CSS Color Functions'
+        };
+
+        const articleTitle = articleTitles[articlePath];
+        if (articleTitle) {
+          breadcrumbItems.push({ label: articleTitle });
+        }
+      }
+    }
     else if (currentPath === '/settings') {
       breadcrumbItems.push({ label: 'Settings' });
     }

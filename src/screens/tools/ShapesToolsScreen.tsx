@@ -1,126 +1,126 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Palette, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { Shapes, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader, Button } from "@frontenzo/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
-const colorTools = [
+const shapesTools = [
   {
-    name: "CSS Gradient",
-    path: "/tools/color/gradient",
+    name: "Border Radius Previewer",
+    path: "/tools/shapes/border-radius",
     status: "ready" as const,
     description:
-      "Create beautiful linear and radial gradients with live preview",
+      "Create complex border radius combinations with individual corner control and live preview",
     features: [
-      "Multiple color stops",
-      "Angle control",
-      "Quick presets",
-      "Copy CSS code",
+      "Individual corner control",
+      "Elliptical radius support",
+      "Live preview updates",
+      "CSS output generation",
     ],
   },
   {
-    name: "Color Studio",
-    path: "/tools/color/studio",
+    name: "Clip-Path Maker",
+    path: "/tools/shapes/clip-path",
     status: "ready" as const,
     description:
-      "Advanced color picker, converter, and harmony generator with modern CSS support",
+      "Generate CSS clip-path shapes including polygons, circles, ellipses, and custom paths",
     features: [
-      "Multiple format support",
-      "Color harmony generator",
-      "Interactive controls",
-      "OKLCH color space",
+      "Polygon shape builder",
+      "Circle & ellipse tools",
+      "Custom path editor",
+      "Visual point manipulation",
     ],
   },
   {
-    name: "Contrast Checker",
-    path: "/tools/color/contrast",
+    name: "Blob Shape Generator",
+    path: "/tools/shapes/blob-generator",
     status: "ready" as const,
     description:
-      "Verify color combinations meet WCAG accessibility standards for optimal readability",
+      "Create organic, randomized fluid shapes perfect for modern design backgrounds",
     features: [
-      "WCAG AA/AAA compliance",
-      "Live contrast ratios",
-      "Common presets",
-      "Accessibility guidance",
+      "Randomized blob generation",
+      "Smoothness control",
+      "SVG & CSS output",
+      "Animation-ready paths",
     ],
   },
   {
-    name: "Palette Builder",
-    path: "/tools/color/palette",
+    name: "CSS Grid Layout Builder",
+    path: "/tools/shapes/grid-builder",
     status: "ready" as const,
     description:
-      "Build cohesive color palettes using color theory and harmony rules",
+      "Visual grid layout builder with drag-and-drop functionality and template generation",
     features: [
-      "Color harmony generator",
-      "Preset palettes",
-      "CSS/JSON export",
-      "Custom naming",
+      "Visual grid builder",
+      "Template areas",
+      "Gap & sizing controls",
+      "Responsive breakpoints",
     ],
   },
 ];
 
-const colorTips = [
+const shapesTips = [
   {
-    title: "Use the 60-30-10 Color Rule",
+    title: "Border Radius Design Principles",
     content:
-      "Apply 60% dominant color, 30% secondary color, and 10% accent color for balanced, professional designs that guide user attention effectively.",
+      "Use consistent border radius values throughout your design system. Consider the relationship between element size and radius - larger elements can handle larger radii, while small elements need subtle curves.",
   },
   {
-    title: "Master Color Psychology",
+    title: "Clip-Path Performance",
     content:
-      "Blue builds trust and reliability, green suggests growth and nature, red creates urgency and excitement. Choose colors that align with your brand message and user emotions.",
+      "Complex clip-path shapes can impact performance, especially on mobile devices. Use simple shapes when possible and test on various devices to ensure smooth animations and interactions.",
   },
   {
-    title: "Ensure Color Accessibility",
+    title: "Organic Shapes in UI",
     content:
-      "Maintain WCAG contrast ratios: 4.5:1 for normal text, 3:1 for large text. Test with color blindness simulators to ensure inclusive design for all users.",
+      "Blob shapes work best as background elements or decorative accents. Avoid using highly organic shapes for interactive elements as they can impact usability and touch target sizing.",
   },
   {
-    title: "Leverage HSL for Better Control",
+    title: "Grid Layout Best Practices",
     content:
-      "HSL (Hue, Saturation, Lightness) offers intuitive color manipulation. Adjust lightness for variations while keeping hue consistent for cohesive color schemes.",
+      "Start with simple grid layouts and add complexity gradually. Use named grid lines and template areas for better code maintainability and easier responsive adjustments.",
   },
   {
-    title: "Create Semantic Color Systems",
+    title: "Accessibility and Shapes",
     content:
-      "Define CSS custom properties for colors: --primary, --success, --warning, --error. This creates maintainable, scalable color systems across your application.",
+      "Ensure sufficient contrast between shaped elements and their backgrounds. Complex shapes can interfere with text readability, so test with actual content and various screen readers.",
   },
   {
-    title: "Use Gradients Strategically",
+    title: "Responsive Shape Design",
     content:
-      "Subtle gradients add depth without overwhelming content. Use 2-3 color stops maximum and keep angle between 45-135 degrees for natural, pleasing effects.",
+      "Shapes should adapt gracefully across screen sizes. Consider how border radius, clip-paths, and blob shapes will scale and potentially simplify complex shapes on smaller screens.",
   },
   {
-    title: "Test in Different Lighting",
+    title: "Browser Compatibility",
     content:
-      "Colors appear differently across devices and lighting conditions. Test your color choices on various screens and in different environments for consistency.",
+      "Always provide fallbacks for advanced CSS shapes. Use @supports queries to detect clip-path support and provide alternative designs for older browsers.",
   },
   {
-    title: "Build Harmonious Palettes",
+    title: "Performance Optimization",
     content:
-      "Use color theory principles: complementary colors for contrast, analogous colors for harmony, triadic colors for vibrant yet balanced combinations.",
+      "For animated shapes, use transform properties instead of changing clip-path or border-radius values directly. This ensures smooth animations by leveraging GPU acceleration.",
   },
 ];
 
-export function ColorToolsScreen() {
+export function ShapesToolsScreen() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const nextTip = () => {
-    setCurrentTipIndex((prev) => (prev + 1) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev + 1) % shapesTips.length);
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + colorTips.length) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev - 1 + shapesTips.length) % shapesTips.length);
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
       <PageHeader
-        title="Color Tools"
-        subtitle="Professional CSS color generators, pickers, and palette builders for modern web design"
-        icon={<Palette size={24} />}
+        title="Shapes & Layout"
+        subtitle="Professional shape generators, border radius tools, and advanced layout builders for modern web design"
+        icon={<Shapes size={24} />}
         breadcrumbs={<Breadcrumb />}
       />
 
@@ -131,7 +131,7 @@ export function ColorToolsScreen() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-6">Available Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {colorTools.map((tool) => (
+              {shapesTools.map((tool) => (
                 <Link
                   key={tool.name}
                   to={tool.path}
@@ -147,7 +147,7 @@ export function ColorToolsScreen() {
                   }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center text-white">
                       {getToolIcon(tool.name)}
                     </div>
 
@@ -197,61 +197,39 @@ export function ColorToolsScreen() {
           {/* Article Content */}
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-6">
-              Master CSS Colors for Professional Web Design
+              Advanced CSS Shapes and Layout Systems
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Color is the cornerstone of effective web design, influencing user
-              emotions, behavior, and brand perception. Our comprehensive CSS
-              color tools help you create stunning gradients, pick perfect
-              colors, build harmonious palettes, and convert between formats
-              with precision and ease.
+              Modern web design embraces organic shapes, sophisticated layouts, and custom geometric forms that break away from traditional rectangular constraints. Our shape and layout tools enable designers to create unique visual experiences while maintaining performance and accessibility standards.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Advanced CSS Color Formats & Functions
+              Border Radius and Rounded Design
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Modern CSS supports powerful color formats including HEX
-              (#FF5733), RGB (rgb(255, 87, 51)), HSL (hsl(9, 100%, 60%)), and
-              cutting-edge formats like LCH and P3 for wider color gamuts. Each
-              format serves specific purposes: HSL for intuitive color
-              manipulation, RGB for device compatibility, and LCH for
-              perceptually uniform adjustments.
+              Border radius transforms rectangular elements into sophisticated shapes that feel more natural and approachable. Master individual corner control, elliptical curves, and radius relationships to create cohesive design systems that enhance user experience through subtle visual cues.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              CSS Gradients: Creating Visual Depth
+              CSS Clip-Path for Custom Shapes
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Linear and radial gradients transform flat designs into engaging
-              visual experiences. Master advanced gradient techniques including
-              multiple color stops, custom easing functions, conic gradients,
-              and repeating patterns. Our gradient generator provides real-time
-              preview with professional presets for instant inspiration.
+              Clip-path enables precise shape control beyond simple rectangles and circles. Create polygonal layouts, diagonal sections, and complex geometric designs that guide user attention and create dynamic visual hierarchies without requiring additional images or SVG files.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Accessibility & WCAG Compliance
+              Organic Shapes and Blob Generation
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Accessible color design ensures inclusive user experiences. Follow
-              WCAG 2.1 guidelines with contrast ratios of 4.5:1 for normal text
-              and 3:1 for large text. Consider color blindness affecting 8% of
-              men and 0.5% of women by testing with deuteranopia, protanopia,
-              and tritanopia simulators.
+              Organic, blob-like shapes add personality and movement to designs while maintaining a professional appearance. These naturally randomized forms work particularly well for background elements, hero sections, and brand identity elements that need to stand out from traditional geometric layouts.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Theory in Digital Design
+              Advanced Grid Layout Systems
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Build compelling color schemes using proven color theory
-              principles. Complementary colors create high contrast and visual
-              impact, analogous colors provide harmony and unity, while triadic
-              schemes offer vibrant yet balanced combinations. Our palette
-              builder automates these relationships while allowing manual
-              fine-tuning.
+              CSS Grid provides unprecedented control over complex layouts with minimal code. Master grid template areas, implicit grids, and responsive design patterns to create layouts that adapt gracefully across devices while maintaining visual coherence and content hierarchy.
             </p>
           </div>
         </div>
@@ -266,14 +244,14 @@ export function ColorToolsScreen() {
                 <h3 className="font-semibold">Pro Tips</h3>
               </div>
               <div className="flex items-center gap-1 text-xs text-muted">
-                {currentTipIndex + 1} of {colorTips.length}
+                {currentTipIndex + 1} of {shapesTips.length}
               </div>
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{colorTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">{shapesTips[currentTipIndex].title}</h4>
               <p className="text-sm text-muted leading-relaxed">
-                {colorTips[currentTipIndex].content}
+                {shapesTips[currentTipIndex].content}
               </p>
             </div>
 
@@ -282,7 +260,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={prevTip}
-                disabled={colorTips.length <= 1}
+                disabled={shapesTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 <ChevronLeft size={14} />
@@ -290,7 +268,7 @@ export function ColorToolsScreen() {
               </Button>
 
               <div className="flex gap-1">
-                {colorTips.map((_, index) => (
+                {shapesTips.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTipIndex(index)}
@@ -305,7 +283,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={nextTip}
-                disabled={colorTips.length <= 1}
+                disabled={shapesTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 Next
@@ -328,29 +306,29 @@ export function ColorToolsScreen() {
                 Browse All Articles →
               </Link>
               <Link
-                to="/articles/css-color-module"
+                to="/articles/advanced-css-shapes"
                 className="block text-sm text-accent hover:underline"
               >
-                CSS Color Module Level 4 Specification
+                Advanced CSS Shapes Guide
               </Link>
               <Link
-                to="/articles/accessibility-guidelines"
+                to="/articles/grid-layout-mastery"
                 className="block text-sm text-accent hover:underline"
               >
-                Web Content Accessibility Guidelines
+                CSS Grid Layout Mastery
               </Link>
               <Link
-                to="/articles/color-theory"
+                to="/articles/border-radius-design"
                 className="block text-sm text-accent hover:underline"
               >
-                Color Theory for Web Designers
+                Border Radius Design Systems
               </Link>
             </div>
           </div>
 
           {/* Quick Stats */}
           <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
-            <h3 className="font-semibold mb-4">Color Tools Stats</h3>
+            <h3 className="font-semibold mb-4">Shapes Tools Stats</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-muted">Tools Available</span>

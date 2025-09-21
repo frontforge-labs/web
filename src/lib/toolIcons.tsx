@@ -16,7 +16,9 @@ import {
   GitCompare,
   CaseSensitive,
   Lock,
-  RefreshCw
+  RefreshCw,
+  Settings,
+  AlignLeft
 } from 'lucide-react';
 
 // Icon mapping for individual tools
@@ -28,8 +30,10 @@ export const toolIcons: Record<string, React.ReactNode> = {
   'Color Converter': <RefreshCw size={20} />,
 
   // Typography Tools
-  'Text Shadow': <Layers size={20} />,
-  'Font Pairing': <CaseSensitive size={20} />,
+  'Font Pairing Previewer': <AlignLeft size={20} />,
+  'Text Shadow Generator': <Layers size={20} />,
+  'Gradient Text Generator': <Palette size={20} />,
+  'Variable Font Playground': <Settings size={20} />,
 
   // Effects Tools
   'Box Shadow': <Sparkles size={20} />,

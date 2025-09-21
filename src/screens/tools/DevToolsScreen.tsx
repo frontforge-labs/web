@@ -1,126 +1,126 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Palette, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { FileJson, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader, Button } from "@frontenzo/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
-const colorTools = [
+const devTools = [
   {
-    name: "CSS Gradient",
-    path: "/tools/color/gradient",
+    name: "JSON Formatter & Validator",
+    path: "/tools/dev/json-formatter",
     status: "ready" as const,
     description:
-      "Create beautiful linear and radial gradients with live preview",
+      "Format, validate, and minify JSON with syntax highlighting and error detection",
     features: [
-      "Multiple color stops",
-      "Angle control",
-      "Quick presets",
-      "Copy CSS code",
+      "JSON validation & formatting",
+      "Syntax error detection",
+      "Minify & beautify options",
+      "Tree view visualization",
     ],
   },
   {
-    name: "Color Studio",
-    path: "/tools/color/studio",
+    name: "RegEx Tester",
+    path: "/tools/dev/regex-tester",
     status: "ready" as const,
     description:
-      "Advanced color picker, converter, and harmony generator with modern CSS support",
+      "Test regular expressions with real-time matching, flags, and explanation",
     features: [
-      "Multiple format support",
-      "Color harmony generator",
-      "Interactive controls",
-      "OKLCH color space",
+      "Live regex testing",
+      "Match highlighting",
+      "Flag support (g, i, m)",
+      "Pattern explanation",
     ],
   },
   {
-    name: "Contrast Checker",
-    path: "/tools/color/contrast",
+    name: "Minifier/Beautifier",
+    path: "/tools/dev/minifier",
     status: "ready" as const,
     description:
-      "Verify color combinations meet WCAG accessibility standards for optimal readability",
+      "Minify and beautify CSS, JavaScript, HTML, and JSON for optimization",
     features: [
-      "WCAG AA/AAA compliance",
-      "Live contrast ratios",
-      "Common presets",
-      "Accessibility guidance",
+      "Multi-language support",
+      "Size comparison stats",
+      "Preserve comments option",
+      "Custom formatting rules",
     ],
   },
   {
-    name: "Palette Builder",
-    path: "/tools/color/palette",
+    name: "Diff Viewer",
+    path: "/tools/dev/diff-viewer",
     status: "ready" as const,
     description:
-      "Build cohesive color palettes using color theory and harmony rules",
+      "Compare text files and code with side-by-side or unified diff views",
     features: [
-      "Color harmony generator",
-      "Preset palettes",
-      "CSS/JSON export",
-      "Custom naming",
+      "Side-by-side comparison",
+      "Unified diff format",
+      "Line-by-line highlighting",
+      "Ignore whitespace options",
     ],
   },
 ];
 
-const colorTips = [
+const devTips = [
   {
-    title: "Use the 60-30-10 Color Rule",
+    title: "JSON Schema Validation",
     content:
-      "Apply 60% dominant color, 30% secondary color, and 10% accent color for balanced, professional designs that guide user attention effectively.",
+      "Use JSON Schema to validate API responses and configuration files. Schemas provide documentation, validation rules, and can generate TypeScript types automatically for type-safe development.",
   },
   {
-    title: "Master Color Psychology",
+    title: "Regular Expression Performance",
     content:
-      "Blue builds trust and reliability, green suggests growth and nature, red creates urgency and excitement. Choose colors that align with your brand message and user emotions.",
+      "Avoid catastrophic backtracking in regex patterns. Use possessive quantifiers when possible, limit nested quantifiers, and test complex patterns with large inputs to ensure performance remains acceptable.",
   },
   {
-    title: "Ensure Color Accessibility",
+    title: "Code Minification Best Practices",
     content:
-      "Maintain WCAG contrast ratios: 4.5:1 for normal text, 3:1 for large text. Test with color blindness simulators to ensure inclusive design for all users.",
+      "Minify code only for production builds. Preserve source maps for debugging, use tree-shaking to eliminate dead code, and configure minifiers to maintain essential comments like licenses.",
   },
   {
-    title: "Leverage HSL for Better Control",
+    title: "Version Control Diff Strategies",
     content:
-      "HSL (Hue, Saturation, Lightness) offers intuitive color manipulation. Adjust lightness for variations while keeping hue consistent for cohesive color schemes.",
+      "Use semantic line breaks in documentation and configure Git to use better diff algorithms (patience, histogram) for more readable code comparisons. Ignore whitespace changes when reviewing.",
   },
   {
-    title: "Create Semantic Color Systems",
+    title: "API Response Debugging",
     content:
-      "Define CSS custom properties for colors: --primary, --success, --warning, --error. This creates maintainable, scalable color systems across your application.",
+      "Format JSON responses for better readability during development. Use browser dev tools' JSON viewer or dedicated formatters to understand complex nested data structures quickly.",
   },
   {
-    title: "Use Gradients Strategically",
+    title: "Development Environment Setup",
     content:
-      "Subtle gradients add depth without overwhelming content. Use 2-3 color stops maximum and keep angle between 45-135 degrees for natural, pleasing effects.",
+      "Standardize development tools across your team. Use EditorConfig, Prettier, and ESLint configurations to ensure consistent code formatting and catch common issues early in development.",
   },
   {
-    title: "Test in Different Lighting",
+    title: "Code Review Efficiency",
     content:
-      "Colors appear differently across devices and lighting conditions. Test your color choices on various screens and in different environments for consistency.",
+      "Use diff tools to focus on meaningful changes. Configure your diff viewer to ignore formatting-only changes and highlight semantic differences that require careful review and testing.",
   },
   {
-    title: "Build Harmonious Palettes",
+    title: "Performance Monitoring",
     content:
-      "Use color theory principles: complementary colors for contrast, analogous colors for harmony, triadic colors for vibrant yet balanced combinations.",
+      "Monitor bundle sizes and loading performance in development. Use tools to track asset size changes over time and set up alerts when bundles exceed performance budgets.",
   },
 ];
 
-export function ColorToolsScreen() {
+export function DevToolsScreen() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const nextTip = () => {
-    setCurrentTipIndex((prev) => (prev + 1) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev + 1) % devTips.length);
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + colorTips.length) % colorTips.length);
+    setCurrentTipIndex((prev) => (prev - 1 + devTips.length) % devTips.length);
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
       <PageHeader
-        title="Color Tools"
-        subtitle="Professional CSS color generators, pickers, and palette builders for modern web design"
-        icon={<Palette size={24} />}
+        title="Dev Tools"
+        subtitle="JSON formatter, text diff, and developer utilities for efficient coding workflows"
+        icon={<FileJson size={24} />}
         breadcrumbs={<Breadcrumb />}
       />
 
@@ -131,7 +131,7 @@ export function ColorToolsScreen() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-6">Available Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {colorTools.map((tool) => (
+              {devTools.map((tool) => (
                 <Link
                   key={tool.name}
                   to={tool.path}
@@ -147,7 +147,7 @@ export function ColorToolsScreen() {
                   }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-slate-500 to-gray-600 flex items-center justify-center text-white">
                       {getToolIcon(tool.name)}
                     </div>
 
@@ -197,61 +197,39 @@ export function ColorToolsScreen() {
           {/* Article Content */}
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-6">
-              Master CSS Colors for Professional Web Design
+              Essential Developer Utilities and Workflow Tools
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Color is the cornerstone of effective web design, influencing user
-              emotions, behavior, and brand perception. Our comprehensive CSS
-              color tools help you create stunning gradients, pick perfect
-              colors, build harmonious palettes, and convert between formats
-              with precision and ease.
+              Developer productivity relies on efficient tooling for common tasks like data formatting, code comparison, and pattern matching. Our developer toolkit provides essential utilities that streamline workflows, reduce errors, and enable faster debugging and development cycles.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Advanced CSS Color Formats & Functions
+              JSON Processing and Validation
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Modern CSS supports powerful color formats including HEX
-              (#FF5733), RGB (rgb(255, 87, 51)), HSL (hsl(9, 100%, 60%)), and
-              cutting-edge formats like LCH and P3 for wider color gamuts. Each
-              format serves specific purposes: HSL for intuitive color
-              manipulation, RGB for device compatibility, and LCH for
-              perceptually uniform adjustments.
+              JSON formatting and validation are crucial for API development and configuration management. Proper JSON tools help identify syntax errors, understand complex data structures, and ensure data integrity across development environments. Well-formatted JSON improves code readability and debugging efficiency.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              CSS Gradients: Creating Visual Depth
+              Regular Expression Testing and Debugging
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Linear and radial gradients transform flat designs into engaging
-              visual experiences. Master advanced gradient techniques including
-              multiple color stops, custom easing functions, conic gradients,
-              and repeating patterns. Our gradient generator provides real-time
-              preview with professional presets for instant inspiration.
+              Regular expressions are powerful but complex tools for pattern matching and text processing. Interactive regex testing enables rapid iteration and validation, helping developers understand matching behavior, optimize performance, and avoid common pitfalls like catastrophic backtracking.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Accessibility & WCAG Compliance
+              Code Optimization and Comparison
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Accessible color design ensures inclusive user experiences. Follow
-              WCAG 2.1 guidelines with contrast ratios of 4.5:1 for normal text
-              and 3:1 for large text. Consider color blindness affecting 8% of
-              men and 0.5% of women by testing with deuteranopia, protanopia,
-              and tritanopia simulators.
+              Code minification reduces bundle sizes and improves loading performance, while diff tools enable efficient code review and change tracking. Understanding the impact of optimization techniques and maintaining readable comparison views are essential for modern development workflows.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Color Theory in Digital Design
+              Development Workflow Integration
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Build compelling color schemes using proven color theory
-              principles. Complementary colors create high contrast and visual
-              impact, analogous colors provide harmony and unity, while triadic
-              schemes offer vibrant yet balanced combinations. Our palette
-              builder automates these relationships while allowing manual
-              fine-tuning.
+              Effective developer tools integrate seamlessly into existing workflows, supporting automation, continuous integration, and team collaboration. The best utilities provide consistent interfaces, reliable output, and configurable behavior that adapts to different project requirements and coding standards.
             </p>
           </div>
         </div>
@@ -266,14 +244,14 @@ export function ColorToolsScreen() {
                 <h3 className="font-semibold">Pro Tips</h3>
               </div>
               <div className="flex items-center gap-1 text-xs text-muted">
-                {currentTipIndex + 1} of {colorTips.length}
+                {currentTipIndex + 1} of {devTips.length}
               </div>
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{colorTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">{devTips[currentTipIndex].title}</h4>
               <p className="text-sm text-muted leading-relaxed">
-                {colorTips[currentTipIndex].content}
+                {devTips[currentTipIndex].content}
               </p>
             </div>
 
@@ -282,7 +260,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={prevTip}
-                disabled={colorTips.length <= 1}
+                disabled={devTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 <ChevronLeft size={14} />
@@ -290,7 +268,7 @@ export function ColorToolsScreen() {
               </Button>
 
               <div className="flex gap-1">
-                {colorTips.map((_, index) => (
+                {devTips.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTipIndex(index)}
@@ -305,7 +283,7 @@ export function ColorToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={nextTip}
-                disabled={colorTips.length <= 1}
+                disabled={devTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 Next
@@ -328,29 +306,29 @@ export function ColorToolsScreen() {
                 Browse All Articles →
               </Link>
               <Link
-                to="/articles/css-color-module"
+                to="/articles/developer-workflow-optimization"
                 className="block text-sm text-accent hover:underline"
               >
-                CSS Color Module Level 4 Specification
+                Developer Workflow Optimization
               </Link>
               <Link
-                to="/articles/accessibility-guidelines"
+                to="/articles/regex-patterns-guide"
                 className="block text-sm text-accent hover:underline"
               >
-                Web Content Accessibility Guidelines
+                Regular Expression Patterns Guide
               </Link>
               <Link
-                to="/articles/color-theory"
+                to="/articles/json-api-best-practices"
                 className="block text-sm text-accent hover:underline"
               >
-                Color Theory for Web Designers
+                JSON API Best Practices
               </Link>
             </div>
           </div>
 
           {/* Quick Stats */}
           <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
-            <h3 className="font-semibold mb-4">Color Tools Stats</h3>
+            <h3 className="font-semibold mb-4">Dev Tools Stats</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-muted">Tools Available</span>

@@ -2,11 +2,6 @@ import { useWorkspaceStore } from '../store/workspace';
 import { Sidebar, ThemeToggle } from '@frontenzo/ui';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toolCategories } from '../lib/constants.tsx';
-import {
-  Palette,
-  Home,
-  Settings
-} from 'lucide-react';
 
 interface ToolsLayoutProps {
   children: React.ReactNode;
@@ -17,92 +12,58 @@ export function ToolsLayout({ children }: ToolsLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const sidebarItems = [
-    {
-      id: 'home',
-      label: 'Home',
-      icon: <Home size={20} />,
-      onClick: () => navigate('/'),
-    },
-    {
-      id: 'tools-home',
-      label: 'All Tools',
-      icon: <Palette size={20} />,
-      onClick: () => navigate('/tools'),
-    },
-    ...toolCategories.map(category => ({
-      id: category.id,
-      label: category.title,
-      icon: category.icon,
-      onClick: () => navigate(`/tools/${category.id}`),
-    })),
-    {
-      id: 'settings',
-      label: 'Settings',
-      icon: <Settings size={20} />,
-      onClick: () => navigate('/settings'),
-    },
-  ];
-
   const currentPath = location.pathname;
 
-  // Smart active sidebar detection
-  const getActiveId = () => {
-    if (currentPath === '/') return 'home';
-    if (currentPath === '/settings') return 'settings';
-    if (currentPath === '/tools') return 'tools-home';
+  // Enhanced navigation data with paths
+  const sidebarCategories = toolCategories.map(category => ({
+    ...category,
+    path: `/tools/${category.id}`
+  }));
+
+  // Smart active detection
+  const getActiveState = () => {
+    if (currentPath === '/') return { activeId: 'home' };
+    if (currentPath === '/articles') return { activeId: 'articles' };
 
     // Check for category or tool pages
     for (const category of toolCategories) {
       // Direct category page match
       if (currentPath === `/tools/${category.id}`) {
-        return category.id;
+        return { activeCategoryId: category.id };
       }
 
       // Tool page within category
-      if (category.tools.some(tool => tool.path === currentPath)) {
-        return category.id;
+      const activeTool = category.tools.find(tool => tool.path === currentPath);
+      if (activeTool) {
+        return {
+          activeCategoryId: category.id,
+          activeToolPath: activeTool.path
+        };
       }
     }
 
-    return 'tools-home'; // fallback
+    return {}; // No active state
   };
+
+  const activeState = getActiveState();
 
   return (
     <div className="h-screen flex bg-bg text-text">
       {/* Sidebar */}
       <Sidebar
-        items={sidebarItems}
-        activeId={getActiveId()}
+        categories={sidebarCategories}
+        activeId={activeState.activeId}
+        activeCategoryId={activeState.activeCategoryId}
+        activeToolPath={activeState.activeToolPath}
         collapsed={sidebarCollapsed}
-        onSelect={() => {}}
+        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+        onNavigate={navigate}
         className="border-r border-border"
+        footer={<ThemeToggle />}
       />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        {/* Top Bar */}
-        <header className="h-14 border-b border-border bg-bg/80 backdrop-blur-sm flex items-center justify-between px-6">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="p-2 hover:bg-surface-1 rounded-lg transition-colors"
-              title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            >
-              <Settings size={18} />
-            </button>
-            <div className="h-6 w-px bg-border" />
-            <h2 className="font-semibold text-lg">FrontEnzo</h2>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted font-medium">
-              CSS Generator Tools
-            </span>
-            <ThemeToggle variant="colorful" size="md" />
-          </div>
-        </header>
-
         {/* Page Content */}
         <main className="flex-1 overflow-auto">
           {children}

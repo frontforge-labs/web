@@ -1,94 +1,28 @@
 import { useState } from "react";
-import { Button, Input } from "@frontenzo/ui";
-import { Shield, Copy, RotateCcw, CheckCircle, XCircle, AlertCircle, Eye } from "lucide-react";
-import { ToolContainer } from "../../../components/ToolContainer";
-import { hexToRgb, copyToClipboard } from "../../../lib/css/format";
+import { Button } from "@frontenzo/ui";
+import { Shield, Copy, RotateCcw, AlertCircle, Eye } from "lucide-react";
+import { ToolContainer } from "../../../../components/ToolContainer";
+import { copyToClipboard } from "../../../../lib/css/format";
+import {
+  commonPresets,
+  getComplianceIcon,
+  getGradeColor,
+  getTContrastResult,
+} from "./utils";
+import { ColorInput } from "../../../../components/ColorInput";
 
-interface ContrastConfig {
+type TContrastConfig = {
   foreground: string;
   background: string;
-}
-
-interface ContrastResult {
-  ratio: number;
-  wcagAA: {
-    normal: boolean;
-    large: boolean;
-  };
-  wcagAAA: {
-    normal: boolean;
-    large: boolean;
-  };
-}
-
-const commonPresets = [
-  { name: "Black on White", foreground: "#000000", background: "#FFFFFF" },
-  { name: "White on Black", foreground: "#FFFFFF", background: "#000000" },
-  { name: "Dark on Light", foreground: "#1f2937", background: "#f9fafb" },
-  { name: "Blue on White", foreground: "#1e40af", background: "#ffffff" },
-  { name: "White on Blue", foreground: "#ffffff", background: "#1e40af" },
-  { name: "Gray on Light", foreground: "#6b7280", background: "#f3f4f6" },
-  { name: "Dark on Yellow", foreground: "#1f2937", background: "#fef3c7" },
-  { name: "Red on Light", foreground: "#dc2626", background: "#fef2f2" },
-];
-
-function calculateLuminance(hex: string): number {
-  const rgb = hexToRgb(hex);
-  if (!rgb) return 0;
-
-  const [r, g, b] = [rgb.r, rgb.g, rgb.b].map(c => {
-    c = c / 255;
-    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-  });
-
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-
-function calculateContrastRatio(foreground: string, background: string): number {
-  const lumFg = calculateLuminance(foreground);
-  const lumBg = calculateLuminance(background);
-
-  const lighter = Math.max(lumFg, lumBg);
-  const darker = Math.min(lumFg, lumBg);
-
-  return (lighter + 0.05) / (darker + 0.05);
-}
-
-function getContrastResult(foreground: string, background: string): ContrastResult {
-  const ratio = calculateContrastRatio(foreground, background);
-
-  return {
-    ratio,
-    wcagAA: {
-      normal: ratio >= 4.5,
-      large: ratio >= 3.0,
-    },
-    wcagAAA: {
-      normal: ratio >= 7.0,
-      large: ratio >= 4.5,
-    },
-  };
-}
-
-function getComplianceIcon(passed: boolean) {
-  return passed ? (
-    <CheckCircle className="w-4 h-4 text-green-600" />
-  ) : (
-    <XCircle className="w-4 h-4 text-red-600" />
-  );
-}
-
-function getGradeColor(passed: boolean) {
-  return passed ? "text-green-700 bg-green-100" : "text-red-700 bg-red-100";
-}
+};
 
 export function ContrastCheckerScreen() {
-  const [config, setConfig] = useState<ContrastConfig>({
+  const [config, setConfig] = useState<TContrastConfig>({
     foreground: "#1f2937",
     background: "#f9fafb",
   });
 
-  const result = getContrastResult(config.foreground, config.background);
+  const result = getTContrastResult(config.foreground, config.background);
 
   const resetTool = () => {
     setConfig({
@@ -97,7 +31,7 @@ export function ContrastCheckerScreen() {
     });
   };
 
-  const applyPreset = (preset: typeof commonPresets[0]) => {
+  const applyPreset = (preset: (typeof commonPresets)[0]) => {
     setConfig({
       foreground: preset.foreground,
       background: preset.background,
@@ -171,11 +105,15 @@ WCAG AAA Compliance:
 
       {/* Compliance Status */}
       <div className="grid grid-cols-2 gap-2">
-        <div className={`text-center p-2 rounded text-xs font-medium ${getGradeColor(result.wcagAA.normal)}`}>
+        <div
+          className={`text-center p-2 rounded text-xs font-medium ${getGradeColor(result.wcagAA.normal)}`}
+        >
           AA Normal
           {result.wcagAA.normal ? " ✓" : " ✗"}
         </div>
-        <div className={`text-center p-2 rounded text-xs font-medium ${getGradeColor(result.wcagAAA.normal)}`}>
+        <div
+          className={`text-center p-2 rounded text-xs font-medium ${getGradeColor(result.wcagAAA.normal)}`}
+        >
           AAA Normal
           {result.wcagAAA.normal ? " ✓" : " ✗"}
         </div>
@@ -195,7 +133,7 @@ WCAG AAA Compliance:
       {/* Quick Actions */}
       <div className="flex gap-2 mb-6">
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           onClick={swapColors}
           className="flex items-center gap-2"
@@ -204,7 +142,7 @@ WCAG AAA Compliance:
           Swap Colors
         </Button>
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           onClick={copyContrastInfo}
           className="flex items-center gap-2"
@@ -216,43 +154,21 @@ WCAG AAA Compliance:
 
       {/* Color Inputs */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">Foreground (Text)</label>
-          <div className="flex items-center gap-2">
-            <input
-              type="color"
-              value={config.foreground}
-              onChange={(e) => setConfig(prev => ({ ...prev, foreground: e.target.value }))}
-              className="w-12 h-10 rounded border border-border cursor-pointer"
-            />
-            <Input
-              type="text"
-              value={config.foreground}
-              onChange={(e) => setConfig(prev => ({ ...prev, foreground: e.target.value }))}
-              className="flex-1 font-mono"
-              placeholder="#000000"
-            />
-          </div>
-        </div>
+        <ColorInput
+          label="Foreground"
+          value={config.foreground}
+          onChange={(e) =>
+            setConfig((prev) => ({ ...prev, foreground: e.target.value }))
+          }
+        />
 
-        <div>
-          <label className="block text-sm font-medium mb-2">Background</label>
-          <div className="flex items-center gap-2">
-            <input
-              type="color"
-              value={config.background}
-              onChange={(e) => setConfig(prev => ({ ...prev, background: e.target.value }))}
-              className="w-12 h-10 rounded border border-border cursor-pointer"
-            />
-            <Input
-              type="text"
-              value={config.background}
-              onChange={(e) => setConfig(prev => ({ ...prev, background: e.target.value }))}
-              className="flex-1 font-mono"
-              placeholder="#FFFFFF"
-            />
-          </div>
-        </div>
+        <ColorInput
+          label="Background"
+          value={config.background}
+          onChange={(e) =>
+            setConfig((prev) => ({ ...prev, background: e.target.value }))
+          }
+        />
       </div>
 
       {/* WCAG Compliance Results */}
@@ -262,9 +178,9 @@ WCAG AAA Compliance:
           <h4 className="text-sm font-medium">WCAG Compliance Results</h4>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-2">
           {/* WCAG AA */}
-          <div className="p-4 bg-surface-1 border border-border rounded-lg">
+          <div className="p-4 bg-[color:var(--fe-bg)] border border-border rounded-lg">
             <h5 className="font-medium mb-3 flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-blue-500"></div>
               WCAG AA (Minimum)
@@ -274,7 +190,11 @@ WCAG AAA Compliance:
                 <span>Normal Text (≥4.5:1)</span>
                 <div className="flex items-center gap-1">
                   {getComplianceIcon(result.wcagAA.normal)}
-                  <span className={result.wcagAA.normal ? "text-green-600" : "text-red-600"}>
+                  <span
+                    className={
+                      result.wcagAA.normal ? "text-green-600" : "text-red-600"
+                    }
+                  >
                     {result.wcagAA.normal ? "PASS" : "FAIL"}
                   </span>
                 </div>
@@ -283,7 +203,11 @@ WCAG AAA Compliance:
                 <span>Large Text (≥3:1)</span>
                 <div className="flex items-center gap-1">
                   {getComplianceIcon(result.wcagAA.large)}
-                  <span className={result.wcagAA.large ? "text-green-600" : "text-red-600"}>
+                  <span
+                    className={
+                      result.wcagAA.large ? "text-green-600" : "text-red-600"
+                    }
+                  >
                     {result.wcagAA.large ? "PASS" : "FAIL"}
                   </span>
                 </div>
@@ -292,7 +216,7 @@ WCAG AAA Compliance:
           </div>
 
           {/* WCAG AAA */}
-          <div className="p-4 bg-surface-1 border border-border rounded-lg">
+          <div className="p-4 bg-[color:var(--fe-bg)] border border-border rounded-lg">
             <h5 className="font-medium mb-3 flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
               WCAG AAA (Enhanced)
@@ -302,7 +226,11 @@ WCAG AAA Compliance:
                 <span>Normal Text (≥7:1)</span>
                 <div className="flex items-center gap-1">
                   {getComplianceIcon(result.wcagAAA.normal)}
-                  <span className={result.wcagAAA.normal ? "text-green-600" : "text-red-600"}>
+                  <span
+                    className={
+                      result.wcagAAA.normal ? "text-green-600" : "text-red-600"
+                    }
+                  >
                     {result.wcagAAA.normal ? "PASS" : "FAIL"}
                   </span>
                 </div>
@@ -311,7 +239,11 @@ WCAG AAA Compliance:
                 <span>Large Text (≥4.5:1)</span>
                 <div className="flex items-center gap-1">
                   {getComplianceIcon(result.wcagAAA.large)}
-                  <span className={result.wcagAAA.large ? "text-green-600" : "text-red-600"}>
+                  <span
+                    className={
+                      result.wcagAAA.large ? "text-green-600" : "text-red-600"
+                    }
+                  >
                     {result.wcagAAA.large ? "PASS" : "FAIL"}
                   </span>
                 </div>
@@ -323,17 +255,20 @@ WCAG AAA Compliance:
 
       {/* Common Presets */}
       <div className="mb-6">
-        <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+        <label className="text-sm font-medium mb-2 flex items-center gap-2">
           <Eye size={16} />
           Common Combinations
         </label>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {commonPresets.map((preset) => {
-            const presetResult = getContrastResult(preset.foreground, preset.background);
+            const presetResult = getTContrastResult(
+              preset.foreground,
+              preset.background
+            );
             return (
               <Button
                 key={preset.name}
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => applyPreset(preset)}
                 className="text-left justify-start h-auto p-3"
@@ -351,7 +286,9 @@ WCAG AAA Compliance:
                   </div>
                   <div className="flex-1">
                     <div className="text-xs font-medium">{preset.name}</div>
-                    <div className="text-xs text-muted">{presetResult.ratio.toFixed(1)}:1</div>
+                    <div className="text-xs text-muted">
+                      {presetResult.ratio.toFixed(1)}:1
+                    </div>
                   </div>
                   <div className="flex items-center gap-1">
                     {presetResult.wcagAA.normal ? (
@@ -370,15 +307,17 @@ WCAG AAA Compliance:
       </div>
 
       {/* Accessibility Info */}
-      <div className="p-4 bg-surface-1 border border-border rounded-lg">
+      <div className="p-4 bg-[color:var(--fe-bg)] border border-border rounded-lg">
         <div className="flex items-start gap-2">
           <AlertCircle size={16} className="text-blue-500 mt-0.5" />
           <div>
-            <div className="text-sm font-medium mb-1">Accessibility Guidelines</div>
+            <div className="text-sm font-medium mb-1">
+              Accessibility Guidelines
+            </div>
             <div className="text-xs text-muted leading-relaxed">
-              <strong>Large text</strong> is defined as 18pt+ (24px+) or 14pt+ (18.5px+) bold.
-              For critical applications, aim for AAA compliance. Use AA as the minimum standard
-              for general content accessibility.
+              <strong>Large text</strong> is defined as 18pt+ (24px+) or 14pt+
+              (18.5px+) bold. For critical applications, aim for AAA compliance.
+              Use AA as the minimum standard for general content accessibility.
             </div>
           </div>
         </div>

@@ -7,13 +7,13 @@ export type TTool =
   | "borderOutline"
   | "color";
 
-export interface TRule {
+export type TRule = {
   key: TTool;
   css: string;
   meta?: Record<string, unknown>;
-}
+};
 
-export interface CssState {
+export type TCssState = {
   rules: Record<TTool, TRule>;
   activeTool: TTool | null;
   applyRule: (tool: TTool, css: string, meta?: Record<string, unknown>) => void;
@@ -21,9 +21,9 @@ export interface CssState {
   resetTool: (tool: TTool) => void;
   resetAll: () => void;
   getComposedCSS: () => string;
-}
+};
 
-export interface WorkspaceState {
+export type TWorkspaceState = {
   sidebarCollapsed: boolean;
   drawerOpen: boolean;
   theme: "light" | "dark";
@@ -32,33 +32,4 @@ export interface WorkspaceState {
   setDrawerOpen: (open: boolean) => void;
   setTheme: (theme: "light" | "dark") => void;
   setLayoutPreset: (preset: "generators" | "editor" | "mixed") => void;
-}
-
-// CSS Generator specific types
-export interface GradientStop {
-  color: string;
-  position: number;
-}
-
-export interface GradientConfig {
-  type: "linear" | "radial";
-  angle: number;
-  stops: GradientStop[];
-}
-
-export interface BoxShadowLayer {
-  x: number;
-  y: number;
-  blur: number;
-  spread: number;
-  color: string;
-  inset: boolean;
-}
-
-export interface BorderRadiusConfig {
-  topLeft: number;
-  topRight: number;
-  bottomRight: number;
-  bottomLeft: number;
-  locked: boolean;
-}
+};

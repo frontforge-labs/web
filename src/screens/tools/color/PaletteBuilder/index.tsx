@@ -1,215 +1,14 @@
 import { useState } from "react";
 import { Button, Input, Select } from "@frontenzo/ui";
 import { Palette, Plus, Trash2, RefreshCw, Copy } from "lucide-react";
-import { ToolContainer } from "../../../components/ToolContainer";
-import { hexToRgb, rgbToHex, copyToClipboard } from "../../../lib/css/format";
-
-interface PaletteColor {
-  id: string;
-  hex: string;
-  name: string;
-}
-
-interface PaletteConfig {
-  name: string;
-  colors: PaletteColor[];
-  harmonyType:
-    | "complementary"
-    | "triadic"
-    | "analogous"
-    | "split-complementary"
-    | "tetradic"
-    | "monochromatic";
-  baseColor: string;
-}
-
-const harmonyTypes = [
-  { value: "complementary", label: "Complementary" },
-  { value: "triadic", label: "Triadic" },
-  { value: "analogous", label: "Analogous" },
-  { value: "split-complementary", label: "Split Complementary" },
-  { value: "tetradic", label: "Tetradic" },
-  { value: "monochromatic", label: "Monochromatic" },
-];
-
-const palettePresets = [
-  {
-    name: "Ocean Breeze",
-    colors: [
-      { id: "1", hex: "#0077be", name: "Deep Blue" },
-      { id: "2", hex: "#4da6d9", name: "Sky Blue" },
-      { id: "3", hex: "#87ceeb", name: "Light Blue" },
-      { id: "4", hex: "#b0e0e6", name: "Powder Blue" },
-      { id: "5", hex: "#e0f6ff", name: "Ice Blue" },
-    ],
-  },
-  {
-    name: "Sunset Glow",
-    colors: [
-      { id: "1", hex: "#ff6b35", name: "Coral" },
-      { id: "2", hex: "#f7931e", name: "Orange" },
-      { id: "3", hex: "#ffd23f", name: "Golden" },
-      { id: "4", hex: "#ffe66d", name: "Light Yellow" },
-      { id: "5", hex: "#fff3a0", name: "Cream" },
-    ],
-  },
-  {
-    name: "Forest Path",
-    colors: [
-      { id: "1", hex: "#2d5016", name: "Dark Green" },
-      { id: "2", hex: "#3d7c47", name: "Forest Green" },
-      { id: "3", hex: "#7fb069", name: "Sage Green" },
-      { id: "4", hex: "#bfd5a7", name: "Light Green" },
-      { id: "5", hex: "#e8f5e8", name: "Mint" },
-    ],
-  },
-];
-
-function generateHarmonyColors(
-  baseHex: string,
-  harmonyType: string
-): PaletteColor[] {
-  const rgb = hexToRgb(baseHex);
-  if (!rgb) return [];
-
-  // Convert RGB to HSL for easier color manipulation
-  const r = rgb.r / 255;
-  const g = rgb.g / 255;
-  const b = rgb.b / 255;
-
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  let h = 0;
-  let s = 0;
-  const l = (max + min) / 2;
-
-  if (max !== min) {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-    switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
-        break;
-      case g:
-        h = (b - r) / d + 2;
-        break;
-      case b:
-        h = (r - g) / d + 4;
-        break;
-    }
-    h /= 6;
-  }
-
-  const baseHue = h * 360;
-  const baseSat = s * 100;
-  const baseLum = l * 100;
-
-  const colors: PaletteColor[] = [];
-
-  switch (harmonyType) {
-    case "complementary":
-      colors.push(
-        { id: "1", hex: baseHex, name: "Base" },
-        {
-          id: "2",
-          hex: hslToHex((baseHue + 180) % 360, baseSat, baseLum),
-          name: "Complement",
-        }
-      );
-      break;
-
-    case "triadic":
-      colors.push(
-        { id: "1", hex: baseHex, name: "Base" },
-        {
-          id: "2",
-          hex: hslToHex((baseHue + 120) % 360, baseSat, baseLum),
-          name: "Triadic 1",
-        },
-        {
-          id: "3",
-          hex: hslToHex((baseHue + 240) % 360, baseSat, baseLum),
-          name: "Triadic 2",
-        }
-      );
-      break;
-
-    case "analogous":
-      colors.push(
-        {
-          id: "1",
-          hex: hslToHex((baseHue - 30 + 360) % 360, baseSat, baseLum),
-          name: "Analogous -30°",
-        },
-        { id: "2", hex: baseHex, name: "Base" },
-        {
-          id: "3",
-          hex: hslToHex((baseHue + 30) % 360, baseSat, baseLum),
-          name: "Analogous +30°",
-        }
-      );
-      break;
-
-    case "monochromatic":
-      colors.push(
-        {
-          id: "1",
-          hex: hslToHex(baseHue, baseSat, Math.max(10, baseLum - 40)),
-          name: "Dark",
-        },
-        {
-          id: "2",
-          hex: hslToHex(baseHue, baseSat, Math.max(10, baseLum - 20)),
-          name: "Medium Dark",
-        },
-        { id: "3", hex: baseHex, name: "Base" },
-        {
-          id: "4",
-          hex: hslToHex(baseHue, baseSat, Math.min(90, baseLum + 20)),
-          name: "Medium Light",
-        },
-        {
-          id: "5",
-          hex: hslToHex(baseHue, baseSat, Math.min(95, baseLum + 40)),
-          name: "Light",
-        }
-      );
-      break;
-
-    default:
-      colors.push({ id: "1", hex: baseHex, name: "Base" });
-  }
-
-  return colors;
-}
-
-function hslToHex(h: number, s: number, l: number): string {
-  h /= 360;
-  s /= 100;
-  l /= 100;
-
-  const hue2rgb = (p: number, q: number, t: number) => {
-    if (t < 0) t += 1;
-    if (t > 1) t -= 1;
-    if (t < 1 / 6) return p + (q - p) * 6 * t;
-    if (t < 1 / 2) return q;
-    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-    return p;
-  };
-
-  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-  const p = 2 * l - q;
-
-  const r = Math.round(hue2rgb(p, q, h + 1 / 3) * 255);
-  const g = Math.round(hue2rgb(p, q, h) * 255);
-  const b = Math.round(hue2rgb(p, q, h - 1 / 3) * 255);
-
-  return rgbToHex(r, g, b);
-}
+import { ToolContainer } from "../../../../components/ToolContainer";
+import { copyToClipboard } from "../../../../lib/css/format";
+import type { TPaletteColor, TPaletteConfig } from "./types";
+import { generateHarmonyColors, harmonyTypes, palettePresets } from "./utils";
+import { ColorInput } from "../../../../components/ColorInput";
 
 export function PaletteBuilderScreen() {
-  const [config, setConfig] = useState<PaletteConfig>({
+  const [config, setConfig] = useState<TPaletteConfig>({
     name: "My Palette",
     colors: [
       { id: "1", hex: "#3b82f6", name: "Primary Blue" },
@@ -221,7 +20,7 @@ export function PaletteBuilderScreen() {
   });
 
   const addColor = () => {
-    const newColor: PaletteColor = {
+    const newColor: TPaletteColor = {
       id: Date.now().toString(),
       hex: "#000000",
       name: `Color ${config.colors.length + 1}`,
@@ -241,7 +40,7 @@ export function PaletteBuilderScreen() {
     }
   };
 
-  const updateColor = (id: string, updates: Partial<PaletteColor>) => {
+  const updateColor = (id: string, updates: Partial<TPaletteColor>) => {
     setConfig((prev) => ({
       ...prev,
       colors: prev.colors.map((color) =>
@@ -347,11 +146,11 @@ export function PaletteBuilderScreen() {
       {/* Quick Presets */}
       <div className="mb-6">
         <h4 className="text-sm font-medium mb-3">Preset Palettes</h4>
-        <div className="space-y-2">
+        <div className="grid grid-cols-2 gap-2">
           {palettePresets.map((preset) => (
             <Button
               key={preset.name}
-              variant="outline"
+              variant="secondary"
               size="sm"
               onClick={() => applyPreset(preset)}
               className="w-full text-xs h-8 justify-start"
@@ -390,27 +189,13 @@ export function PaletteBuilderScreen() {
       <div className="mb-6">
         <h4 className="text-sm font-medium mb-3">Generate Harmony</h4>
         <div className="space-y-3">
-          <div>
-            <label className="block text-xs font-medium mb-1">Base Color</label>
-            <div className="flex gap-2">
-              <input
-                type="color"
-                value={config.baseColor}
-                onChange={(e) =>
-                  setConfig((prev) => ({ ...prev, baseColor: e.target.value }))
-                }
-                className="w-10 h-8 rounded border border-[var(--fe-border)] cursor-pointer"
-              />
-              <Input
-                type="text"
-                value={config.baseColor}
-                onChange={(e) =>
-                  setConfig((prev) => ({ ...prev, baseColor: e.target.value }))
-                }
-                className="flex-1 text-xs h-8"
-              />
-            </div>
-          </div>
+          <ColorInput
+            label="Base Color"
+            value={config.baseColor}
+            onChange={({ target }) => {
+              setConfig((prev) => ({ ...prev, baseColor: target.value }));
+            }}
+          />
           <div>
             <label className="block text-xs font-medium mb-1">
               Harmony Type
@@ -432,7 +217,7 @@ export function PaletteBuilderScreen() {
             </Select>
           </div>
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={generateHarmony}
             className="w-full text-xs h-8"
@@ -449,7 +234,7 @@ export function PaletteBuilderScreen() {
           <h4 className="text-sm font-medium">Colors</h4>
           <Button
             size="sm"
-            variant="outline"
+            variant="secondary"
             onClick={addColor}
             className="h-8"
           >
@@ -503,7 +288,7 @@ export function PaletteBuilderScreen() {
         <h4 className="text-sm font-medium mb-3">Export Palette</h4>
         <div className="flex gap-2">
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={() => copyPalette("css")}
             className="flex-1 text-xs h-8"
@@ -512,7 +297,7 @@ export function PaletteBuilderScreen() {
             CSS
           </Button>
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={() => copyPalette("json")}
             className="flex-1 text-xs h-8"
@@ -521,7 +306,7 @@ export function PaletteBuilderScreen() {
             JSON
           </Button>
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={() => copyPalette("hex")}
             className="flex-1 text-xs h-8"

@@ -1,87 +1,13 @@
 import { useState } from "react";
 import { Button, Input, Select } from "@frontenzo/ui";
 import { Plus, Trash2, Palette } from "lucide-react";
-import { ToolContainer } from "../../../components/ToolContainer";
-import { buildGradient } from "../../../lib/css/builders";
-import type { GradientConfig, GradientStop } from "../../../lib/types";
-
-const gradientPresets: Array<{ name: string; config: GradientConfig }> = [
-  {
-    name: "Sunset",
-    config: {
-      type: "linear",
-      angle: 45,
-      stops: [
-        { color: "#ff7e5f", position: 0 },
-        { color: "#feb47b", position: 100 },
-      ],
-    },
-  },
-  {
-    name: "Ocean",
-    config: {
-      type: "linear",
-      angle: 180,
-      stops: [
-        { color: "#667eea", position: 0 },
-        { color: "#764ba2", position: 100 },
-      ],
-    },
-  },
-  {
-    name: "Mint Fresh",
-    config: {
-      type: "linear",
-      angle: 90,
-      stops: [
-        { color: "#00b4db", position: 0 },
-        { color: "#0083b0", position: 100 },
-      ],
-    },
-  },
-  {
-    name: "Lava",
-    config: {
-      type: "radial",
-      angle: 0,
-      stops: [
-        { color: "#ff416c", position: 0 },
-        { color: "#ff4b2b", position: 100 },
-      ],
-    },
-  },
-  {
-    name: "Purple Haze",
-    config: {
-      type: "linear",
-      angle: 135,
-      stops: [
-        { color: "#667eea", position: 0 },
-        { color: "#764ba2", position: 50 },
-        { color: "#f093fb", position: 100 },
-      ],
-    },
-  },
-  {
-    name: "Rainbow",
-    config: {
-      type: "linear",
-      angle: 90,
-      stops: [
-        { color: "#ff0000", position: 0 },
-        { color: "#ff8000", position: 16.67 },
-        { color: "#ffff00", position: 33.33 },
-        { color: "#00ff00", position: 50 },
-        { color: "#0080ff", position: 66.67 },
-        { color: "#8000ff", position: 83.33 },
-        { color: "#ff0080", position: 100 },
-      ],
-    },
-  },
-];
+import { ToolContainer } from "../../../../components/ToolContainer";
+import { buildGradient } from "../../../../lib/css/builders";
+import type { TGradientConfig, TGradientStop } from "./types";
+import { gradientPresets } from "./utils";
 
 export function GradientGeneratorScreen() {
-  const [config, setConfig] = useState<GradientConfig>({
+  const [config, setConfig] = useState<TGradientConfig>({
     type: "linear",
     angle: 45,
     stops: [
@@ -90,12 +16,12 @@ export function GradientGeneratorScreen() {
     ],
   });
 
-  const updateConfig = (updates: Partial<GradientConfig>) => {
+  const updateConfig = (updates: Partial<TGradientConfig>) => {
     setConfig((prev) => ({ ...prev, ...updates }));
   };
 
   const addStop = () => {
-    const newStop: GradientStop = {
+    const newStop: TGradientStop = {
       color: "#000000",
       position: 50,
     };
@@ -111,14 +37,14 @@ export function GradientGeneratorScreen() {
     }
   };
 
-  const updateStop = (index: number, updates: Partial<GradientStop>) => {
+  const updateStop = (index: number, updates: Partial<TGradientStop>) => {
     const newStops = config.stops.map((stop, i) =>
       i === index ? { ...stop, ...updates } : stop
     );
     updateConfig({ stops: newStops });
   };
 
-  const applyPreset = (preset: GradientConfig) => {
+  const applyPreset = (preset: TGradientConfig) => {
     setConfig(preset);
   };
 
@@ -169,7 +95,7 @@ export function GradientGeneratorScreen() {
           {gradientPresets.map((preset) => (
             <Button
               key={preset.name}
-              variant="outline"
+              variant="secondary"
               size="sm"
               onClick={() => applyPreset(preset.config)}
               className="text-xs h-8"
@@ -222,7 +148,12 @@ export function GradientGeneratorScreen() {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-sm font-medium">Color Stops</h4>
-          <Button size="sm" variant="outline" onClick={addStop} className="h-8">
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={addStop}
+            className="h-8"
+          >
             <Plus size={12} className="mr-1" />
             Add
           </Button>

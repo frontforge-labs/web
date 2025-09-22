@@ -3,10 +3,10 @@ import { ThemeProvider } from "@frontenzo/ui";
 import { ToolsLayout } from "./layouts/ToolsLayout";
 import { ToolsHomeScreen } from "./screens/ToolsHomeScreen";
 import { ColorToolsScreen } from "./screens/tools/ColorToolsScreen";
-import { GradientGeneratorScreen } from "./screens/tools/color/GradientGeneratorScreen";
-import { ColorStudioScreen } from "./screens/tools/color/ColorStudioScreen";
-import { ContrastCheckerScreen } from "./screens/tools/color/ContrastCheckerScreen";
-import { PaletteBuilderScreen } from "./screens/tools/color/PaletteBuilderScreen";
+import { GradientGeneratorScreen } from "./screens/tools/color/GradientGenerator";
+import { ColorStudioScreen } from "./screens/tools/color/ColorStudio";
+import { ContrastCheckerScreen } from "./screens/tools/color/ContrastChecker";
+import { PaletteBuilderScreen } from "./screens/tools/color/PaletteBuilder";
 import { TypographyToolsScreen } from "./screens/tools/TypographyToolsScreen";
 import { TextShadowScreen } from "./screens/tools/typography/TextShadowScreen";
 import { FontPairingScreen } from "./screens/tools/typography/FontPairingScreen";
@@ -73,28 +73,58 @@ export default function App() {
             element={<GradientGeneratorScreen />}
           />
           <Route path="/tools/color/studio" element={<ColorStudioScreen />} />
-          <Route path="/tools/color/contrast" element={<ContrastCheckerScreen />} />
+          <Route
+            path="/tools/color/contrast"
+            element={<ContrastCheckerScreen />}
+          />
           <Route
             path="/tools/color/palette"
             element={<PaletteBuilderScreen />}
           />
           <Route path="/tools/typography" element={<TypographyToolsScreen />} />
-          <Route path="/tools/typography/font-pairing" element={<FontPairingScreen />} />
-          <Route path="/tools/typography/text-shadow" element={<TextShadowScreen />} />
-          <Route path="/tools/typography/gradient-text" element={<GradientTextScreen />} />
-          <Route path="/tools/typography/variable-fonts" element={<VariableFontsScreen />} />
+          <Route
+            path="/tools/typography/font-pairing"
+            element={<FontPairingScreen />}
+          />
+          <Route
+            path="/tools/typography/text-shadow"
+            element={<TextShadowScreen />}
+          />
+          <Route
+            path="/tools/typography/gradient-text"
+            element={<GradientTextScreen />}
+          />
+          <Route
+            path="/tools/typography/variable-fonts"
+            element={<VariableFontsScreen />}
+          />
           <Route path="/tools/effects" element={<EffectsToolsScreen />} />
-          <Route path="/tools/effects/box-shadow" element={<BoxShadowScreen />} />
+          <Route
+            path="/tools/effects/box-shadow"
+            element={<BoxShadowScreen />}
+          />
           <Route path="/tools/shapes" element={<ShapesToolsScreen />} />
-          <Route path="/tools/shapes/border-radius" element={<BorderRadiusScreen />} />
+          <Route
+            path="/tools/shapes/border-radius"
+            element={<BorderRadiusScreen />}
+          />
           <Route path="/tools/layout" element={<LayoutToolsScreen />} />
           <Route path="/tools/layout/flexbox" element={<FlexboxScreen />} />
           <Route path="/tools/animation" element={<AnimationToolsScreen />} />
-          <Route path="/tools/animation/keyframes" element={<KeyframesScreen />} />
+          <Route
+            path="/tools/animation/keyframes"
+            element={<KeyframesScreen />}
+          />
           <Route path="/tools/dev-tools" element={<DevToolsScreen />} />
-          <Route path="/tools/dev/json-formatter" element={<JsonFormatterScreen />} />
+          <Route
+            path="/tools/dev/json-formatter"
+            element={<JsonFormatterScreen />}
+          />
           <Route path="/tools/text-tools" element={<TextToolsScreen />} />
-          <Route path="/tools/text/case-converter" element={<CaseConverterScreen />} />
+          <Route
+            path="/tools/text/case-converter"
+            element={<CaseConverterScreen />}
+          />
           <Route path="/articles" element={<ArticlesScreen />} />
           <Route
             path="/articles/css-color-module"

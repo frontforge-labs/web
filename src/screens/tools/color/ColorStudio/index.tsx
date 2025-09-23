@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Select } from "@frontenzo/ui";
+import { Button, Select, ColorInput } from "@frontenzo/ui";
 import { Palette, Copy, Shuffle, Eye, Lightbulb } from "lucide-react";
 import { ToolContainer } from "../../../../components/ToolContainer";
 import {
@@ -13,7 +13,6 @@ import {
   hexToHsl,
   hslToHex,
 } from "./utils";
-import { ColorInput } from "../../../../components/ColorInput";
 
 type TColorConfig = {
   hex: string;

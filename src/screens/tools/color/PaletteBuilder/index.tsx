@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Button, Input, Select } from "@frontenzo/ui";
+import { Button, Input, Select, ColorInput } from "@frontenzo/ui";
 import { Palette, Plus, Trash2, RefreshCw, Copy } from "lucide-react";
 import { ToolContainer } from "../../../../components/ToolContainer";
 import { copyToClipboard } from "../../../../lib/css/format";
 import type { TPaletteColor, TPaletteConfig } from "./types";
 import { generateHarmonyColors, harmonyTypes, palettePresets } from "./utils";
-import { ColorInput } from "../../../../components/ColorInput";
 
 export function PaletteBuilderScreen() {
   const [config, setConfig] = useState<TPaletteConfig>({

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@frontenzo/ui";
+import { Button, ColorInput } from "@frontenzo/ui";
 import { Shield, Copy, RotateCcw, AlertCircle, Eye } from "lucide-react";
 import { ToolContainer } from "../../../../components/ToolContainer";
 import { copyToClipboard } from "../../../../lib/css/format";
@@ -9,7 +9,6 @@ import {
   getGradeColor,
   getTContrastResult,
 } from "./utils";
-import { ColorInput } from "../../../../components/ColorInput";
 
 type TContrastConfig = {
   foreground: string;

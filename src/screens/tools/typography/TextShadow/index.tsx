@@ -1,78 +1,13 @@
-import { useState } from "react";
-import { Button, Input } from "@frontenzo/ui";
+import { useState, type JSX } from "react";
+import { Button, Input, ColorInput } from "@frontenzo/ui";
 import { Type, Plus, Trash2, Copy, Eye } from "lucide-react";
-import { ToolContainer } from "../../../components/ToolContainer";
-import { copyToClipboard } from "../../../lib/css/format";
+import { ToolContainer } from "../../../../components/ToolContainer";
+import { copyToClipboard } from "../../../../lib/css/format";
+import type { TTextShadowConfig, TShadowLayer } from "./types";
+import { shadowPresets, generateId } from "./utils";
 
-interface ShadowLayer {
-  id: string;
-  offsetX: number;
-  offsetY: number;
-  blurRadius: number;
-  color: string;
-  enabled: boolean;
-}
-
-interface TextShadowConfig {
-  text: string;
-  fontSize: number;
-  fontWeight: string;
-  fontFamily: string;
-  textColor: string;
-  backgroundColor: string;
-  shadows: ShadowLayer[];
-}
-
-const shadowPresets = [
-  {
-    name: "Subtle Drop",
-    shadows: [
-      { id: "1", offsetX: 1, offsetY: 1, blurRadius: 2, color: "#00000040", enabled: true }
-    ]
-  },
-  {
-    name: "Bold Shadow",
-    shadows: [
-      { id: "1", offsetX: 3, offsetY: 3, blurRadius: 0, color: "#000000", enabled: true }
-    ]
-  },
-  {
-    name: "Glow Effect",
-    shadows: [
-      { id: "1", offsetX: 0, offsetY: 0, blurRadius: 10, color: "#3b82f6", enabled: true }
-    ]
-  },
-  {
-    name: "Layered Depth",
-    shadows: [
-      { id: "1", offsetX: 1, offsetY: 1, blurRadius: 1, color: "#00000020", enabled: true },
-      { id: "2", offsetX: 2, offsetY: 2, blurRadius: 4, color: "#00000030", enabled: true },
-      { id: "3", offsetX: 4, offsetY: 4, blurRadius: 8, color: "#00000020", enabled: true }
-    ]
-  },
-  {
-    name: "Neon Glow",
-    shadows: [
-      { id: "1", offsetX: 0, offsetY: 0, blurRadius: 5, color: "#ff00ff", enabled: true },
-      { id: "2", offsetX: 0, offsetY: 0, blurRadius: 10, color: "#ff00ff80", enabled: true },
-      { id: "3", offsetX: 0, offsetY: 0, blurRadius: 15, color: "#ff00ff40", enabled: true }
-    ]
-  },
-  {
-    name: "Embossed",
-    shadows: [
-      { id: "1", offsetX: 1, offsetY: 1, blurRadius: 0, color: "#ffffff80", enabled: true },
-      { id: "2", offsetX: -1, offsetY: -1, blurRadius: 0, color: "#00000040", enabled: true }
-    ]
-  }
-];
-
-function generateId() {
-  return Math.random().toString(36).substr(2, 9);
-}
-
-export function TextShadowScreen() {
-  const [config, setConfig] = useState<TextShadowConfig>({
+export function TextShadowScreen(): JSX.Element {
+  const [config, setConfig] = useState<TTextShadowConfig>({
     text: "Text Shadow",
     fontSize: 48,
     fontWeight: "600",
@@ -84,8 +19,12 @@ export function TextShadowScreen() {
     ]
   });
 
-  const addShadowLayer = () => {
-    const newShadow: ShadowLayer = {
+  const updateConfig = (updates: Partial<TTextShadowConfig>): void => {
+    setConfig((prev) => ({ ...prev, ...updates }));
+  };
+
+  const addShadowLayer = (): void => {
+    const newShadow: TShadowLayer = {
       id: generateId(),
       offsetX: 0,
       offsetY: 0,
@@ -93,36 +32,32 @@ export function TextShadowScreen() {
       color: "#00000040",
       enabled: true
     };
-    setConfig(prev => ({
-      ...prev,
-      shadows: [...prev.shadows, newShadow]
-    }));
+    updateConfig({
+      shadows: [...config.shadows, newShadow]
+    });
   };
 
-  const removeShadowLayer = (id: string) => {
-    setConfig(prev => ({
-      ...prev,
-      shadows: prev.shadows.filter(shadow => shadow.id !== id)
-    }));
+  const removeShadowLayer = (id: string): void => {
+    updateConfig({
+      shadows: config.shadows.filter(shadow => shadow.id !== id)
+    });
   };
 
-  const updateShadowLayer = (id: string, updates: Partial<ShadowLayer>) => {
-    setConfig(prev => ({
-      ...prev,
-      shadows: prev.shadows.map(shadow =>
+  const updateShadowLayer = (id: string, updates: Partial<TShadowLayer>): void => {
+    updateConfig({
+      shadows: config.shadows.map(shadow =>
         shadow.id === id ? { ...shadow, ...updates } : shadow
       )
-    }));
+    });
   };
 
-  const applyPreset = (preset: typeof shadowPresets[0]) => {
-    setConfig(prev => ({
-      ...prev,
+  const applyPreset = (preset: typeof shadowPresets[0]): void => {
+    updateConfig({
       shadows: preset.shadows.map(shadow => ({ ...shadow, id: generateId() }))
-    }));
+    });
   };
 
-  const resetTool = () => {
+  const resetTool = (): void => {
     setConfig({
       text: "Text Shadow",
       fontSize: 48,
@@ -136,7 +71,7 @@ export function TextShadowScreen() {
     });
   };
 
-  const generateCSS = () => {
+  const generateCSS = (): string => {
     const enabledShadows = config.shadows.filter(shadow => shadow.enabled);
     if (enabledShadows.length === 0) {
       return `/* No shadows enabled */\ntext-shadow: none;`;
@@ -149,7 +84,7 @@ export function TextShadowScreen() {
     return `/* Text Shadow Effect */\ntext-shadow: ${shadowValues};\ncolor: ${config.textColor};\nfont-size: ${config.fontSize}px;\nfont-weight: ${config.fontWeight};\nfont-family: ${config.fontFamily};`;
   };
 
-  const copyTextShadowOnly = async () => {
+  const copyTextShadowOnly = async (): Promise<void> => {
     const enabledShadows = config.shadows.filter(shadow => shadow.enabled);
     if (enabledShadows.length === 0) {
       await copyToClipboard("text-shadow: none;");
@@ -226,7 +161,7 @@ export function TextShadowScreen() {
             <label className="block text-sm font-medium mb-2">Sample Text</label>
             <Input
               value={config.text}
-              onChange={(e) => setConfig(prev => ({ ...prev, text: e.target.value }))}
+              onChange={(e) => updateConfig({ text: e.target.value })}
               placeholder="Enter your text"
             />
           </div>
@@ -235,43 +170,21 @@ export function TextShadowScreen() {
             <Input
               type="number"
               value={config.fontSize}
-              onChange={(e) => setConfig(prev => ({ ...prev, fontSize: parseInt(e.target.value) || 48 }))}
+              onChange={(e) => updateConfig({ fontSize: parseInt(e.target.value) || 48 })}
               min={12}
               max={200}
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Text Color</label>
-            <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={config.textColor}
-                onChange={(e) => setConfig(prev => ({ ...prev, textColor: e.target.value }))}
-                className="w-12 h-10 rounded border border-border cursor-pointer"
-              />
-              <Input
-                value={config.textColor}
-                onChange={(e) => setConfig(prev => ({ ...prev, textColor: e.target.value }))}
-                className="flex-1 font-mono"
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Background Color</label>
-            <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={config.backgroundColor}
-                onChange={(e) => setConfig(prev => ({ ...prev, backgroundColor: e.target.value }))}
-                className="w-12 h-10 rounded border border-border cursor-pointer"
-              />
-              <Input
-                value={config.backgroundColor}
-                onChange={(e) => setConfig(prev => ({ ...prev, backgroundColor: e.target.value }))}
-                className="flex-1 font-mono"
-              />
-            </div>
-          </div>
+          <ColorInput
+            label="Text Color"
+            value={config.textColor}
+            onChange={(e) => updateConfig({ textColor: e.target.value })}
+          />
+          <ColorInput
+            label="Background Color"
+            value={config.backgroundColor}
+            onChange={(e) => updateConfig({ backgroundColor: e.target.value })}
+          />
         </div>
       </div>
 

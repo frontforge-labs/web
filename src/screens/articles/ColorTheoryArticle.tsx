@@ -13,7 +13,7 @@ export function ColorTheoryArticle() {
       subtitle="Master the fundamental principles of color relationships, harmony, and psychology in digital design"
       readTime="10 min"
       publishDate="September 2025"
-      author="FrontEnzo Team"
+      author="FrontForge Team"
     >
       <div className="text-xl text-muted leading-relaxed mb-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg">
         Color theory provides the scientific foundation for creating harmonious,
@@ -27,9 +27,9 @@ export function ColorTheoryArticle() {
 
       <p className="text-lg leading-relaxed">
         While traditional art uses Red, Yellow, Blue (RYB) primaries, digital
-        design works with <strong>Red, Green, Blue (RGB)</strong> additive color mixing. This
-        fundamental difference shapes how we create and combine colors on
-        screens.
+        design works with <strong>Red, Green, Blue (RGB)</strong> additive color
+        mixing. This fundamental difference shapes how we create and combine
+        colors on screens.
       </p>
 
       <ColorPreview
@@ -63,10 +63,10 @@ export function ColorTheoryArticle() {
       <h2>🎯 Color Harmony Schemes</h2>
 
       <p className="text-lg leading-relaxed">
-        Color harmony schemes provide <strong>proven mathematical relationships</strong> that
-        create visually pleasing combinations. These aren't just artistic
-        preferences—they're based on how our eyes and brain process color
-        information.
+        Color harmony schemes provide{" "}
+        <strong>proven mathematical relationships</strong> that create visually
+        pleasing combinations. These aren't just artistic preferences—they're
+        based on how our eyes and brain process color information.
       </p>
 
       <h3>Complementary Colors: Maximum Impact</h3>
@@ -174,10 +174,18 @@ export function ColorTheoryArticle() {
             <div className="h-16 bg-yellow-500 rounded"></div>
           </div>
           <ul className="text-sm space-y-2 text-red-700">
-            <li>• <strong>Energy & Excitement</strong></li>
-            <li>• <strong>Appetite Stimulation</strong></li>
-            <li>• <strong>Urgency & Action</strong></li>
-            <li>• <strong>Comfort & Warmth</strong></li>
+            <li>
+              • <strong>Energy & Excitement</strong>
+            </li>
+            <li>
+              • <strong>Appetite Stimulation</strong>
+            </li>
+            <li>
+              • <strong>Urgency & Action</strong>
+            </li>
+            <li>
+              • <strong>Comfort & Warmth</strong>
+            </li>
           </ul>
         </div>
 
@@ -191,10 +199,18 @@ export function ColorTheoryArticle() {
             <div className="h-16 bg-purple-500 rounded"></div>
           </div>
           <ul className="text-sm space-y-2 text-blue-700">
-            <li>• <strong>Trust & Reliability</strong></li>
-            <li>• <strong>Calm & Peace</strong></li>
-            <li>• <strong>Professionalism</strong></li>
-            <li>• <strong>Focus & Clarity</strong></li>
+            <li>
+              • <strong>Trust & Reliability</strong>
+            </li>
+            <li>
+              • <strong>Calm & Peace</strong>
+            </li>
+            <li>
+              • <strong>Professionalism</strong>
+            </li>
+            <li>
+              • <strong>Focus & Clarity</strong>
+            </li>
           </ul>
         </div>
       </div>

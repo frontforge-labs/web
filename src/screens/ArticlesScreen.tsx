@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { BookOpen, Clock, User, ArrowRight } from "lucide-react";
-import { PageHeader } from "@frontenzo/ui";
+import { PageHeader } from "@frontforge/ui";
 import { Breadcrumb } from "../components/Breadcrumb";
 
 interface Article {
@@ -23,11 +23,12 @@ const articles: Article[] = [
     subtitle: "Comprehensive guide to modern CSS color features",
     readTime: "8 min",
     publishDate: "September 2025",
-    author: "FrontEnzo Team",
+    author: "FrontForge Team",
     category: "CSS Reference",
     path: "/articles/css-color-module",
-    excerpt: "Explore the revolutionary color capabilities in CSS Color Module Level 4, from wider color gamuts to perceptually uniform color spaces.",
-    tags: ["CSS", "Color", "Modern Web", "Standards"]
+    excerpt:
+      "Explore the revolutionary color capabilities in CSS Color Module Level 4, from wider color gamuts to perceptually uniform color spaces.",
+    tags: ["CSS", "Color", "Modern Web", "Standards"],
   },
   {
     id: "accessibility-guidelines",
@@ -35,11 +36,12 @@ const articles: Article[] = [
     subtitle: "Building inclusive color experiences",
     readTime: "6 min",
     publishDate: "September 2025",
-    author: "FrontEnzo Team",
+    author: "FrontForge Team",
     category: "Accessibility",
     path: "/articles/accessibility-guidelines",
-    excerpt: "Learn how to create accessible color designs that comply with WCAG guidelines and ensure inclusive user experiences.",
-    tags: ["Accessibility", "WCAG", "Inclusive Design", "UX"]
+    excerpt:
+      "Learn how to create accessible color designs that comply with WCAG guidelines and ensure inclusive user experiences.",
+    tags: ["Accessibility", "WCAG", "Inclusive Design", "UX"],
   },
   {
     id: "color-theory",
@@ -47,11 +49,12 @@ const articles: Article[] = [
     subtitle: "Master the fundamentals of color relationships",
     readTime: "10 min",
     publishDate: "September 2025",
-    author: "FrontEnzo Team",
+    author: "FrontForge Team",
     category: "Design Theory",
     path: "/articles/color-theory",
-    excerpt: "Understand color relationships, harmony principles, and how to apply color theory to create compelling web interfaces.",
-    tags: ["Color Theory", "Design", "Psychology", "Harmony"]
+    excerpt:
+      "Understand color relationships, harmony principles, and how to apply color theory to create compelling web interfaces.",
+    tags: ["Color Theory", "Design", "Psychology", "Harmony"],
   },
   {
     id: "modern-css-color-functions",
@@ -59,15 +62,18 @@ const articles: Article[] = [
     subtitle: "Advanced color manipulation techniques",
     readTime: "7 min",
     publishDate: "September 2025",
-    author: "FrontEnzo Team",
+    author: "FrontForge Team",
     category: "CSS Techniques",
     path: "/articles/modern-css-color-functions",
-    excerpt: "Discover powerful CSS color functions like color-mix(), relative colors, and next-generation color manipulation.",
-    tags: ["CSS", "Functions", "Modern Web", "Advanced"]
-  }
+    excerpt:
+      "Discover powerful CSS color functions like color-mix(), relative colors, and next-generation color manipulation.",
+    tags: ["CSS", "Functions", "Modern Web", "Advanced"],
+  },
 ];
 
-const categories = Array.from(new Set(articles.map(article => article.category)));
+const categories = Array.from(
+  new Set(articles.map((article) => article.category))
+);
 
 export function ArticlesScreen() {
   return (
@@ -163,9 +169,14 @@ export function ArticlesScreen() {
             <h3 className="font-semibold mb-4">Categories</h3>
             <div className="space-y-2">
               {categories.map((category) => {
-                const count = articles.filter(article => article.category === category).length;
+                const count = articles.filter(
+                  (article) => article.category === category
+                ).length;
                 return (
-                  <div key={category} className="flex items-center justify-between">
+                  <div
+                    key={category}
+                    className="flex items-center justify-between"
+                  >
                     <span className="text-sm">{category}</span>
                     <span className="text-xs text-muted bg-surface-2 px-2 py-1 rounded">
                       {count}
@@ -180,7 +191,7 @@ export function ArticlesScreen() {
           <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
             <h3 className="font-semibold mb-4">Popular Tags</h3>
             <div className="flex flex-wrap gap-2">
-              {Array.from(new Set(articles.flatMap(article => article.tags)))
+              {Array.from(new Set(articles.flatMap((article) => article.tags)))
                 .slice(0, 8)
                 .map((tag) => (
                   <span
@@ -208,8 +219,13 @@ export function ArticlesScreen() {
               <div className="flex justify-between">
                 <span className="text-sm text-muted">Avg. Read Time</span>
                 <span className="font-medium">
-                  {Math.round(articles.reduce((acc, article) =>
-                    acc + parseInt(article.readTime), 0) / articles.length)} min
+                  {Math.round(
+                    articles.reduce(
+                      (acc, article) => acc + parseInt(article.readTime),
+                      0
+                    ) / articles.length
+                  )}{" "}
+                  min
                 </span>
               </div>
             </div>

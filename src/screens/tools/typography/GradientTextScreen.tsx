@@ -1,18 +1,111 @@
-import { useState, type JSX } from "react";
-import { Button, Input, Select, ColorInput } from "@frontforge/ui";
+import { useState } from "react";
+import { Button, Input } from "@frontforge/ui";
 import { Palette, Copy, RotateCcw, Plus, Trash2 } from "lucide-react";
-import { ToolContainer } from "../../../../components/ToolContainer";
-import { copyToClipboard } from "../../../../lib/css/format";
-import type { TGradientTextConfig, TGradientStop } from "./types";
-import {
-  gradientPresets,
-  fontFamilies,
-  fontWeights,
-  generateId,
-} from "./utils";
+import { ToolContainer } from "../../../components/ToolContainer";
+import { copyToClipboard } from "../../../lib/css/format";
 
-export function GradientTextScreen(): JSX.Element {
-  const [config, setConfig] = useState<TGradientTextConfig>({
+interface GradientStop {
+  id: string;
+  color: string;
+  position: number;
+}
+
+interface GradientTextConfig {
+  text: string;
+  fontSize: number;
+  fontWeight: string;
+  fontFamily: string;
+  direction: number;
+  gradientType: "linear" | "radial";
+  stops: GradientStop[];
+  backgroundClip: boolean;
+  fallbackColor: string;
+}
+
+const gradientPresets = [
+  {
+    name: "Sunset",
+    stops: [
+      { color: "#ff7e5f", position: 0 },
+      { color: "#feb47b", position: 100 },
+    ],
+    direction: 45,
+  },
+  {
+    name: "Ocean",
+    stops: [
+      { color: "#667eea", position: 0 },
+      { color: "#764ba2", position: 100 },
+    ],
+    direction: 90,
+  },
+  {
+    name: "Aurora",
+    stops: [
+      { color: "#a8edea", position: 0 },
+      { color: "#fed6e3", position: 50 },
+      { color: "#d299c2", position: 100 },
+    ],
+    direction: 135,
+  },
+  {
+    name: "Fire",
+    stops: [
+      { color: "#ff9a9e", position: 0 },
+      { color: "#fecfef", position: 50 },
+      { color: "#fecfef", position: 100 },
+    ],
+    direction: 0,
+  },
+  {
+    name: "Cosmic",
+    stops: [
+      { color: "#667eea", position: 0 },
+      { color: "#764ba2", position: 25 },
+      { color: "#f093fb", position: 75 },
+      { color: "#f5576c", position: 100 },
+    ],
+    direction: 225,
+  },
+  {
+    name: "Emerald",
+    stops: [
+      { color: "#11998e", position: 0 },
+      { color: "#38ef7d", position: 100 },
+    ],
+    direction: 180,
+  },
+];
+
+const fontFamilies = [
+  "Inter",
+  "Roboto",
+  "Open Sans",
+  "Montserrat",
+  "Poppins",
+  "Playfair Display",
+  "Oswald",
+  "Raleway",
+  "Merriweather",
+  "Dancing Script",
+];
+
+const fontWeights = [
+  { value: "300", label: "Light" },
+  { value: "400", label: "Regular" },
+  { value: "500", label: "Medium" },
+  { value: "600", label: "Semi Bold" },
+  { value: "700", label: "Bold" },
+  { value: "800", label: "Extra Bold" },
+  { value: "900", label: "Black" },
+];
+
+function generateId() {
+  return Math.random().toString(36).substr(2, 9);
+}
+
+export function GradientTextScreen() {
+  const [config, setConfig] = useState<GradientTextConfig>({
     text: "Gradient Text Effect",
     fontSize: 48,
     fontWeight: "700",
@@ -27,58 +120,55 @@ export function GradientTextScreen(): JSX.Element {
     ],
   });
 
-  const updateConfig = (updates: Partial<TGradientTextConfig>): void => {
-    setConfig((prev) => ({ ...prev, ...updates }));
-  };
-
-  const addGradientStop = (): void => {
+  const addGradientStop = () => {
     const newPosition =
       config.stops.length > 0
         ? Math.round((config.stops[config.stops.length - 1].position + 100) / 2)
         : 50;
 
-    const newStop: TGradientStop = {
+    const newStop: GradientStop = {
       id: generateId(),
       color: "#3b82f6",
       position: Math.min(newPosition, 100),
     };
 
-    updateConfig({
-      stops: [...config.stops, newStop].sort((a, b) => a.position - b.position),
-    });
+    setConfig((prev) => ({
+      ...prev,
+      stops: [...prev.stops, newStop].sort((a, b) => a.position - b.position),
+    }));
   };
 
-  const removeGradientStop = (id: string): void => {
-    updateConfig({
-      stops: config.stops.filter((stop) => stop.id !== id),
-    });
+  const removeGradientStop = (id: string) => {
+    setConfig((prev) => ({
+      ...prev,
+      stops: prev.stops.filter((stop) => stop.id !== id),
+    }));
   };
 
-  const updateGradientStop = (
-    id: string,
-    updates: Partial<TGradientStop>
-  ): void => {
-    updateConfig({
-      stops: config.stops
+  const updateGradientStop = (id: string, updates: Partial<GradientStop>) => {
+    setConfig((prev) => ({
+      ...prev,
+      stops: prev.stops
         .map((stop) => (stop.id === id ? { ...stop, ...updates } : stop))
         .sort((a, b) => a.position - b.position),
-    });
+    }));
   };
 
-  const applyPreset = (preset: (typeof gradientPresets)[0]): void => {
+  const applyPreset = (preset: (typeof gradientPresets)[0]) => {
     const newStops = preset.stops.map((stop) => ({
       id: generateId(),
       color: stop.color,
       position: stop.position,
     }));
 
-    updateConfig({
+    setConfig((prev) => ({
+      ...prev,
       stops: newStops,
       direction: preset.direction,
-    });
+    }));
   };
 
-  const resetTool = (): void => {
+  const resetTool = () => {
     setConfig({
       text: "Gradient Text Effect",
       fontSize: 48,
@@ -95,7 +185,7 @@ export function GradientTextScreen(): JSX.Element {
     });
   };
 
-  const generateGradient = (): string => {
+  const generateGradient = () => {
     const sortedStops = [...config.stops].sort(
       (a, b) => a.position - b.position
     );
@@ -110,7 +200,7 @@ export function GradientTextScreen(): JSX.Element {
     return `linear-gradient(${config.direction}deg, ${stopStrings.join(", ")})`;
   };
 
-  const generateCSS = (): string => {
+  const generateCSS = () => {
     const gradient = generateGradient();
 
     if (config.backgroundClip) {
@@ -124,7 +214,6 @@ export function GradientTextScreen(): JSX.Element {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: ${config.fallbackColor}; /* Fallback for unsupported browsers */
-  display: inline-block;
 }`;
     } else {
       return `/* Gradient Text with Text Shadow */
@@ -136,14 +225,12 @@ export function GradientTextScreen(): JSX.Element {
   background: ${gradient};
   background-clip: text;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   text-shadow: 0 0 0 ${config.fallbackColor};
-  display: inline-block;
 }`;
     }
   };
 
-  const copyGradientOnly = async (): Promise<void> => {
+  const copyGradientOnly = async () => {
     const gradient = generateGradient();
     await copyToClipboard(`background: ${gradient};`);
   };
@@ -155,36 +242,21 @@ export function GradientTextScreen(): JSX.Element {
         rel="stylesheet"
       />
 
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-          .gradient-text-element {
-            font-family: '${config.fontFamily}', sans-serif;
-            font-size: ${Math.min(config.fontSize, 40)}px;
-            font-weight: ${config.fontWeight};
-            text-align: center;
-            line-height: 1.2;
-            display: inline-block;
-            background: ${generateGradient()};
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: ${config.fallbackColor};
-            margin: 0;
-            padding: 0;
-          }
-          
-          @supports not (-webkit-background-clip: text) {
-            .gradient-text-element {
-              color: ${config.fallbackColor};
-              -webkit-text-fill-color: unset;
-            }
-          }
-        `,
+      <div
+        className="text-center"
+        style={{
+          fontFamily: `'${config.fontFamily}', sans-serif`,
+          fontSize: `${Math.min(config.fontSize, 40)}px`, // Scale down for preview
+          fontWeight: config.fontWeight,
+          background: generateGradient(),
+          backgroundClip: "text",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          color: config.fallbackColor,
         }}
-      />
-
-      <div className="gradient-text-element">{config.text}</div>
+      >
+        {config.text}
+      </div>
     </div>
   );
 
@@ -200,28 +272,28 @@ export function GradientTextScreen(): JSX.Element {
       {/* Quick Actions */}
       <div className="flex gap-2 mb-6 flex-wrap">
         <Button
-          variant="secondary"
+          variant="outline"
           size="sm"
           onClick={addGradientStop}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2"
         >
           <Plus size={16} />
           Add Color Stop
         </Button>
         <Button
-          variant="secondary"
+          variant="outline"
           size="sm"
           onClick={copyGradientOnly}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2"
         >
           <Copy size={16} />
           Copy Gradient
         </Button>
         <Button
-          variant="secondary"
+          variant="outline"
           size="sm"
           onClick={resetTool}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2"
         >
           <RotateCcw size={16} />
           Reset
@@ -237,7 +309,7 @@ export function GradientTextScreen(): JSX.Element {
           {gradientPresets.map((preset) => (
             <Button
               key={preset.name}
-              variant="secondary"
+              variant="outline"
               size="sm"
               onClick={() => applyPreset(preset)}
               className="text-xs h-12 relative overflow-hidden"
@@ -263,7 +335,9 @@ export function GradientTextScreen(): JSX.Element {
             </label>
             <Input
               value={config.text}
-              onChange={(e) => updateConfig({ text: e.target.value })}
+              onChange={(e) =>
+                setConfig((prev) => ({ ...prev, text: e.target.value }))
+              }
               placeholder="Enter your text..."
             />
           </div>
@@ -271,16 +345,19 @@ export function GradientTextScreen(): JSX.Element {
             <label className="block text-sm font-medium mb-2">
               Font Family
             </label>
-            <Select
+            <select
               value={config.fontFamily}
-              onChange={(e) => updateConfig({ fontFamily: e.target.value })}
+              onChange={(e) =>
+                setConfig((prev) => ({ ...prev, fontFamily: e.target.value }))
+              }
+              className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
             >
               {fontFamilies.map((font) => (
                 <option key={font} value={font}>
                   {font}
                 </option>
               ))}
-            </Select>
+            </select>
           </div>
         </div>
 
@@ -293,7 +370,10 @@ export function GradientTextScreen(): JSX.Element {
               type="number"
               value={config.fontSize}
               onChange={(e) =>
-                updateConfig({ fontSize: parseInt(e.target.value) || 48 })
+                setConfig((prev) => ({
+                  ...prev,
+                  fontSize: parseInt(e.target.value) || 48,
+                }))
               }
               min={12}
               max={120}
@@ -303,44 +383,72 @@ export function GradientTextScreen(): JSX.Element {
             <label className="block text-sm font-medium mb-2">
               Font Weight
             </label>
-            <Select
+            <select
               value={config.fontWeight}
-              onChange={(e) => updateConfig({ fontWeight: e.target.value })}
+              onChange={(e) =>
+                setConfig((prev) => ({ ...prev, fontWeight: e.target.value }))
+              }
+              className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
             >
               {fontWeights.map((weight) => (
                 <option key={weight.value} value={weight.value}>
                   {weight.label}
                 </option>
               ))}
-            </Select>
+            </select>
           </div>
-          <ColorInput
-            label="Fallback Color"
-            value={config.fallbackColor}
-            onChange={(e) => updateConfig({ fallbackColor: e.target.value })}
-          />
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Fallback Color
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="color"
+                value={config.fallbackColor}
+                onChange={(e) =>
+                  setConfig((prev) => ({
+                    ...prev,
+                    fallbackColor: e.target.value,
+                  }))
+                }
+                className="w-10 h-10 rounded border border-border cursor-pointer"
+              />
+              <Input
+                value={config.fallbackColor}
+                onChange={(e) =>
+                  setConfig((prev) => ({
+                    ...prev,
+                    fallbackColor: e.target.value,
+                  }))
+                }
+                className="flex-1 font-mono"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Gradient Settings */}
       <div className="mb-6">
         <h4 className="text-sm font-medium mb-3">Gradient Settings</h4>
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium mb-2">
               Gradient Type
             </label>
-            <Select
+            <select
               value={config.gradientType}
               onChange={(e) =>
-                updateConfig({
+                setConfig((prev) => ({
+                  ...prev,
                   gradientType: e.target.value as "linear" | "radial",
-                })
+                }))
               }
+              className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
             >
               <option value="linear">Linear</option>
               <option value="radial">Radial</option>
-            </Select>
+            </select>
           </div>
           {config.gradientType === "linear" && (
             <div>
@@ -351,7 +459,10 @@ export function GradientTextScreen(): JSX.Element {
                 type="number"
                 value={config.direction}
                 onChange={(e) =>
-                  updateConfig({ direction: parseInt(e.target.value) || 45 })
+                  setConfig((prev) => ({
+                    ...prev,
+                    direction: parseInt(e.target.value) || 45,
+                  }))
                 }
                 min={0}
                 max={360}
@@ -364,14 +475,14 @@ export function GradientTextScreen(): JSX.Element {
               id="backgroundClip"
               checked={config.backgroundClip}
               onChange={(e) =>
-                updateConfig({ backgroundClip: e.target.checked })
+                setConfig((prev) => ({
+                  ...prev,
+                  backgroundClip: e.target.checked,
+                }))
               }
               className="rounded"
             />
-            <label
-              htmlFor="backgroundClip"
-              className="text-sm whitespace-nowrap"
-            >
+            <label htmlFor="backgroundClip" className="text-sm">
               Use background-clip (recommended)
             </label>
           </div>
@@ -489,8 +600,8 @@ export function GradientTextScreen(): JSX.Element {
       {/* Browser Support Info */}
       <div className="mb-6">
         <h4 className="text-sm font-medium mb-3">Browser Support</h4>
-        <div className="p-3 bg-[var(--fe-bg)] border border-border rounded-lg text-sm">
-          <div className="grid grid-cols-1 gap-2">
+        <div className="p-3 bg-surface-1 border border-border rounded-lg text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div>
               <strong>Good Support:</strong> Chrome, Firefox, Safari, Edge
             </div>

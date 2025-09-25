@@ -13,7 +13,7 @@ export function CssColorModuleArticle() {
       subtitle="Comprehensive guide to modern CSS color features, new functions, and advanced color manipulation techniques"
       readTime="8 min"
       publishDate="September 2025"
-      author="FrontEnzo Team"
+      author="FrontForge Team"
     >
       <div className="text-lg text-muted leading-relaxed mb-8 p-6 bg-surface-1 border border-border rounded-lg">
         The CSS Color Module Level 4 specification introduces revolutionary
@@ -29,10 +29,10 @@ export function CssColorModuleArticle() {
       </h2>
 
       <p className="text-base leading-relaxed mb-6">
-        CSS Color Module Level 4 expands beyond traditional sRGB with
-        support for wider color gamuts including P3 display, Rec2020, and Lab
-        color spaces. These enable more vibrant, accurate colors that better
-        match what designers see in professional graphics software.
+        CSS Color Module Level 4 expands beyond traditional sRGB with support
+        for wider color gamuts including P3 display, Rec2020, and Lab color
+        spaces. These enable more vibrant, accurate colors that better match
+        what designers see in professional graphics software.
       </p>
 
       <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
@@ -91,8 +91,8 @@ export function CssColorModuleArticle() {
       </h3>
 
       <p className="text-base leading-relaxed mb-6">
-        LAB and LCH represent colors in perceptually uniform color
-        spaces, meaning equal numeric changes result in equal perceived color
+        LAB and LCH represent colors in perceptually uniform color spaces,
+        meaning equal numeric changes result in equal perceived color
         differences. This makes them ideal for algorithmic color manipulation
         and creating smooth color transitions.
       </p>
@@ -202,10 +202,10 @@ export function CssColorModuleArticle() {
       </h3>
 
       <p className="text-base leading-relaxed mb-6">
-        One of the most powerful additions is relative color syntax,
-        allowing you to modify existing colors by adjusting specific components.
-        This eliminates the need for complex color manipulation libraries in
-        many cases.
+        One of the most powerful additions is relative color syntax, allowing
+        you to modify existing colors by adjusting specific components. This
+        eliminates the need for complex color manipulation libraries in many
+        cases.
       </p>
 
       <div className="my-8 p-6 bg-purple-50 border border-purple-200 rounded-lg">
@@ -286,9 +286,9 @@ export function CssColorModuleArticle() {
       </h3>
 
       <p className="text-base leading-relaxed mb-6">
-        color-mix() allows you to blend two colors in any supported color
-        space, with control over the mixing ratio. This is particularly useful
-        for creating color variations and themed interfaces.
+        color-mix() allows you to blend two colors in any supported color space,
+        with control over the mixing ratio. This is particularly useful for
+        creating color variations and themed interfaces.
       </p>
 
       <ColorPreview
@@ -460,7 +460,9 @@ export function CssColorModuleArticle() {
             <li>• Complete CSS-based color systems without JavaScript</li>
             <li>• Real-time color adaptation based on content and context</li>
             <li>• Professional color workflows matching design tools</li>
-            <li>• Automatic accessibility compliance through smart color functions</li>
+            <li>
+              • Automatic accessibility compliance through smart color functions
+            </li>
           </ul>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useState, type JSX } from "react";
-import { Button, Input } from "@frontenzo/ui";
+import { Button, Input } from "@frontforge/ui";
 import { Settings, Copy, RotateCcw, Play, Pause } from "lucide-react";
 import { ToolContainer } from "../../../../components/ToolContainer";
 import { copyToClipboard } from "../../../../lib/css/format";
@@ -175,7 +175,7 @@ export function VariableFontsScreen(): JSX.Element {
           variant="secondary"
           size="sm"
           onClick={toggleAnimation}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full"
         >
           {config.isAnimating ? <Pause size={16} /> : <Play size={16} />}
           {config.isAnimating ? "Stop" : "Animate"}
@@ -184,7 +184,7 @@ export function VariableFontsScreen(): JSX.Element {
           variant="secondary"
           size="sm"
           onClick={randomizeAxes}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full"
         >
           <Settings size={16} />
           Randomize
@@ -193,7 +193,7 @@ export function VariableFontsScreen(): JSX.Element {
           variant="secondary"
           size="sm"
           onClick={copyVariationSettings}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full"
         >
           <Copy size={16} />
           Copy Settings
@@ -202,7 +202,7 @@ export function VariableFontsScreen(): JSX.Element {
           variant="secondary"
           size="sm"
           onClick={resetAxes}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full"
         >
           <RotateCcw size={16} />
           Reset Axes

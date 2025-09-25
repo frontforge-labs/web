@@ -12,7 +12,7 @@ export function ModernCssColorFunctionsArticle() {
       subtitle="Comprehensive guide to CSS color functions, manipulation techniques, and practical applications"
       readTime="7 min"
       publishDate="September 2025"
-      author="FrontEnzo Team"
+      author="FrontForge Team"
     >
       <div className="text-xl text-muted leading-relaxed mb-8 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg">
         Modern CSS provides powerful color functions that go far beyond simple
@@ -24,9 +24,9 @@ export function ModernCssColorFunctionsArticle() {
       <h2>🎨 RGB and RGBA Functions</h2>
 
       <p className="text-lg leading-relaxed">
-        The <strong>rgb()</strong> and <strong>rgba()</strong> functions provide precise control over red,
-        green, and blue color channels. Modern CSS supports flexible syntax that
-        makes color manipulation more intuitive.
+        The <strong>rgb()</strong> and <strong>rgba()</strong> functions provide
+        precise control over red, green, and blue color channels. Modern CSS
+        supports flexible syntax that makes color manipulation more intuitive.
       </p>
 
       <ColorPreview
@@ -123,9 +123,9 @@ export function ModernCssColorFunctionsArticle() {
       <h2>🌈 HSL: Intuitive Color Manipulation</h2>
 
       <p className="text-lg leading-relaxed">
-        <strong>HSL (Hue, Saturation, Lightness)</strong> provides the most intuitive way to
-        work with colors programmatically. It mirrors how humans naturally think
-        about color relationships.
+        <strong>HSL (Hue, Saturation, Lightness)</strong> provides the most
+        intuitive way to work with colors programmatically. It mirrors how
+        humans naturally think about color relationships.
       </p>
 
       <div className="my-8 p-6 bg-surface-1 border border-border rounded-lg">
@@ -257,9 +257,9 @@ export function ModernCssColorFunctionsArticle() {
       <h2>🧮 Advanced Color Calculations</h2>
 
       <p className="text-lg leading-relaxed">
-        Combine <strong>calc()</strong> with color functions to create dynamic, responsive
-        color systems that adapt to user preferences and environmental
-        conditions.
+        Combine <strong>calc()</strong> with color functions to create dynamic,
+        responsive color systems that adapt to user preferences and
+        environmental conditions.
       </p>
 
       <CodeExample
@@ -393,13 +393,21 @@ export function ModernCssColorFunctionsArticle() {
             ✅ Best Practices
           </h3>
           <ul className="text-sm space-y-2 text-blue-700">
-            <li>• Use <strong>HSL for color relationships</strong> and theme systems</li>
-            <li>• Use <strong>RGB for precise brand colors</strong> and image matching</li>
             <li>
-              • <strong>Combine with custom properties</strong> for maintainable systems
+              • Use <strong>HSL for color relationships</strong> and theme
+              systems
             </li>
             <li>
-              • <strong>Test in different color modes</strong> (light/dark/high contrast)
+              • Use <strong>RGB for precise brand colors</strong> and image
+              matching
+            </li>
+            <li>
+              • <strong>Combine with custom properties</strong> for maintainable
+              systems
+            </li>
+            <li>
+              • <strong>Test in different color modes</strong> (light/dark/high
+              contrast)
             </li>
           </ul>
         </div>
@@ -409,10 +417,20 @@ export function ModernCssColorFunctionsArticle() {
             ⚠️ Performance Tips
           </h3>
           <ul className="text-sm space-y-2 text-orange-700">
-            <li>• <strong>Pre-calculate complex variations</strong> when possible</li>
-            <li>• <strong>Limit calc() usage</strong> in frequently updated elements</li>
-            <li>• <strong>Use static values</strong> for purely decorative elements</li>
-            <li>• <strong>Profile performance</strong> on lower-end devices</li>
+            <li>
+              • <strong>Pre-calculate complex variations</strong> when possible
+            </li>
+            <li>
+              • <strong>Limit calc() usage</strong> in frequently updated
+              elements
+            </li>
+            <li>
+              • <strong>Use static values</strong> for purely decorative
+              elements
+            </li>
+            <li>
+              • <strong>Profile performance</strong> on lower-end devices
+            </li>
           </ul>
         </div>
       </div>

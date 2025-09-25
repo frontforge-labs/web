@@ -1,6 +1,14 @@
 import { useState } from "react";
-import { Button } from "@frontenzo/ui";
-import { FileJson, Copy, RotateCcw, Check, X, Download, Upload } from "lucide-react";
+import { Button } from "@frontforge/ui";
+import {
+  FileJson,
+  Copy,
+  RotateCcw,
+  Check,
+  X,
+  Download,
+  Upload,
+} from "lucide-react";
 import { ToolContainer } from "../../../components/ToolContainer";
 import { copyToClipboard } from "../../../lib/css/format";
 
@@ -15,22 +23,22 @@ interface JsonFormatterConfig {
 }
 
 const sampleJson = {
-  "name": "John Doe",
-  "age": 30,
-  "email": "john.doe@example.com",
-  "address": {
-    "street": "123 Main St",
-    "city": "New York",
-    "zipcode": "10001",
-    "coordinates": {
-      "lat": 40.7128,
-      "lng": -74.0060
-    }
+  name: "John Doe",
+  age: 30,
+  email: "john.doe@example.com",
+  address: {
+    street: "123 Main St",
+    city: "New York",
+    zipcode: "10001",
+    coordinates: {
+      lat: 40.7128,
+      lng: -74.006,
+    },
   },
-  "hobbies": ["reading", "swimming", "coding"],
-  "isActive": true,
-  "joinDate": "2023-01-15T10:30:00Z",
-  "metadata": null
+  hobbies: ["reading", "swimming", "coding"],
+  isActive: true,
+  joinDate: "2023-01-15T10:30:00Z",
+  metadata: null,
 };
 
 export function JsonFormatterScreen() {
@@ -41,7 +49,7 @@ export function JsonFormatterScreen() {
     error: null,
     indentSize: 2,
     sortKeys: false,
-    minified: false
+    minified: false,
   });
 
   const validateAndFormat = (jsonString: string) => {
@@ -52,43 +60,53 @@ export function JsonFormatterScreen() {
       if (config.minified) {
         formatted = JSON.stringify(parsed);
       } else {
-        const replacer = config.sortKeys ?
-          (_key: string, value: unknown) => {
-            if (value && typeof value === 'object' && !Array.isArray(value)) {
-              return Object.keys(value).sort().reduce((sorted: Record<string, unknown>, k) => {
-                sorted[k] = (value as Record<string, unknown>)[k];
-                return sorted;
-              }, {});
+        const replacer = config.sortKeys
+          ? (_key: string, value: unknown) => {
+              if (value && typeof value === "object" && !Array.isArray(value)) {
+                return Object.keys(value)
+                  .sort()
+                  .reduce((sorted: Record<string, unknown>, k) => {
+                    sorted[k] = (value as Record<string, unknown>)[k];
+                    return sorted;
+                  }, {});
+              }
+              return value;
             }
-            return value;
-          } : undefined;
+          : undefined;
 
         formatted = JSON.stringify(parsed, replacer, config.indentSize);
       }
 
-      setConfig(prev => ({
+      setConfig((prev) => ({
         ...prev,
         output: formatted,
         isValid: true,
-        error: null
+        error: null,
       }));
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Invalid JSON';
-      setConfig(prev => ({
+      const errorMessage =
+        error instanceof Error ? error.message : "Invalid JSON";
+      setConfig((prev) => ({
         ...prev,
-        output: '',
+        output: "",
         isValid: false,
-        error: errorMessage
+        error: errorMessage,
       }));
     }
   };
 
   const handleInputChange = (value: string) => {
-    setConfig(prev => ({ ...prev, input: value }));
+    setConfig((prev) => ({ ...prev, input: value }));
     validateAndFormat(value);
   };
 
-  const handleFormatChange = (key: keyof Pick<JsonFormatterConfig, 'indentSize' | 'sortKeys' | 'minified'>, value: number | boolean) => {
+  const handleFormatChange = (
+    key: keyof Pick<
+      JsonFormatterConfig,
+      "indentSize" | "sortKeys" | "minified"
+    >,
+    value: number | boolean
+  ) => {
     const newConfig = { ...config, [key]: value };
     setConfig(newConfig);
 
@@ -99,17 +117,17 @@ export function JsonFormatterScreen() {
 
   const loadSample = () => {
     const sampleString = JSON.stringify(sampleJson, null, 2);
-    setConfig(prev => ({ ...prev, input: sampleString }));
+    setConfig((prev) => ({ ...prev, input: sampleString }));
     validateAndFormat(sampleString);
   };
 
   const clearInput = () => {
-    setConfig(prev => ({
+    setConfig((prev) => ({
       ...prev,
-      input: '',
-      output: '',
+      input: "",
+      output: "",
       isValid: true,
-      error: null
+      error: null,
     }));
   };
 
@@ -127,11 +145,11 @@ export function JsonFormatterScreen() {
 
   const downloadJson = () => {
     if (config.output) {
-      const blob = new Blob([config.output], { type: 'application/json' });
+      const blob = new Blob([config.output], { type: "application/json" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'formatted.json';
+      a.download = "formatted.json";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -140,9 +158,9 @@ export function JsonFormatterScreen() {
   };
 
   const uploadJson = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
     input.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file) {
@@ -165,7 +183,7 @@ export function JsonFormatterScreen() {
       error: null,
       indentSize: 2,
       sortKeys: false,
-      minified: false
+      minified: false,
     });
     validateAndFormat(JSON.stringify(sampleJson, null, 2));
   };
@@ -176,7 +194,7 @@ export function JsonFormatterScreen() {
     } else if (config.error) {
       return `/* JSON Validation Error */\n${config.error}`;
     }
-    return '/* Enter JSON to format */';
+    return "/* Enter JSON to format */";
   };
 
   const previewElement = (
@@ -207,7 +225,7 @@ export function JsonFormatterScreen() {
             onChange={(e) => handleInputChange(e.target.value)}
             className="w-full h-full p-3 text-xs font-mono resize-none border-0 focus:outline-none"
             placeholder="Paste your JSON here..."
-            style={{ height: 'calc(100% - 40px)' }}
+            style={{ height: "calc(100% - 40px)" }}
           />
         </div>
 
@@ -225,12 +243,17 @@ export function JsonFormatterScreen() {
               <Copy size={12} />
             </Button>
           </div>
-          <div className="h-full p-3 overflow-auto bg-gray-50" style={{ height: 'calc(100% - 40px)' }}>
+          <div
+            className="h-full p-3 overflow-auto bg-gray-50"
+            style={{ height: "calc(100% - 40px)" }}
+          >
             {config.error ? (
-              <div className="text-red-600 text-xs font-mono">{config.error}</div>
+              <div className="text-red-600 text-xs font-mono">
+                {config.error}
+              </div>
             ) : (
               <pre className="text-xs font-mono whitespace-pre-wrap">
-                {config.output || 'Enter valid JSON to see formatted output...'}
+                {config.output || "Enter valid JSON to see formatted output..."}
               </pre>
             )}
           </div>
@@ -308,7 +331,7 @@ export function JsonFormatterScreen() {
               type="checkbox"
               id="minified"
               checked={config.minified}
-              onChange={(e) => handleFormatChange('minified', e.target.checked)}
+              onChange={(e) => handleFormatChange("minified", e.target.checked)}
               className="rounded"
             />
             <label htmlFor="minified" className="text-sm">
@@ -320,7 +343,7 @@ export function JsonFormatterScreen() {
               type="checkbox"
               id="sortKeys"
               checked={config.sortKeys}
-              onChange={(e) => handleFormatChange('sortKeys', e.target.checked)}
+              onChange={(e) => handleFormatChange("sortKeys", e.target.checked)}
               className="rounded"
               disabled={config.minified}
             />
@@ -335,7 +358,9 @@ export function JsonFormatterScreen() {
             <select
               id="indentSize"
               value={config.indentSize}
-              onChange={(e) => handleFormatChange('indentSize', parseInt(e.target.value))}
+              onChange={(e) =>
+                handleFormatChange("indentSize", parseInt(e.target.value))
+              }
               className="px-2 py-1 text-sm border border-border rounded"
               disabled={config.minified}
             >
@@ -355,12 +380,16 @@ export function JsonFormatterScreen() {
             {config.isValid ? (
               <>
                 <Check size={16} className="text-green-600" />
-                <span className="text-sm text-green-700 font-medium">Valid JSON</span>
+                <span className="text-sm text-green-700 font-medium">
+                  Valid JSON
+                </span>
               </>
             ) : (
               <>
                 <X size={16} className="text-red-600" />
-                <span className="text-sm text-red-700 font-medium">Invalid JSON</span>
+                <span className="text-sm text-red-700 font-medium">
+                  Invalid JSON
+                </span>
               </>
             )}
           </div>
@@ -371,10 +400,17 @@ export function JsonFormatterScreen() {
           )}
           {config.isValid && config.output && (
             <div className="mt-2 text-xs text-muted">
-              Character count: {config.output.length} |
-              Size: {new Blob([config.output]).size} bytes
+              Character count: {config.output.length} | Size:{" "}
+              {new Blob([config.output]).size} bytes
               {config.input && (
-                <span> | Compression: {Math.round((1 - config.output.length / config.input.length) * 100)}%</span>
+                <span>
+                  {" "}
+                  | Compression:{" "}
+                  {Math.round(
+                    (1 - config.output.length / config.input.length) * 100
+                  )}
+                  %
+                </span>
               )}
             </div>
           )}
@@ -390,13 +426,17 @@ export function JsonFormatterScreen() {
               try {
                 const parsed = JSON.parse(config.input);
                 const getType = (obj: unknown): string => {
-                  if (obj === null) return 'null';
-                  if (Array.isArray(obj)) return 'array';
+                  if (obj === null) return "null";
+                  if (Array.isArray(obj)) return "array";
                   return typeof obj;
                 };
 
                 const countProperties = (obj: unknown): number => {
-                  if (typeof obj === 'object' && obj !== null && !Array.isArray(obj)) {
+                  if (
+                    typeof obj === "object" &&
+                    obj !== null &&
+                    !Array.isArray(obj)
+                  ) {
                     return Object.keys(obj).length;
                   }
                   if (Array.isArray(obj)) {
@@ -409,16 +449,21 @@ export function JsonFormatterScreen() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <div>
                       <span className="text-muted">Type:</span>
-                      <span className="ml-2 font-medium">{getType(parsed)}</span>
+                      <span className="ml-2 font-medium">
+                        {getType(parsed)}
+                      </span>
                     </div>
                     <div>
                       <span className="text-muted">Properties:</span>
-                      <span className="ml-2 font-medium">{countProperties(parsed)}</span>
+                      <span className="ml-2 font-medium">
+                        {countProperties(parsed)}
+                      </span>
                     </div>
                     <div>
                       <span className="text-muted">Depth:</span>
                       <span className="ml-2 font-medium">
-                        {JSON.stringify(parsed).split('{').length - 1 || JSON.stringify(parsed).split('[').length - 1}
+                        {JSON.stringify(parsed).split("{").length - 1 ||
+                          JSON.stringify(parsed).split("[").length - 1}
                       </span>
                     </div>
                     <div>

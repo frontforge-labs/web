@@ -1,5 +1,5 @@
 import { Routes, Route, Link } from "react-router-dom";
-import { ThemeProvider } from "@frontenzo/ui";
+import { ThemeProvider } from "@frontforge/ui";
 import { ToolsLayout } from "./layouts/ToolsLayout";
 import { ToolsHomeScreen } from "./screens/ToolsHomeScreen";
 import { ColorToolsScreen } from "./screens/tools/ColorToolsScreen";
@@ -34,7 +34,7 @@ function HomeScreen() {
   return (
     <div className="max-w-7xl mx-auto p-6">
       <div className="text-center py-20">
-        <h1 className="text-4xl font-bold mb-4">Welcome to FrontEnzo</h1>
+        <h1 className="text-4xl font-bold mb-4">Welcome to FrontForge</h1>
         <p className="text-xl text-muted mb-8">
           Professional CSS generators and developer tools
         </p>
@@ -62,7 +62,7 @@ function SettingsScreen() {
 
 export default function App() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="frontenzo-theme">
+    <ThemeProvider defaultTheme="system" storageKey="frontforge-theme">
       <ToolsLayout>
         <Routes>
           <Route path="/" element={<HomeScreen />} />

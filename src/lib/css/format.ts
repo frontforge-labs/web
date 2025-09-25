@@ -3,7 +3,7 @@ import {
   formatCSS as formatCSSUtil,
   hexToRgb as hexToRgbUtil,
   rgbToHex as rgbToHexUtil,
-} from "@frontenzo/ui";
+} from "@frontforge/ui";
 
 // Re-export utilities for backward compatibility
 export const copyToClipboard = clipboardCopy;

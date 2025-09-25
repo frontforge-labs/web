@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, ColorInput } from "@frontenzo/ui";
+import { Button, ColorInput } from "@frontforge/ui";
 import { Shield, Copy, RotateCcw, AlertCircle, Eye } from "lucide-react";
 import { ToolContainer } from "../../../../components/ToolContainer";
 import { copyToClipboard } from "../../../../lib/css/format";
@@ -135,7 +135,7 @@ WCAG AAA Compliance:
           variant="secondary"
           size="sm"
           onClick={swapColors}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full"
         >
           <RotateCcw size={16} />
           Swap Colors
@@ -144,7 +144,7 @@ WCAG AAA Compliance:
           variant="secondary"
           size="sm"
           onClick={copyContrastInfo}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full"
         >
           <Copy size={16} />
           Copy Results

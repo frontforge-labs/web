@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Clock, Calendar, User } from "lucide-react";
-import { PageHeader } from "@frontenzo/ui";
+import { PageHeader } from "@frontforge/ui";
 import { Breadcrumb } from "./Breadcrumb";
 
 interface ArticleLayoutProps {

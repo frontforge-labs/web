@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Zap, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
-import { PageHeader, Button } from "@frontenzo/ui";
+import {
+  Zap,
+  Lightbulb,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { PageHeader, Button } from "@frontforge/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
@@ -111,7 +117,9 @@ export function AnimationToolsScreen() {
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + animationTips.length) % animationTips.length);
+    setCurrentTipIndex(
+      (prev) => (prev - 1 + animationTips.length) % animationTips.length
+    );
   };
 
   return (
@@ -201,35 +209,55 @@ export function AnimationToolsScreen() {
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Web animation enhances user experience through purposeful motion that guides attention, provides feedback, and creates emotional connections. Our animation toolkit provides professional-grade tools for creating smooth, performant animations while maintaining accessibility and respecting user preferences.
+              Web animation enhances user experience through purposeful motion
+              that guides attention, provides feedback, and creates emotional
+              connections. Our animation toolkit provides professional-grade
+              tools for creating smooth, performant animations while maintaining
+              accessibility and respecting user preferences.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               CSS Keyframes and Timeline Control
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Keyframe animations provide precise control over complex motion sequences. Define multiple animation states, control timing between frames, and create sophisticated effects that would be impossible with simple transitions. Master percentage-based keyframes for ultimate flexibility in animation choreography.
+              Keyframe animations provide precise control over complex motion
+              sequences. Define multiple animation states, control timing
+              between frames, and create sophisticated effects that would be
+              impossible with simple transitions. Master percentage-based
+              keyframes for ultimate flexibility in animation choreography.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Transition Design and Easing Psychology
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              CSS transitions create smooth property changes that feel natural and responsive. Understanding easing functions is crucial - they communicate personality and context through motion. Ease-out feels fast and responsive, ease-in provides gentle conclusions, while custom bezier curves express unique brand characteristics.
+              CSS transitions create smooth property changes that feel natural
+              and responsive. Understanding easing functions is crucial - they
+              communicate personality and context through motion. Ease-out feels
+              fast and responsive, ease-in provides gentle conclusions, while
+              custom bezier curves express unique brand characteristics.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Performance and Hardware Acceleration
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Modern animation leverages GPU acceleration for smooth 60fps performance. Stick to animating transform and opacity properties, use will-change hints judiciously, and understand the browser's rendering pipeline to avoid expensive layout recalculations that cause animation jank.
+              Modern animation leverages GPU acceleration for smooth 60fps
+              performance. Stick to animating transform and opacity properties,
+              use will-change hints judiciously, and understand the browser's
+              rendering pipeline to avoid expensive layout recalculations that
+              cause animation jank.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Scroll-Triggered Animation Patterns
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Scroll animations create engaging, narrative experiences as users explore content. Use Intersection Observer for performance-conscious trigger detection, implement proper animation lifecycles, and design animations that enhance rather than distract from content consumption.
+              Scroll animations create engaging, narrative experiences as users
+              explore content. Use Intersection Observer for
+              performance-conscious trigger detection, implement proper
+              animation lifecycles, and design animations that enhance rather
+              than distract from content consumption.
             </p>
           </div>
         </div>
@@ -249,7 +277,9 @@ export function AnimationToolsScreen() {
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{animationTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">
+                {animationTips[currentTipIndex].title}
+              </h4>
               <p className="text-sm text-muted leading-relaxed">
                 {animationTips[currentTipIndex].content}
               </p>

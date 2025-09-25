@@ -1,5 +1,5 @@
 import { ToolCategoryCard } from "../components/ToolCategoryCard";
-import { StatsCard } from "@frontenzo/ui";
+import { StatsCard } from "@frontforge/ui";
 import { toolCategories } from "../lib/constants.tsx";
 
 export function ToolsHomeScreen() {

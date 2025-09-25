@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FileText, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
-import { PageHeader, Button } from "@frontenzo/ui";
+import {
+  FileText,
+  Lightbulb,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { PageHeader, Button } from "@frontforge/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
@@ -111,7 +117,9 @@ export function TextToolsScreen() {
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + textTips.length) % textTips.length);
+    setCurrentTipIndex(
+      (prev) => (prev - 1 + textTips.length) % textTips.length
+    );
   };
 
   return (
@@ -201,35 +209,53 @@ export function TextToolsScreen() {
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Text processing is fundamental to modern development workflows, from converting naming conventions to generating placeholder content. Our text utilities provide efficient, reliable tools for common text transformations, encoding operations, and content generation tasks.
+              Text processing is fundamental to modern development workflows,
+              from converting naming conventions to generating placeholder
+              content. Our text utilities provide efficient, reliable tools for
+              common text transformations, encoding operations, and content
+              generation tasks.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Case Conversion and Naming Standards
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Consistent naming conventions improve code readability and maintainability. Different contexts require different case formats - camelCase for JavaScript variables, kebab-case for CSS classes, snake_case for database fields. Automated conversion ensures consistency across large codebases.
+              Consistent naming conventions improve code readability and
+              maintainability. Different contexts require different case formats
+              - camelCase for JavaScript variables, kebab-case for CSS classes,
+              snake_case for database fields. Automated conversion ensures
+              consistency across large codebases.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               URL Slugification and SEO Optimization
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              URL slugs should be descriptive, search-engine friendly, and human-readable. Proper slugification removes special characters, handles Unicode correctly, and creates clean URLs that improve both SEO performance and user experience.
+              URL slugs should be descriptive, search-engine friendly, and
+              human-readable. Proper slugification removes special characters,
+              handles Unicode correctly, and creates clean URLs that improve
+              both SEO performance and user experience.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Content Generation and Placeholder Text
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Lorem Ipsum and similar placeholder text enable design and layout testing without content dependencies. While useful for prototyping, consider the impact of different languages and text patterns on your designs when planning for international audiences.
+              Lorem Ipsum and similar placeholder text enable design and layout
+              testing without content dependencies. While useful for
+              prototyping, consider the impact of different languages and text
+              patterns on your designs when planning for international
+              audiences.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Encoding and Data Transformation
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Base64 encoding enables safe transmission of binary data through text-only channels. Understanding when and how to use different encoding schemes is crucial for APIs, data URLs, and handling file uploads in web applications.
+              Base64 encoding enables safe transmission of binary data through
+              text-only channels. Understanding when and how to use different
+              encoding schemes is crucial for APIs, data URLs, and handling file
+              uploads in web applications.
             </p>
           </div>
         </div>
@@ -249,7 +275,9 @@ export function TextToolsScreen() {
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{textTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">
+                {textTips[currentTipIndex].title}
+              </h4>
               <p className="text-sm text-muted leading-relaxed">
                 {textTips[currentTipIndex].content}
               </p>

@@ -1,6 +1,6 @@
-import { Link, useLocation } from 'react-router-dom';
-import { RouterBreadcrumb, type BreadcrumbItem } from '@frontenzo/ui';
-import { toolCategories } from '../lib/constants.tsx';
+import { Link, useLocation } from "react-router-dom";
+import { RouterBreadcrumb, type BreadcrumbItem } from "@frontforge/ui";
+import { toolCategories } from "../lib/constants.tsx";
 
 interface BreadcrumbProps {
   items?: BreadcrumbItem[];
@@ -14,12 +14,10 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
     if (items) return items;
 
     const currentPath = location.pathname;
-    const breadcrumbItems: BreadcrumbItem[] = [
-      { label: 'FrontEnzo', href: '/' }
-    ];
+    const breadcrumbItems: BreadcrumbItem[] = [{ label: "Home", href: "/" }];
 
-    if (currentPath.startsWith('/tools')) {
-      breadcrumbItems.push({ label: 'Tools', href: '/tools' });
+    if (currentPath.startsWith("/tools")) {
+      breadcrumbItems.push({ label: "Tools", href: "/tools" });
 
       for (const category of toolCategories) {
         if (currentPath === `/tools/${category.id}`) {
@@ -27,28 +25,27 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
           break;
         }
 
-        const tool = category.tools.find(t => t.path === currentPath);
+        const tool = category.tools.find((t) => t.path === currentPath);
         if (tool) {
           breadcrumbItems.push({
             label: category.title,
-            href: `/tools/${category.id}`
+            href: `/tools/${category.id}`,
           });
           breadcrumbItems.push({ label: tool.name });
           break;
         }
       }
-    }
-    else if (currentPath.startsWith('/articles')) {
-      breadcrumbItems.push({ label: 'Articles', href: '/articles' });
+    } else if (currentPath.startsWith("/articles")) {
+      breadcrumbItems.push({ label: "Articles", href: "/articles" });
 
-      if (currentPath !== '/articles') {
+      if (currentPath !== "/articles") {
         // Extract article title from path
-        const articlePath = currentPath.replace('/articles/', '');
+        const articlePath = currentPath.replace("/articles/", "");
         const articleTitles: Record<string, string> = {
-          'css-color-module': 'CSS Color Module',
-          'accessibility-guidelines': 'Accessibility Guidelines',
-          'color-theory': 'Color Theory',
-          'modern-css-color-functions': 'Modern CSS Color Functions'
+          "css-color-module": "CSS Color Module",
+          "accessibility-guidelines": "Accessibility Guidelines",
+          "color-theory": "Color Theory",
+          "modern-css-color-functions": "Modern CSS Color Functions",
         };
 
         const articleTitle = articleTitles[articlePath];
@@ -56,12 +53,10 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
           breadcrumbItems.push({ label: articleTitle });
         }
       }
-    }
-    else if (currentPath === '/settings') {
-      breadcrumbItems.push({ label: 'Settings' });
-    }
-    else if (currentPath === '/') {
-      return [{ label: 'FrontEnzo' }];
+    } else if (currentPath === "/settings") {
+      breadcrumbItems.push({ label: "Settings" });
+    } else if (currentPath === "/") {
+      return [{ label: "Home" }];
     }
 
     return breadcrumbItems;

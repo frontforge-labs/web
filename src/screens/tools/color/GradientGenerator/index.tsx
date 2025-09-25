@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Input, Select } from "@frontenzo/ui";
+import { Button, Input, Select } from "@frontforge/ui";
 import { Plus, Trash2, Palette } from "lucide-react";
 import { ToolContainer } from "../../../../components/ToolContainer";
 import { buildGradient } from "../../../../lib/css/builders";

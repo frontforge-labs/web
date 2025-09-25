@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Select, ColorInput } from "@frontenzo/ui";
+import { Button, Select, ColorInput } from "@frontforge/ui";
 import { Palette, Copy, Shuffle, Eye, Lightbulb } from "lucide-react";
 import { ToolContainer } from "../../../../components/ToolContainer";
 import {
@@ -190,7 +190,7 @@ export function ColorStudioScreen() {
           variant="secondary"
           size="sm"
           onClick={generateRandomColor}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full"
         >
           <Shuffle size={16} />
           Random
@@ -199,7 +199,7 @@ export function ColorStudioScreen() {
           variant="secondary"
           size="sm"
           onClick={copyAllFormats}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full"
         >
           <Copy size={16} />
           Copy All Formats

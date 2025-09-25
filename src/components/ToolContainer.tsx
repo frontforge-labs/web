@@ -1,7 +1,7 @@
 import {
   ToolContainer as UIToolContainer,
   type ToolContainerProps,
-} from "@frontenzo/ui";
+} from "@frontforge/ui";
 import { Breadcrumb } from "./Breadcrumb";
 
 // Re-export the UI component with breadcrumb integration

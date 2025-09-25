@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Sparkles, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
-import { PageHeader, Button } from "@frontenzo/ui";
+import {
+  Sparkles,
+  Lightbulb,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { PageHeader, Button } from "@frontforge/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
@@ -111,7 +117,9 @@ export function EffectsToolsScreen() {
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + effectsTips.length) % effectsTips.length);
+    setCurrentTipIndex(
+      (prev) => (prev - 1 + effectsTips.length) % effectsTips.length
+    );
   };
 
   return (
@@ -201,35 +209,55 @@ export function EffectsToolsScreen() {
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Visual effects are the finishing touches that elevate web designs from functional to exceptional. Our effects toolkit provides professional-grade shadow generators, CSS filters, and modern glassmorphism effects that enhance user interfaces while maintaining optimal performance and accessibility standards.
+              Visual effects are the finishing touches that elevate web designs
+              from functional to exceptional. Our effects toolkit provides
+              professional-grade shadow generators, CSS filters, and modern
+              glassmorphism effects that enhance user interfaces while
+              maintaining optimal performance and accessibility standards.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Box Shadows and Depth Psychology
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Shadows create visual hierarchy through simulated depth, guiding user attention and establishing element relationships. Multi-layered shadows combine close, sharp shadows for definition with distant, soft shadows for elevation, creating realistic lighting effects that improve interface comprehension.
+              Shadows create visual hierarchy through simulated depth, guiding
+              user attention and establishing element relationships.
+              Multi-layered shadows combine close, sharp shadows for definition
+              with distant, soft shadows for elevation, creating realistic
+              lighting effects that improve interface comprehension.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               CSS Filters for Dynamic Enhancement
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              CSS filter functions enable real-time image and element manipulation directly in the browser. Combine blur, brightness, contrast, and hue adjustments for hover states, focus indicators, and interactive feedback without requiring additional images or JavaScript processing.
+              CSS filter functions enable real-time image and element
+              manipulation directly in the browser. Combine blur, brightness,
+              contrast, and hue adjustments for hover states, focus indicators,
+              and interactive feedback without requiring additional images or
+              JavaScript processing.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Glassmorphism and Modern Transparency
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Glassmorphism creates sophisticated frosted glass effects using backdrop-filter and careful transparency. This design trend works particularly well for overlay elements, modal dialogs, and navigation components, providing visual separation while maintaining content context.
+              Glassmorphism creates sophisticated frosted glass effects using
+              backdrop-filter and careful transparency. This design trend works
+              particularly well for overlay elements, modal dialogs, and
+              navigation components, providing visual separation while
+              maintaining content context.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Performance and Browser Compatibility
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Modern CSS effects leverage GPU acceleration for smooth performance, but require careful implementation. Use transform3d() to trigger hardware acceleration, implement progressive enhancement for older browsers, and consider user preferences for reduced motion to ensure inclusive experiences.
+              Modern CSS effects leverage GPU acceleration for smooth
+              performance, but require careful implementation. Use transform3d()
+              to trigger hardware acceleration, implement progressive
+              enhancement for older browsers, and consider user preferences for
+              reduced motion to ensure inclusive experiences.
             </p>
           </div>
         </div>
@@ -249,7 +277,9 @@ export function EffectsToolsScreen() {
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{effectsTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">
+                {effectsTips[currentTipIndex].title}
+              </h4>
               <p className="text-sm text-muted leading-relaxed">
                 {effectsTips[currentTipIndex].content}
               </p>

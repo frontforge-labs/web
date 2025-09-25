@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Input, Select, ColorInput } from "@frontenzo/ui";
+import { Button, Input, Select, ColorInput } from "@frontforge/ui";
 import { Palette, Plus, Trash2, RefreshCw, Copy } from "lucide-react";
 import { ToolContainer } from "../../../../components/ToolContainer";
 import { copyToClipboard } from "../../../../lib/css/format";

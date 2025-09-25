@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Shapes, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
-import { PageHeader, Button } from "@frontenzo/ui";
+import {
+  Shapes,
+  Lightbulb,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { PageHeader, Button } from "@frontforge/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
@@ -111,7 +117,9 @@ export function ShapesToolsScreen() {
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + shapesTips.length) % shapesTips.length);
+    setCurrentTipIndex(
+      (prev) => (prev - 1 + shapesTips.length) % shapesTips.length
+    );
   };
 
   return (
@@ -201,35 +209,55 @@ export function ShapesToolsScreen() {
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Modern web design embraces organic shapes, sophisticated layouts, and custom geometric forms that break away from traditional rectangular constraints. Our shape and layout tools enable designers to create unique visual experiences while maintaining performance and accessibility standards.
+              Modern web design embraces organic shapes, sophisticated layouts,
+              and custom geometric forms that break away from traditional
+              rectangular constraints. Our shape and layout tools enable
+              designers to create unique visual experiences while maintaining
+              performance and accessibility standards.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Border Radius and Rounded Design
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Border radius transforms rectangular elements into sophisticated shapes that feel more natural and approachable. Master individual corner control, elliptical curves, and radius relationships to create cohesive design systems that enhance user experience through subtle visual cues.
+              Border radius transforms rectangular elements into sophisticated
+              shapes that feel more natural and approachable. Master individual
+              corner control, elliptical curves, and radius relationships to
+              create cohesive design systems that enhance user experience
+              through subtle visual cues.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               CSS Clip-Path for Custom Shapes
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Clip-path enables precise shape control beyond simple rectangles and circles. Create polygonal layouts, diagonal sections, and complex geometric designs that guide user attention and create dynamic visual hierarchies without requiring additional images or SVG files.
+              Clip-path enables precise shape control beyond simple rectangles
+              and circles. Create polygonal layouts, diagonal sections, and
+              complex geometric designs that guide user attention and create
+              dynamic visual hierarchies without requiring additional images or
+              SVG files.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Organic Shapes and Blob Generation
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Organic, blob-like shapes add personality and movement to designs while maintaining a professional appearance. These naturally randomized forms work particularly well for background elements, hero sections, and brand identity elements that need to stand out from traditional geometric layouts.
+              Organic, blob-like shapes add personality and movement to designs
+              while maintaining a professional appearance. These naturally
+              randomized forms work particularly well for background elements,
+              hero sections, and brand identity elements that need to stand out
+              from traditional geometric layouts.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Advanced Grid Layout Systems
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              CSS Grid provides unprecedented control over complex layouts with minimal code. Master grid template areas, implicit grids, and responsive design patterns to create layouts that adapt gracefully across devices while maintaining visual coherence and content hierarchy.
+              CSS Grid provides unprecedented control over complex layouts with
+              minimal code. Master grid template areas, implicit grids, and
+              responsive design patterns to create layouts that adapt gracefully
+              across devices while maintaining visual coherence and content
+              hierarchy.
             </p>
           </div>
         </div>
@@ -249,7 +277,9 @@ export function ShapesToolsScreen() {
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{shapesTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">
+                {shapesTips[currentTipIndex].title}
+              </h4>
               <p className="text-sm text-muted leading-relaxed">
                 {shapesTips[currentTipIndex].content}
               </p>

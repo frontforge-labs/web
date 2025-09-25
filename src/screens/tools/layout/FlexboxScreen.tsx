@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Input } from "@frontenzo/ui";
+import { Button, Input } from "@frontforge/ui";
 import { LayoutGrid, Plus, Trash2, Copy } from "lucide-react";
 import { ToolContainer } from "../../../components/ToolContainer";
 import { copyToClipboard } from "../../../lib/css/format";
@@ -15,11 +15,24 @@ interface FlexItem {
 }
 
 interface FlexboxConfig {
-  flexDirection: 'row' | 'row-reverse' | 'column' | 'column-reverse';
-  justifyContent: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
-  alignItems: 'stretch' | 'flex-start' | 'flex-end' | 'center' | 'baseline';
-  alignContent: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch';
-  flexWrap: 'nowrap' | 'wrap' | 'wrap-reverse';
+  flexDirection: "row" | "row-reverse" | "column" | "column-reverse";
+  justifyContent:
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+  alignItems: "stretch" | "flex-start" | "flex-end" | "center" | "baseline";
+  alignContent:
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "space-between"
+    | "space-around"
+    | "space-evenly"
+    | "stretch";
+  flexWrap: "nowrap" | "wrap" | "wrap-reverse";
   gap: number;
   containerHeight: number;
   containerWidth: number;
@@ -30,70 +43,158 @@ const flexboxPresets = [
   {
     name: "Navigation Bar",
     config: {
-      flexDirection: 'row' as const,
-      justifyContent: 'space-between' as const,
-      alignItems: 'center' as const,
-      alignContent: 'stretch' as const,
-      flexWrap: 'nowrap' as const,
+      flexDirection: "row" as const,
+      justifyContent: "space-between" as const,
+      alignItems: "center" as const,
+      alignContent: "stretch" as const,
+      flexWrap: "nowrap" as const,
       gap: 16,
       containerHeight: 60,
       items: [
-        { id: '1', flexGrow: 0, flexShrink: 0, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Logo' },
-        { id: '2', flexGrow: 1, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Nav Links' },
-        { id: '3', flexGrow: 0, flexShrink: 0, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Profile' }
-      ]
-    }
+        {
+          id: "1",
+          flexGrow: 0,
+          flexShrink: 0,
+          flexBasis: "auto",
+          alignSelf: "auto",
+          order: 0,
+          content: "Logo",
+        },
+        {
+          id: "2",
+          flexGrow: 1,
+          flexShrink: 1,
+          flexBasis: "auto",
+          alignSelf: "auto",
+          order: 0,
+          content: "Nav Links",
+        },
+        {
+          id: "3",
+          flexGrow: 0,
+          flexShrink: 0,
+          flexBasis: "auto",
+          alignSelf: "auto",
+          order: 0,
+          content: "Profile",
+        },
+      ],
+    },
   },
   {
     name: "Card Layout",
     config: {
-      flexDirection: 'row' as const,
-      justifyContent: 'flex-start' as const,
-      alignItems: 'stretch' as const,
-      alignContent: 'flex-start' as const,
-      flexWrap: 'wrap' as const,
+      flexDirection: "row" as const,
+      justifyContent: "flex-start" as const,
+      alignItems: "stretch" as const,
+      alignContent: "flex-start" as const,
+      flexWrap: "wrap" as const,
       gap: 20,
       containerHeight: 300,
       items: [
-        { id: '1', flexGrow: 0, flexShrink: 0, flexBasis: '300px', alignSelf: 'auto', order: 0, content: 'Card 1' },
-        { id: '2', flexGrow: 0, flexShrink: 0, flexBasis: '300px', alignSelf: 'auto', order: 0, content: 'Card 2' },
-        { id: '3', flexGrow: 0, flexShrink: 0, flexBasis: '300px', alignSelf: 'auto', order: 0, content: 'Card 3' }
-      ]
-    }
+        {
+          id: "1",
+          flexGrow: 0,
+          flexShrink: 0,
+          flexBasis: "300px",
+          alignSelf: "auto",
+          order: 0,
+          content: "Card 1",
+        },
+        {
+          id: "2",
+          flexGrow: 0,
+          flexShrink: 0,
+          flexBasis: "300px",
+          alignSelf: "auto",
+          order: 0,
+          content: "Card 2",
+        },
+        {
+          id: "3",
+          flexGrow: 0,
+          flexShrink: 0,
+          flexBasis: "300px",
+          alignSelf: "auto",
+          order: 0,
+          content: "Card 3",
+        },
+      ],
+    },
   },
   {
     name: "Centered Content",
     config: {
-      flexDirection: 'column' as const,
-      justifyContent: 'center' as const,
-      alignItems: 'center' as const,
-      alignContent: 'center' as const,
-      flexWrap: 'nowrap' as const,
+      flexDirection: "column" as const,
+      justifyContent: "center" as const,
+      alignItems: "center" as const,
+      alignContent: "center" as const,
+      flexWrap: "nowrap" as const,
       gap: 20,
       containerHeight: 400,
       items: [
-        { id: '1', flexGrow: 0, flexShrink: 0, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Hero Title' },
-        { id: '2', flexGrow: 0, flexShrink: 0, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Subtitle' },
-        { id: '3', flexGrow: 0, flexShrink: 0, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'CTA Button' }
-      ]
-    }
+        {
+          id: "1",
+          flexGrow: 0,
+          flexShrink: 0,
+          flexBasis: "auto",
+          alignSelf: "auto",
+          order: 0,
+          content: "Hero Title",
+        },
+        {
+          id: "2",
+          flexGrow: 0,
+          flexShrink: 0,
+          flexBasis: "auto",
+          alignSelf: "auto",
+          order: 0,
+          content: "Subtitle",
+        },
+        {
+          id: "3",
+          flexGrow: 0,
+          flexShrink: 0,
+          flexBasis: "auto",
+          alignSelf: "auto",
+          order: 0,
+          content: "CTA Button",
+        },
+      ],
+    },
   },
   {
     name: "Sidebar Layout",
     config: {
-      flexDirection: 'row' as const,
-      justifyContent: 'flex-start' as const,
-      alignItems: 'stretch' as const,
-      alignContent: 'stretch' as const,
-      flexWrap: 'nowrap' as const,
+      flexDirection: "row" as const,
+      justifyContent: "flex-start" as const,
+      alignItems: "stretch" as const,
+      alignContent: "stretch" as const,
+      flexWrap: "nowrap" as const,
       gap: 0,
       containerHeight: 500,
       items: [
-        { id: '1', flexGrow: 0, flexShrink: 0, flexBasis: '250px', alignSelf: 'auto', order: 0, content: 'Sidebar' },
-        { id: '2', flexGrow: 1, flexShrink: 1, flexBasis: '0', alignSelf: 'auto', order: 0, content: 'Main Content' }
-      ]
-    }
-  }
+        {
+          id: "1",
+          flexGrow: 0,
+          flexShrink: 0,
+          flexBasis: "250px",
+          alignSelf: "auto",
+          order: 0,
+          content: "Sidebar",
+        },
+        {
+          id: "2",
+          flexGrow: 1,
+          flexShrink: 1,
+          flexBasis: "0",
+          alignSelf: "auto",
+          order: 0,
+          content: "Main Content",
+        },
+      ],
+    },
+  },
 ];
 
 function generateId() {
@@ -102,19 +203,43 @@ function generateId() {
 
 export function FlexboxScreen() {
   const [config, setConfig] = useState<FlexboxConfig>({
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    alignContent: 'flex-start',
-    flexWrap: 'nowrap',
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "stretch",
+    alignContent: "flex-start",
+    flexWrap: "nowrap",
     gap: 10,
     containerHeight: 300,
     containerWidth: 100,
     items: [
-      { id: generateId(), flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Item 1' },
-      { id: generateId(), flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Item 2' },
-      { id: generateId(), flexGrow: 1, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Item 3' }
-    ]
+      {
+        id: generateId(),
+        flexGrow: 0,
+        flexShrink: 1,
+        flexBasis: "auto",
+        alignSelf: "auto",
+        order: 0,
+        content: "Item 1",
+      },
+      {
+        id: generateId(),
+        flexGrow: 0,
+        flexShrink: 1,
+        flexBasis: "auto",
+        alignSelf: "auto",
+        order: 0,
+        content: "Item 2",
+      },
+      {
+        id: generateId(),
+        flexGrow: 1,
+        flexShrink: 1,
+        flexBasis: "auto",
+        alignSelf: "auto",
+        order: 0,
+        content: "Item 3",
+      },
+    ],
   });
 
   const addFlexItem = () => {
@@ -122,57 +247,81 @@ export function FlexboxScreen() {
       id: generateId(),
       flexGrow: 0,
       flexShrink: 1,
-      flexBasis: 'auto',
-      alignSelf: 'auto',
+      flexBasis: "auto",
+      alignSelf: "auto",
       order: 0,
-      content: `Item ${config.items.length + 1}`
+      content: `Item ${config.items.length + 1}`,
     };
-    setConfig(prev => ({
+    setConfig((prev) => ({
       ...prev,
-      items: [...prev.items, newItem]
+      items: [...prev.items, newItem],
     }));
   };
 
   const removeFlexItem = (id: string) => {
-    setConfig(prev => ({
+    setConfig((prev) => ({
       ...prev,
-      items: prev.items.filter(item => item.id !== id)
+      items: prev.items.filter((item) => item.id !== id),
     }));
   };
 
   const updateFlexItem = (id: string, updates: Partial<FlexItem>) => {
-    setConfig(prev => ({
+    setConfig((prev) => ({
       ...prev,
-      items: prev.items.map(item =>
+      items: prev.items.map((item) =>
         item.id === id ? { ...item, ...updates } : item
-      )
+      ),
     }));
   };
 
-  const applyPreset = (preset: typeof flexboxPresets[0]) => {
-    setConfig(prev => ({
+  const applyPreset = (preset: (typeof flexboxPresets)[0]) => {
+    setConfig((prev) => ({
       ...prev,
       ...preset.config,
       containerWidth: prev.containerWidth,
-      items: preset.config.items.map(item => ({ ...item, id: generateId() }))
+      items: preset.config.items.map((item) => ({ ...item, id: generateId() })),
     }));
   };
 
   const resetTool = () => {
     setConfig({
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: 'stretch',
-      alignContent: 'flex-start',
-      flexWrap: 'nowrap',
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      alignItems: "stretch",
+      alignContent: "flex-start",
+      flexWrap: "nowrap",
       gap: 10,
       containerHeight: 300,
       containerWidth: 100,
       items: [
-        { id: generateId(), flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Item 1' },
-        { id: generateId(), flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Item 2' },
-        { id: generateId(), flexGrow: 1, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto', order: 0, content: 'Item 3' }
-      ]
+        {
+          id: generateId(),
+          flexGrow: 0,
+          flexShrink: 1,
+          flexBasis: "auto",
+          alignSelf: "auto",
+          order: 0,
+          content: "Item 1",
+        },
+        {
+          id: generateId(),
+          flexGrow: 0,
+          flexShrink: 1,
+          flexBasis: "auto",
+          alignSelf: "auto",
+          order: 0,
+          content: "Item 2",
+        },
+        {
+          id: generateId(),
+          flexGrow: 1,
+          flexShrink: 1,
+          flexBasis: "auto",
+          alignSelf: "auto",
+          order: 0,
+          content: "Item 3",
+        },
+      ],
     });
   };
 
@@ -189,14 +338,16 @@ export function FlexboxScreen() {
   height: ${config.containerHeight}px;
 }`;
 
-    const itemsCSS = config.items.map((item, index) => {
-      const flex = `${item.flexGrow} ${item.flexShrink} ${item.flexBasis}`;
-      return `
+    const itemsCSS = config.items
+      .map((item, index) => {
+        const flex = `${item.flexGrow} ${item.flexShrink} ${item.flexBasis}`;
+        return `
 /* Flex Item ${index + 1} */
 .flex-item-${index + 1} {
-  flex: ${flex};${item.alignSelf !== 'auto' ? `\n  align-self: ${item.alignSelf};` : ''}${item.order !== 0 ? `\n  order: ${item.order};` : ''}
+  flex: ${flex};${item.alignSelf !== "auto" ? `\n  align-self: ${item.alignSelf};` : ""}${item.order !== 0 ? `\n  order: ${item.order};` : ""}
 }`;
-    }).join('');
+      })
+      .join("");
 
     return containerCSS + itemsCSS;
   };
@@ -219,7 +370,7 @@ gap: ${config.gap}px;`;
         className="w-full border-2 border-dashed border-accent/30 rounded p-2"
         style={{
           height: `${config.containerHeight}px`,
-          display: 'flex',
+          display: "flex",
           flexDirection: config.flexDirection,
           justifyContent: config.justifyContent,
           alignItems: config.alignItems,
@@ -234,9 +385,9 @@ gap: ${config.gap}px;`;
             className="bg-accent/20 border border-accent/40 rounded text-xs font-medium flex items-center justify-center text-accent px-2 py-1 min-w-0"
             style={{
               flex: `${item.flexGrow} ${item.flexShrink} ${item.flexBasis}`,
-              alignSelf: item.alignSelf === 'auto' ? undefined : item.alignSelf,
+              alignSelf: item.alignSelf === "auto" ? undefined : item.alignSelf,
               order: item.order,
-              minHeight: '30px'
+              minHeight: "30px",
             }}
           >
             {item.content}
@@ -300,10 +451,18 @@ gap: ${config.gap}px;`;
         <h4 className="text-sm font-medium mb-3">Container Properties</h4>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-2">Flex Direction</label>
+            <label className="block text-sm font-medium mb-2">
+              Flex Direction
+            </label>
             <select
               value={config.flexDirection}
-              onChange={(e) => setConfig(prev => ({ ...prev, flexDirection: e.target.value as FlexboxConfig['flexDirection'] }))}
+              onChange={(e) =>
+                setConfig((prev) => ({
+                  ...prev,
+                  flexDirection: e.target
+                    .value as FlexboxConfig["flexDirection"],
+                }))
+              }
               className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
             >
               <option value="row">Row</option>
@@ -313,10 +472,18 @@ gap: ${config.gap}px;`;
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Justify Content</label>
+            <label className="block text-sm font-medium mb-2">
+              Justify Content
+            </label>
             <select
               value={config.justifyContent}
-              onChange={(e) => setConfig(prev => ({ ...prev, justifyContent: e.target.value as FlexboxConfig['justifyContent'] }))}
+              onChange={(e) =>
+                setConfig((prev) => ({
+                  ...prev,
+                  justifyContent: e.target
+                    .value as FlexboxConfig["justifyContent"],
+                }))
+              }
               className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
             >
               <option value="flex-start">Flex Start</option>
@@ -328,10 +495,17 @@ gap: ${config.gap}px;`;
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Align Items</label>
+            <label className="block text-sm font-medium mb-2">
+              Align Items
+            </label>
             <select
               value={config.alignItems}
-              onChange={(e) => setConfig(prev => ({ ...prev, alignItems: e.target.value as FlexboxConfig['alignItems'] }))}
+              onChange={(e) =>
+                setConfig((prev) => ({
+                  ...prev,
+                  alignItems: e.target.value as FlexboxConfig["alignItems"],
+                }))
+              }
               className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
             >
               <option value="stretch">Stretch</option>
@@ -345,7 +519,12 @@ gap: ${config.gap}px;`;
             <label className="block text-sm font-medium mb-2">Flex Wrap</label>
             <select
               value={config.flexWrap}
-              onChange={(e) => setConfig(prev => ({ ...prev, flexWrap: e.target.value as FlexboxConfig['flexWrap'] }))}
+              onChange={(e) =>
+                setConfig((prev) => ({
+                  ...prev,
+                  flexWrap: e.target.value as FlexboxConfig["flexWrap"],
+                }))
+              }
               className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
             >
               <option value="nowrap">No Wrap</option>
@@ -358,17 +537,29 @@ gap: ${config.gap}px;`;
             <Input
               type="number"
               value={config.gap}
-              onChange={(e) => setConfig(prev => ({ ...prev, gap: parseInt(e.target.value) || 0 }))}
+              onChange={(e) =>
+                setConfig((prev) => ({
+                  ...prev,
+                  gap: parseInt(e.target.value) || 0,
+                }))
+              }
               min={0}
               max={50}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Container Height (px)</label>
+            <label className="block text-sm font-medium mb-2">
+              Container Height (px)
+            </label>
             <Input
               type="number"
               value={config.containerHeight}
-              onChange={(e) => setConfig(prev => ({ ...prev, containerHeight: parseInt(e.target.value) || 200 }))}
+              onChange={(e) =>
+                setConfig((prev) => ({
+                  ...prev,
+                  containerHeight: parseInt(e.target.value) || 200,
+                }))
+              }
               min={100}
               max={600}
             />
@@ -380,12 +571,17 @@ gap: ${config.gap}px;`;
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-sm font-medium">Flex Items</h4>
-          <span className="text-xs text-muted">{config.items.length} items</span>
+          <span className="text-xs text-muted">
+            {config.items.length} items
+          </span>
         </div>
 
         <div className="space-y-4">
           {config.items.map((item, index) => (
-            <div key={item.id} className="p-4 bg-surface-1 border border-border rounded-lg">
+            <div
+              key={item.id}
+              className="p-4 bg-surface-1 border border-border rounded-lg"
+            >
               <div className="flex items-center justify-between mb-3">
                 <span className="text-sm font-medium">Item {index + 1}</span>
                 <Button
@@ -401,49 +597,73 @@ gap: ${config.gap}px;`;
 
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                 <div>
-                  <label className="block text-xs font-medium mb-1">Content</label>
+                  <label className="block text-xs font-medium mb-1">
+                    Content
+                  </label>
                   <Input
                     value={item.content}
-                    onChange={(e) => updateFlexItem(item.id, { content: e.target.value })}
+                    onChange={(e) =>
+                      updateFlexItem(item.id, { content: e.target.value })
+                    }
                     className="text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium mb-1">Flex Grow</label>
+                  <label className="block text-xs font-medium mb-1">
+                    Flex Grow
+                  </label>
                   <Input
                     type="number"
                     value={item.flexGrow}
-                    onChange={(e) => updateFlexItem(item.id, { flexGrow: parseInt(e.target.value) || 0 })}
+                    onChange={(e) =>
+                      updateFlexItem(item.id, {
+                        flexGrow: parseInt(e.target.value) || 0,
+                      })
+                    }
                     min={0}
                     max={10}
                     className="text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium mb-1">Flex Shrink</label>
+                  <label className="block text-xs font-medium mb-1">
+                    Flex Shrink
+                  </label>
                   <Input
                     type="number"
                     value={item.flexShrink}
-                    onChange={(e) => updateFlexItem(item.id, { flexShrink: parseInt(e.target.value) || 0 })}
+                    onChange={(e) =>
+                      updateFlexItem(item.id, {
+                        flexShrink: parseInt(e.target.value) || 0,
+                      })
+                    }
                     min={0}
                     max={10}
                     className="text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium mb-1">Flex Basis</label>
+                  <label className="block text-xs font-medium mb-1">
+                    Flex Basis
+                  </label>
                   <Input
                     value={item.flexBasis}
-                    onChange={(e) => updateFlexItem(item.id, { flexBasis: e.target.value })}
+                    onChange={(e) =>
+                      updateFlexItem(item.id, { flexBasis: e.target.value })
+                    }
                     placeholder="auto, 100px, 50%"
                     className="text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium mb-1">Align Self</label>
+                  <label className="block text-xs font-medium mb-1">
+                    Align Self
+                  </label>
                   <select
                     value={item.alignSelf}
-                    onChange={(e) => updateFlexItem(item.id, { alignSelf: e.target.value })}
+                    onChange={(e) =>
+                      updateFlexItem(item.id, { alignSelf: e.target.value })
+                    }
                     className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
                   >
                     <option value="auto">Auto</option>

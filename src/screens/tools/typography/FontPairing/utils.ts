@@ -30,11 +30,12 @@ export const fontPairings: TFontPair[] = [
     body: "Source Sans Pro",
     display: "Clean and readable for corporate sites",
   },
+
   {
-    name: "Editorial Classic",
-    heading: "Playfair Display",
-    body: "Source Sans Pro",
-    display: "Perfect for magazines and blogs",
+    name: "Creative Display",
+    heading: "Righteous",
+    body: "Open Sans",
+    display: "Eye-catching for creative projects",
   },
   {
     name: "Tech Startup",
@@ -61,10 +62,10 @@ export const fontPairings: TFontPair[] = [
     display: "Consistent Google font family",
   },
   {
-    name: "Creative Display",
-    heading: "Righteous",
-    body: "Open Sans",
-    display: "Eye-catching for creative projects",
+    name: "Editorial Classic",
+    heading: "Playfair Display",
+    body: "Source Sans Pro",
+    display: "Perfect for magazines and blogs",
   },
   {
     name: "Classic Readable",

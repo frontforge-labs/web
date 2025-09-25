@@ -1,13 +1,116 @@
-import React, { useState, type JSX } from "react";
+import { useState } from "react";
 import { Button, Input, Select } from "@frontforge/ui";
 import { Type, Copy, RotateCcw } from "lucide-react";
-import { ToolContainer } from "../../../../components/ToolContainer";
-import { copyToClipboard } from "../../../../lib/css/format";
-import type { TFontPairingConfig, TFontPair } from "./types";
-import { popularFonts, fontPairings, fontWeights } from "./utils";
+import { ToolContainer } from "../../../components/ToolContainer";
+import { copyToClipboard } from "../../../lib/css/format";
 
-export function FontPairingScreen(): JSX.Element {
-  const [config, setConfig] = useState<TFontPairingConfig>({
+interface FontPair {
+  name: string;
+  heading: string;
+  body: string;
+  display: string;
+}
+
+interface FontPairingConfig {
+  headingFont: string;
+  bodyFont: string;
+  headingSize: number;
+  bodySize: number;
+  headingWeight: string;
+  bodyWeight: string;
+  lineHeight: number;
+  letterSpacing: number;
+  headingText: string;
+  bodyText: string;
+  currentPair: FontPair;
+}
+
+const popularFonts = [
+  "Inter",
+  "Roboto",
+  "Open Sans",
+  "Lato",
+  "Montserrat",
+  "Source Sans Pro",
+  "Oswald",
+  "Raleway",
+  "Nunito",
+  "Poppins",
+  "Playfair Display",
+  "Merriweather",
+  "PT Serif",
+  "Crimson Text",
+  "Libre Baskerville",
+  "Cormorant Garamond",
+  "Dancing Script",
+  "Pacifico",
+  "Righteous",
+  "Fredoka One",
+];
+
+const fontPairings = [
+  {
+    name: "Modern Professional",
+    heading: "Inter",
+    body: "Source Sans Pro",
+    display: "Clean and readable for corporate sites",
+  },
+  {
+    name: "Editorial Classic",
+    heading: "Playfair Display",
+    body: "Source Sans Pro",
+    display: "Perfect for magazines and blogs",
+  },
+  {
+    name: "Tech Startup",
+    heading: "Montserrat",
+    body: "Open Sans",
+    display: "Modern and approachable",
+  },
+  {
+    name: "Elegant Serif",
+    heading: "Crimson Text",
+    body: "Lato",
+    display: "Sophisticated with great readability",
+  },
+  {
+    name: "Bold Impact",
+    heading: "Oswald",
+    body: "Nunito",
+    display: "Strong headlines with friendly body",
+  },
+  {
+    name: "Minimal Clean",
+    heading: "Roboto",
+    body: "Roboto",
+    display: "Consistent Google font family",
+  },
+  {
+    name: "Creative Display",
+    heading: "Righteous",
+    body: "Open Sans",
+    display: "Eye-catching for creative projects",
+  },
+  {
+    name: "Classic Readable",
+    heading: "Merriweather",
+    body: "Merriweather",
+    display: "Excellent for long-form reading",
+  },
+];
+
+const fontWeights = [
+  { value: "300", label: "Light" },
+  { value: "400", label: "Regular" },
+  { value: "500", label: "Medium" },
+  { value: "600", label: "Semi Bold" },
+  { value: "700", label: "Bold" },
+  { value: "800", label: "Extra Bold" },
+  { value: "900", label: "Black" },
+];
+
+export function FontPairingScreen() {
+  const [config, setConfig] = useState<FontPairingConfig>({
     headingFont: "Inter",
     bodyFont: "Source Sans Pro",
     headingSize: 32,
@@ -22,19 +125,21 @@ export function FontPairingScreen(): JSX.Element {
     currentPair: fontPairings[0],
   });
 
-  const updateConfig = (updates: Partial<TFontPairingConfig>): void => {
-    setConfig((prev) => ({ ...prev, ...updates }));
-  };
-
-  const applyFontPair = (pair: TFontPair): void => {
-    updateConfig({
+  const applyFontPair = (pair: (typeof fontPairings)[0]) => {
+    setConfig((prev) => ({
+      ...prev,
       headingFont: pair.heading,
       bodyFont: pair.body,
-      currentPair: pair,
-    });
+      currentPair: {
+        name: pair.name,
+        heading: pair.heading,
+        body: pair.body,
+        display: pair.display,
+      },
+    }));
   };
 
-  const resetTool = (): void => {
+  const resetTool = () => {
     setConfig({
       headingFont: "Inter",
       bodyFont: "Source Sans Pro",
@@ -47,11 +152,16 @@ export function FontPairingScreen(): JSX.Element {
       headingText: "Your Amazing Headline Goes Here",
       bodyText:
         "This is sample body text that demonstrates how your chosen fonts work together. Good typography enhances readability and creates visual hierarchy. It should feel natural and support your content without drawing unnecessary attention to itself.",
-      currentPair: fontPairings[0],
+      currentPair: {
+        name: fontPairings[0].name,
+        heading: fontPairings[0].heading,
+        body: fontPairings[0].body,
+        display: fontPairings[0].display,
+      },
     });
   };
 
-  const generateCSS = (): string => {
+  const generateCSS = () => {
     return `/* Font Pairing CSS */
 @import url('https://fonts.googleapis.com/css2?family=${config.headingFont.replace(" ", "+")}:wght@${config.headingWeight}&family=${config.bodyFont.replace(" ", "+")}:wght@${config.bodyWeight}&display=swap');
 
@@ -74,7 +184,7 @@ export function FontPairingScreen(): JSX.Element {
 }`;
   };
 
-  const copyGoogleFontsImport = async (): Promise<void> => {
+  const copyGoogleFontsImport = async () => {
     const importUrl = `@import url('https://fonts.googleapis.com/css2?family=${config.headingFont.replace(" ", "+")}:wght@${config.headingWeight}&family=${config.bodyFont.replace(" ", "+")}:wght@${config.bodyWeight}&display=swap');`;
     await copyToClipboard(importUrl);
   };
@@ -128,12 +238,12 @@ export function FontPairingScreen(): JSX.Element {
       icon={<Type size={24} />}
     >
       {/* Quick Actions */}
-      <div className="flex gap-2 mb-6">
+      <div className="flex gap-2 mb-6 flex-wrap">
         <Button
           variant="secondary"
           size="sm"
           onClick={copyGoogleFontsImport}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2"
         >
           <Copy size={16} />
           Copy Import
@@ -142,7 +252,7 @@ export function FontPairingScreen(): JSX.Element {
           variant="secondary"
           size="sm"
           onClick={resetTool}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2"
         >
           <RotateCcw size={16} />
           Reset
@@ -154,7 +264,7 @@ export function FontPairingScreen(): JSX.Element {
         <label className="block text-sm font-medium mb-2">
           Popular Font Pairings
         </label>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {fontPairings.map((pair) => (
             <Button
               key={pair.name}
@@ -184,7 +294,9 @@ export function FontPairingScreen(): JSX.Element {
             </label>
             <Select
               value={config.headingFont}
-              onChange={(e) => updateConfig({ headingFont: e.target.value })}
+              onChange={(e) =>
+                setConfig((prev) => ({ ...prev, headingFont: e.target.value }))
+              }
             >
               {popularFonts.map((font) => (
                 <option key={font} value={font} style={{ fontFamily: font }}>
@@ -197,7 +309,9 @@ export function FontPairingScreen(): JSX.Element {
             <label className="block text-sm font-medium mb-2">Body Font</label>
             <Select
               value={config.bodyFont}
-              onChange={(e) => updateConfig({ bodyFont: e.target.value })}
+              onChange={(e) =>
+                setConfig((prev) => ({ ...prev, bodyFont: e.target.value }))
+              }
             >
               {popularFonts.map((font) => (
                 <option key={font} value={font} style={{ fontFamily: font }}>
@@ -221,9 +335,10 @@ export function FontPairingScreen(): JSX.Element {
               type="number"
               value={config.headingSize}
               onChange={(e) =>
-                updateConfig({
+                setConfig((prev) => ({
+                  ...prev,
                   headingSize: parseInt(e.target.value) || 32,
-                })
+                }))
               }
               min={12}
               max={72}
@@ -237,9 +352,10 @@ export function FontPairingScreen(): JSX.Element {
               type="number"
               value={config.bodySize}
               onChange={(e) =>
-                updateConfig({
+                setConfig((prev) => ({
+                  ...prev,
                   bodySize: parseInt(e.target.value) || 16,
-                })
+                }))
               }
               min={10}
               max={24}
@@ -252,9 +368,10 @@ export function FontPairingScreen(): JSX.Element {
             <Select
               value={config.headingWeight}
               onChange={(e) =>
-                updateConfig({
+                setConfig((prev) => ({
+                  ...prev,
                   headingWeight: e.target.value,
-                })
+                }))
               }
             >
               {fontWeights.map((weight) => (
@@ -270,7 +387,9 @@ export function FontPairingScreen(): JSX.Element {
             </label>
             <Select
               value={config.bodyWeight}
-              onChange={(e) => updateConfig({ bodyWeight: e.target.value })}
+              onChange={(e) =>
+                setConfig((prev) => ({ ...prev, bodyWeight: e.target.value }))
+              }
             >
               {fontWeights.map((weight) => (
                 <option key={weight.value} value={weight.value}>
@@ -287,9 +406,10 @@ export function FontPairingScreen(): JSX.Element {
               type="number"
               value={config.lineHeight}
               onChange={(e) =>
-                updateConfig({
+                setConfig((prev) => ({
+                  ...prev,
                   lineHeight: parseFloat(e.target.value) || 1.5,
-                })
+                }))
               }
               min={1}
               max={2}
@@ -304,9 +424,10 @@ export function FontPairingScreen(): JSX.Element {
               type="number"
               value={config.letterSpacing}
               onChange={(e) =>
-                updateConfig({
+                setConfig((prev) => ({
+                  ...prev,
                   letterSpacing: parseFloat(e.target.value) || 0,
-                })
+                }))
               }
               min={-2}
               max={5}
@@ -326,7 +447,9 @@ export function FontPairingScreen(): JSX.Element {
             </label>
             <Input
               value={config.headingText}
-              onChange={(e) => updateConfig({ headingText: e.target.value })}
+              onChange={(e) =>
+                setConfig((prev) => ({ ...prev, headingText: e.target.value }))
+              }
               placeholder="Enter heading text..."
             />
           </div>
@@ -334,7 +457,9 @@ export function FontPairingScreen(): JSX.Element {
             <label className="block text-sm font-medium mb-2">Body Text</label>
             <textarea
               value={config.bodyText}
-              onChange={(e) => updateConfig({ bodyText: e.target.value })}
+              onChange={(e) =>
+                setConfig((prev) => ({ ...prev, bodyText: e.target.value }))
+              }
               className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
               rows={3}
               placeholder="Enter body text..."

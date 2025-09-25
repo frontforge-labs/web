@@ -1,5 +1,5 @@
 import { useState, type JSX } from "react";
-import { Button, Input, ColorInput } from "@frontenzo/ui";
+import { Button, Input, ColorInput } from "@frontforge/ui";
 import { Type, Plus, Trash2, Copy, Eye } from "lucide-react";
 import { ToolContainer } from "../../../../components/ToolContainer";
 import { copyToClipboard } from "../../../../lib/css/format";
@@ -15,8 +15,15 @@ export function TextShadowScreen(): JSX.Element {
     textColor: "#1f2937",
     backgroundColor: "#f9fafb",
     shadows: [
-      { id: generateId(), offsetX: 2, offsetY: 2, blurRadius: 4, color: "#00000040", enabled: true }
-    ]
+      {
+        id: generateId(),
+        offsetX: 2,
+        offsetY: 2,
+        blurRadius: 4,
+        color: "#00000040",
+        enabled: true,
+      },
+    ],
   });
 
   const updateConfig = (updates: Partial<TTextShadowConfig>): void => {
@@ -30,30 +37,36 @@ export function TextShadowScreen(): JSX.Element {
       offsetY: 0,
       blurRadius: 5,
       color: "#00000040",
-      enabled: true
+      enabled: true,
     };
     updateConfig({
-      shadows: [...config.shadows, newShadow]
+      shadows: [...config.shadows, newShadow],
     });
   };
 
   const removeShadowLayer = (id: string): void => {
     updateConfig({
-      shadows: config.shadows.filter(shadow => shadow.id !== id)
+      shadows: config.shadows.filter((shadow) => shadow.id !== id),
     });
   };
 
-  const updateShadowLayer = (id: string, updates: Partial<TShadowLayer>): void => {
+  const updateShadowLayer = (
+    id: string,
+    updates: Partial<TShadowLayer>
+  ): void => {
     updateConfig({
-      shadows: config.shadows.map(shadow =>
+      shadows: config.shadows.map((shadow) =>
         shadow.id === id ? { ...shadow, ...updates } : shadow
-      )
+      ),
     });
   };
 
-  const applyPreset = (preset: typeof shadowPresets[0]): void => {
+  const applyPreset = (preset: (typeof shadowPresets)[0]): void => {
     updateConfig({
-      shadows: preset.shadows.map(shadow => ({ ...shadow, id: generateId() }))
+      shadows: preset.shadows.map((shadow) => ({
+        ...shadow,
+        id: generateId(),
+      })),
     });
   };
 
@@ -66,34 +79,47 @@ export function TextShadowScreen(): JSX.Element {
       textColor: "#1f2937",
       backgroundColor: "#f9fafb",
       shadows: [
-        { id: generateId(), offsetX: 2, offsetY: 2, blurRadius: 4, color: "#00000040", enabled: true }
-      ]
+        {
+          id: generateId(),
+          offsetX: 2,
+          offsetY: 2,
+          blurRadius: 4,
+          color: "#00000040",
+          enabled: true,
+        },
+      ],
     });
   };
 
   const generateCSS = (): string => {
-    const enabledShadows = config.shadows.filter(shadow => shadow.enabled);
+    const enabledShadows = config.shadows.filter((shadow) => shadow.enabled);
     if (enabledShadows.length === 0) {
       return `/* No shadows enabled */\ntext-shadow: none;`;
     }
 
     const shadowValues = enabledShadows
-      .map(shadow => `${shadow.offsetX}px ${shadow.offsetY}px ${shadow.blurRadius}px ${shadow.color}`)
-      .join(', ');
+      .map(
+        (shadow) =>
+          `${shadow.offsetX}px ${shadow.offsetY}px ${shadow.blurRadius}px ${shadow.color}`
+      )
+      .join(", ");
 
     return `/* Text Shadow Effect */\ntext-shadow: ${shadowValues};\ncolor: ${config.textColor};\nfont-size: ${config.fontSize}px;\nfont-weight: ${config.fontWeight};\nfont-family: ${config.fontFamily};`;
   };
 
   const copyTextShadowOnly = async (): Promise<void> => {
-    const enabledShadows = config.shadows.filter(shadow => shadow.enabled);
+    const enabledShadows = config.shadows.filter((shadow) => shadow.enabled);
     if (enabledShadows.length === 0) {
       await copyToClipboard("text-shadow: none;");
       return;
     }
 
     const shadowValues = enabledShadows
-      .map(shadow => `${shadow.offsetX}px ${shadow.offsetY}px ${shadow.blurRadius}px ${shadow.color}`)
-      .join(', ');
+      .map(
+        (shadow) =>
+          `${shadow.offsetX}px ${shadow.offsetY}px ${shadow.blurRadius}px ${shadow.color}`
+      )
+      .join(", ");
 
     await copyToClipboard(`text-shadow: ${shadowValues};`);
   };
@@ -109,12 +135,16 @@ export function TextShadowScreen(): JSX.Element {
           fontWeight: config.fontWeight,
           fontFamily: config.fontFamily,
           color: config.textColor,
-          textShadow: config.shadows
-            .filter(shadow => shadow.enabled)
-            .map(shadow => `${shadow.offsetX}px ${shadow.offsetY}px ${shadow.blurRadius}px ${shadow.color}`)
-            .join(', ') || 'none',
-          textAlign: 'center' as const,
-          lineHeight: 1.2
+          textShadow:
+            config.shadows
+              .filter((shadow) => shadow.enabled)
+              .map(
+                (shadow) =>
+                  `${shadow.offsetX}px ${shadow.offsetY}px ${shadow.blurRadius}px ${shadow.color}`
+              )
+              .join(", ") || "none",
+          textAlign: "center" as const,
+          lineHeight: 1.2,
         }}
       >
         {config.text}
@@ -134,19 +164,19 @@ export function TextShadowScreen(): JSX.Element {
       {/* Quick Actions */}
       <div className="flex gap-2 mb-6">
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           onClick={addShadowLayer}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full"
         >
           <Plus size={16} />
           Add Layer
         </Button>
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           onClick={copyTextShadowOnly}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full"
         >
           <Copy size={16} />
           Copy Shadow
@@ -158,7 +188,9 @@ export function TextShadowScreen(): JSX.Element {
         <h4 className="text-sm font-medium mb-3">Text Settings</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-2">Sample Text</label>
+            <label className="block text-sm font-medium mb-2">
+              Sample Text
+            </label>
             <Input
               value={config.text}
               onChange={(e) => updateConfig({ text: e.target.value })}
@@ -166,11 +198,15 @@ export function TextShadowScreen(): JSX.Element {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Font Size (px)</label>
+            <label className="block text-sm font-medium mb-2">
+              Font Size (px)
+            </label>
             <Input
               type="number"
               value={config.fontSize}
-              onChange={(e) => updateConfig({ fontSize: parseInt(e.target.value) || 48 })}
+              onChange={(e) =>
+                updateConfig({ fontSize: parseInt(e.target.value) || 48 })
+              }
               min={12}
               max={200}
             />
@@ -198,7 +234,7 @@ export function TextShadowScreen(): JSX.Element {
           {shadowPresets.map((preset) => (
             <Button
               key={preset.name}
-              variant="outline"
+              variant="secondary"
               size="sm"
               onClick={() => applyPreset(preset)}
               className="text-xs"
@@ -213,18 +249,27 @@ export function TextShadowScreen(): JSX.Element {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-sm font-medium">Shadow Layers</h4>
-          <span className="text-xs text-muted">{config.shadows.length} layers</span>
+          <span className="text-xs text-muted">
+            {config.shadows.length} layers
+          </span>
         </div>
 
         <div className="space-y-4">
           {config.shadows.map((shadow, index) => (
-            <div key={shadow.id} className="p-4 bg-surface-1 border border-border rounded-lg">
+            <div
+              key={shadow.id}
+              className="p-4 bg-surface-1 border border-border rounded-lg"
+            >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     checked={shadow.enabled}
-                    onChange={(e) => updateShadowLayer(shadow.id, { enabled: e.target.checked })}
+                    onChange={(e) =>
+                      updateShadowLayer(shadow.id, {
+                        enabled: e.target.checked,
+                      })
+                    }
                     className="rounded"
                   />
                   <span className="text-sm font-medium">Layer {index + 1}</span>
@@ -242,20 +287,32 @@ export function TextShadowScreen(): JSX.Element {
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div>
-                  <label className="block text-xs font-medium mb-1">X Offset</label>
+                  <label className="block text-xs font-medium mb-1">
+                    X Offset
+                  </label>
                   <Input
                     type="number"
                     value={shadow.offsetX}
-                    onChange={(e) => updateShadowLayer(shadow.id, { offsetX: parseInt(e.target.value) || 0 })}
+                    onChange={(e) =>
+                      updateShadowLayer(shadow.id, {
+                        offsetX: parseInt(e.target.value) || 0,
+                      })
+                    }
                     className="text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium mb-1">Y Offset</label>
+                  <label className="block text-xs font-medium mb-1">
+                    Y Offset
+                  </label>
                   <Input
                     type="number"
                     value={shadow.offsetY}
-                    onChange={(e) => updateShadowLayer(shadow.id, { offsetY: parseInt(e.target.value) || 0 })}
+                    onChange={(e) =>
+                      updateShadowLayer(shadow.id, {
+                        offsetY: parseInt(e.target.value) || 0,
+                      })
+                    }
                     className="text-sm"
                   />
                 </div>
@@ -264,23 +321,35 @@ export function TextShadowScreen(): JSX.Element {
                   <Input
                     type="number"
                     value={shadow.blurRadius}
-                    onChange={(e) => updateShadowLayer(shadow.id, { blurRadius: parseInt(e.target.value) || 0 })}
+                    onChange={(e) =>
+                      updateShadowLayer(shadow.id, {
+                        blurRadius: parseInt(e.target.value) || 0,
+                      })
+                    }
                     min={0}
                     className="text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium mb-1">Color</label>
+                  <label className="block text-xs font-medium mb-1">
+                    Color
+                  </label>
                   <div className="flex items-center gap-1">
                     <input
                       type="color"
-                      value={shadow.color.length === 7 ? shadow.color : '#000000'}
-                      onChange={(e) => updateShadowLayer(shadow.id, { color: e.target.value })}
+                      value={
+                        shadow.color.length === 7 ? shadow.color : "#000000"
+                      }
+                      onChange={(e) =>
+                        updateShadowLayer(shadow.id, { color: e.target.value })
+                      }
                       className="w-8 h-8 rounded border border-border cursor-pointer"
                     />
                     <Input
                       value={shadow.color}
-                      onChange={(e) => updateShadowLayer(shadow.id, { color: e.target.value })}
+                      onChange={(e) =>
+                        updateShadowLayer(shadow.id, { color: e.target.value })
+                      }
                       className="flex-1 text-xs font-mono"
                       placeholder="#000000"
                     />

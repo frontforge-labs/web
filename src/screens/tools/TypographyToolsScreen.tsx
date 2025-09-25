@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Type, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
-import { PageHeader, Button } from "@frontenzo/ui";
+import {
+  Type,
+  Lightbulb,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { PageHeader, Button } from "@frontforge/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
@@ -111,7 +117,9 @@ export function TypographyToolsScreen() {
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + typographyTips.length) % typographyTips.length);
+    setCurrentTipIndex(
+      (prev) => (prev - 1 + typographyTips.length) % typographyTips.length
+    );
   };
 
   return (
@@ -201,35 +209,55 @@ export function TypographyToolsScreen() {
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Typography is the voice of your design - it communicates tone, hierarchy, and brand personality while ensuring optimal readability. Our comprehensive typography tools help you create stunning text effects, discover perfect font pairings, and implement modern variable font features with precision and creativity.
+              Typography is the voice of your design - it communicates tone,
+              hierarchy, and brand personality while ensuring optimal
+              readability. Our comprehensive typography tools help you create
+              stunning text effects, discover perfect font pairings, and
+              implement modern variable font features with precision and
+              creativity.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Modern Font Technologies
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Variable fonts revolutionize web typography by providing infinite design variations within a single font file. Adjust weight, width, slant, and custom axes in real-time, creating responsive typography that adapts to different screen sizes and contexts while maintaining optimal performance.
+              Variable fonts revolutionize web typography by providing infinite
+              design variations within a single font file. Adjust weight, width,
+              slant, and custom axes in real-time, creating responsive
+              typography that adapts to different screen sizes and contexts
+              while maintaining optimal performance.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Typography Hierarchy & Rhythm
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Establish clear visual hierarchy through consistent use of font sizes, weights, and spacing. A well-defined typographic scale creates rhythm and guides readers through your content naturally. Use modular scales based on mathematical ratios for harmonious proportions across all text elements.
+              Establish clear visual hierarchy through consistent use of font
+              sizes, weights, and spacing. A well-defined typographic scale
+              creates rhythm and guides readers through your content naturally.
+              Use modular scales based on mathematical ratios for harmonious
+              proportions across all text elements.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Performance & Accessibility
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Optimize font loading with modern techniques like font-display: swap and preloading critical fonts. Ensure accessibility with sufficient color contrast, appropriate font sizes, and readable font choices. Consider users with dyslexia and other reading challenges when selecting typefaces.
+              Optimize font loading with modern techniques like font-display:
+              swap and preloading critical fonts. Ensure accessibility with
+              sufficient color contrast, appropriate font sizes, and readable
+              font choices. Consider users with dyslexia and other reading
+              challenges when selecting typefaces.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Creative Text Effects
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Enhance your designs with subtle text shadows, gradient fills, and custom effects. These tools help you create eye-catching headlines and decorative text while maintaining readability and performance. Learn when to use effects sparingly for maximum impact.
+              Enhance your designs with subtle text shadows, gradient fills, and
+              custom effects. These tools help you create eye-catching headlines
+              and decorative text while maintaining readability and performance.
+              Learn when to use effects sparingly for maximum impact.
             </p>
           </div>
         </div>
@@ -249,7 +277,9 @@ export function TypographyToolsScreen() {
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{typographyTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">
+                {typographyTips[currentTipIndex].title}
+              </h4>
               <p className="text-sm text-muted leading-relaxed">
                 {typographyTips[currentTipIndex].content}
               </p>

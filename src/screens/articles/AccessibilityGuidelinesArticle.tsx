@@ -12,7 +12,7 @@ export function AccessibilityGuidelinesArticle() {
       subtitle="Essential accessibility practices for inclusive color design and WCAG compliance"
       readTime="6 min"
       publishDate="September 2025"
-      author="FrontEnzo Team"
+      author="FrontForge Team"
     >
       <div className="text-xl text-muted leading-relaxed mb-8 p-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg">
         Creating accessible color designs ensures your content reaches the
@@ -29,10 +29,18 @@ export function AccessibilityGuidelinesArticle() {
             📊 WCAG AA Standards
           </h3>
           <ul className="space-y-2 text-sm text-green-700">
-            <li>• <strong>Normal text</strong>: 4.5:1 contrast ratio</li>
-            <li>• <strong>Large text</strong>: 3:1 contrast ratio</li>
-            <li>• <strong>UI components</strong>: 3:1 contrast ratio</li>
-            <li>• <strong>Focus indicators</strong>: 3:1 contrast ratio</li>
+            <li>
+              • <strong>Normal text</strong>: 4.5:1 contrast ratio
+            </li>
+            <li>
+              • <strong>Large text</strong>: 3:1 contrast ratio
+            </li>
+            <li>
+              • <strong>UI components</strong>: 3:1 contrast ratio
+            </li>
+            <li>
+              • <strong>Focus indicators</strong>: 3:1 contrast ratio
+            </li>
           </ul>
         </div>
 
@@ -41,10 +49,18 @@ export function AccessibilityGuidelinesArticle() {
             🏆 WCAG AAA Standards
           </h3>
           <ul className="space-y-2 text-sm text-blue-700">
-            <li>• <strong>Normal text</strong>: 7:1 contrast ratio</li>
-            <li>• <strong>Large text</strong>: 4.5:1 contrast ratio</li>
-            <li>• <strong>Enhanced readability</strong></li>
-            <li>• <strong>Professional compliance</strong></li>
+            <li>
+              • <strong>Normal text</strong>: 7:1 contrast ratio
+            </li>
+            <li>
+              • <strong>Large text</strong>: 4.5:1 contrast ratio
+            </li>
+            <li>
+              • <strong>Enhanced readability</strong>
+            </li>
+            <li>
+              • <strong>Professional compliance</strong>
+            </li>
           </ul>
         </div>
       </div>
@@ -76,9 +92,9 @@ export function AccessibilityGuidelinesArticle() {
       <h2>🌈 Color Blindness Considerations</h2>
 
       <InfoBox type="info" title="The Numbers">
-        Approximately <strong>8% of men</strong> and <strong>0.5% of women</strong> experience some form
-        of color vision deficiency. That's about 1 in 12 men and 1 in 200 women
-        worldwide.
+        Approximately <strong>8% of men</strong> and{" "}
+        <strong>0.5% of women</strong> experience some form of color vision
+        deficiency. That's about 1 in 12 men and 1 in 200 women worldwide.
       </InfoBox>
 
       <div className="my-8 space-y-6">
@@ -245,20 +261,37 @@ export function AccessibilityGuidelinesArticle() {
         <div className="p-6 bg-gray-900 text-white rounded-lg">
           <h3 className="font-semibold mb-4">🌙 Dark Mode Best Practices</h3>
           <ul className="text-sm space-y-2 text-gray-300">
-            <li>• Use <strong>near-black</strong> (#121212) instead of pure black</li>
-            <li>• <strong>Reduce contrast</strong> slightly to prevent eye strain</li>
-            <li>• <strong>Increase surface elevation</strong> with lighter grays</li>
-            <li>• <strong>Test contrast ratios</strong> in dark themes too</li>
+            <li>
+              • Use <strong>near-black</strong> (#121212) instead of pure black
+            </li>
+            <li>
+              • <strong>Reduce contrast</strong> slightly to prevent eye strain
+            </li>
+            <li>
+              • <strong>Increase surface elevation</strong> with lighter grays
+            </li>
+            <li>
+              • <strong>Test contrast ratios</strong> in dark themes too
+            </li>
           </ul>
         </div>
 
         <div className="p-6 bg-gray-50 border border-gray-200 rounded-lg">
           <h3 className="font-semibold mb-4">☀️ Light Mode Considerations</h3>
           <ul className="text-sm space-y-2 text-gray-700">
-            <li>• Use <strong>sufficient contrast</strong> for bright environments</li>
-            <li>• <strong>Avoid pure white</strong> backgrounds (#FAFAFA works better)</li>
-            <li>• <strong>Consider outdoor usage</strong> and screen reflections</li>
-            <li>• <strong>Provide theme toggle</strong> for user preference</li>
+            <li>
+              • Use <strong>sufficient contrast</strong> for bright environments
+            </li>
+            <li>
+              • <strong>Avoid pure white</strong> backgrounds (#FAFAFA works
+              better)
+            </li>
+            <li>
+              • <strong>Consider outdoor usage</strong> and screen reflections
+            </li>
+            <li>
+              • <strong>Provide theme toggle</strong> for user preference
+            </li>
           </ul>
         </div>
       </div>
@@ -299,12 +332,20 @@ export function AccessibilityGuidelinesArticle() {
             🛠️ Recommended Tools
           </h4>
           <ul className="text-sm space-y-1 text-blue-700">
-            <li>• <strong>WebAIM Color Contrast Checker</strong> - Quick online testing</li>
             <li>
-              • <strong>axe DevTools</strong> - Browser extension for comprehensive auditing
+              • <strong>WebAIM Color Contrast Checker</strong> - Quick online
+              testing
             </li>
-            <li>• <strong>Stark</strong> - Design tool plugins for Figma/Sketch</li>
-            <li>• <strong>Color Oracle</strong> - Color blindness simulator</li>
+            <li>
+              • <strong>axe DevTools</strong> - Browser extension for
+              comprehensive auditing
+            </li>
+            <li>
+              • <strong>Stark</strong> - Design tool plugins for Figma/Sketch
+            </li>
+            <li>
+              • <strong>Color Oracle</strong> - Color blindness simulator
+            </li>
           </ul>
         </div>
 

@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { LayoutGrid, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
-import { PageHeader, Button } from "@frontenzo/ui";
+import {
+  LayoutGrid,
+  Lightbulb,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { PageHeader, Button } from "@frontforge/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
@@ -111,7 +117,9 @@ export function LayoutToolsScreen() {
   };
 
   const prevTip = () => {
-    setCurrentTipIndex((prev) => (prev - 1 + layoutTips.length) % layoutTips.length);
+    setCurrentTipIndex(
+      (prev) => (prev - 1 + layoutTips.length) % layoutTips.length
+    );
   };
 
   return (
@@ -201,35 +209,55 @@ export function LayoutToolsScreen() {
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              CSS layout has evolved dramatically with Flexbox and Grid providing powerful tools for creating responsive, maintainable designs. Our layout toolkit enables you to master these modern layout systems through interactive exploration and visual feedback, building confidence with positioning, alignment, and responsive design patterns.
+              CSS layout has evolved dramatically with Flexbox and Grid
+              providing powerful tools for creating responsive, maintainable
+              designs. Our layout toolkit enables you to master these modern
+              layout systems through interactive exploration and visual
+              feedback, building confidence with positioning, alignment, and
+              responsive design patterns.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Flexbox for Component Layout
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Flexbox excels at one-dimensional layouts and component-level alignment. Master flex-direction, justify-content, align-items, and the flex shorthand to create flexible components that adapt to content changes. Flexbox is particularly powerful for navigation bars, card layouts, and form controls.
+              Flexbox excels at one-dimensional layouts and component-level
+              alignment. Master flex-direction, justify-content, align-items,
+              and the flex shorthand to create flexible components that adapt to
+              content changes. Flexbox is particularly powerful for navigation
+              bars, card layouts, and form controls.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               CSS Grid for Page Structure
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              CSS Grid enables sophisticated two-dimensional layouts with precise control over rows and columns. Grid template areas provide semantic layout definitions, while grid line names create maintainable code. Grid excels at page-level structure, complex overlapping layouts, and responsive design patterns.
+              CSS Grid enables sophisticated two-dimensional layouts with
+              precise control over rows and columns. Grid template areas provide
+              semantic layout definitions, while grid line names create
+              maintainable code. Grid excels at page-level structure, complex
+              overlapping layouts, and responsive design patterns.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Strategic Positioning and Z-Index Management
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              CSS positioning creates layered interfaces with careful attention to stacking contexts. Understand how relative, absolute, and fixed positioning interact, and manage z-index systematically to avoid common pitfalls. Proper positioning enables tooltips, modals, and complex interactive elements.
+              CSS positioning creates layered interfaces with careful attention
+              to stacking contexts. Understand how relative, absolute, and fixed
+              positioning interact, and manage z-index systematically to avoid
+              common pitfalls. Proper positioning enables tooltips, modals, and
+              complex interactive elements.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Responsive Design with Container Queries
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Container queries revolutionize responsive design by enabling component-based breakpoints. Design components that adapt to their container size rather than viewport dimensions, creating truly modular responsive designs that work in any context.
+              Container queries revolutionize responsive design by enabling
+              component-based breakpoints. Design components that adapt to their
+              container size rather than viewport dimensions, creating truly
+              modular responsive designs that work in any context.
             </p>
           </div>
         </div>
@@ -249,7 +277,9 @@ export function LayoutToolsScreen() {
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{layoutTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">
+                {layoutTips[currentTipIndex].title}
+              </h4>
               <p className="text-sm text-muted leading-relaxed">
                 {layoutTips[currentTipIndex].content}
               </p>

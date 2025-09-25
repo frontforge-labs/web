@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FileJson, Lightbulb, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
-import { PageHeader, Button } from "@frontenzo/ui";
+import {
+  FileJson,
+  Lightbulb,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { PageHeader, Button } from "@frontforge/ui";
 import { getToolIcon } from "../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../components/Breadcrumb";
 
@@ -201,35 +207,55 @@ export function DevToolsScreen() {
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Developer productivity relies on efficient tooling for common tasks like data formatting, code comparison, and pattern matching. Our developer toolkit provides essential utilities that streamline workflows, reduce errors, and enable faster debugging and development cycles.
+              Developer productivity relies on efficient tooling for common
+              tasks like data formatting, code comparison, and pattern matching.
+              Our developer toolkit provides essential utilities that streamline
+              workflows, reduce errors, and enable faster debugging and
+              development cycles.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               JSON Processing and Validation
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              JSON formatting and validation are crucial for API development and configuration management. Proper JSON tools help identify syntax errors, understand complex data structures, and ensure data integrity across development environments. Well-formatted JSON improves code readability and debugging efficiency.
+              JSON formatting and validation are crucial for API development and
+              configuration management. Proper JSON tools help identify syntax
+              errors, understand complex data structures, and ensure data
+              integrity across development environments. Well-formatted JSON
+              improves code readability and debugging efficiency.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Regular Expression Testing and Debugging
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Regular expressions are powerful but complex tools for pattern matching and text processing. Interactive regex testing enables rapid iteration and validation, helping developers understand matching behavior, optimize performance, and avoid common pitfalls like catastrophic backtracking.
+              Regular expressions are powerful but complex tools for pattern
+              matching and text processing. Interactive regex testing enables
+              rapid iteration and validation, helping developers understand
+              matching behavior, optimize performance, and avoid common pitfalls
+              like catastrophic backtracking.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Code Optimization and Comparison
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Code minification reduces bundle sizes and improves loading performance, while diff tools enable efficient code review and change tracking. Understanding the impact of optimization techniques and maintaining readable comparison views are essential for modern development workflows.
+              Code minification reduces bundle sizes and improves loading
+              performance, while diff tools enable efficient code review and
+              change tracking. Understanding the impact of optimization
+              techniques and maintaining readable comparison views are essential
+              for modern development workflows.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
               Development Workflow Integration
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Effective developer tools integrate seamlessly into existing workflows, supporting automation, continuous integration, and team collaboration. The best utilities provide consistent interfaces, reliable output, and configurable behavior that adapts to different project requirements and coding standards.
+              Effective developer tools integrate seamlessly into existing
+              workflows, supporting automation, continuous integration, and team
+              collaboration. The best utilities provide consistent interfaces,
+              reliable output, and configurable behavior that adapts to
+              different project requirements and coding standards.
             </p>
           </div>
         </div>
@@ -249,7 +275,9 @@ export function DevToolsScreen() {
             </div>
 
             <div className="mb-4">
-              <h4 className="font-medium text-sm mb-2">{devTips[currentTipIndex].title}</h4>
+              <h4 className="font-medium text-sm mb-2">
+                {devTips[currentTipIndex].title}
+              </h4>
               <p className="text-sm text-muted leading-relaxed">
                 {devTips[currentTipIndex].content}
               </p>

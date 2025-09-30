@@ -7,7 +7,7 @@ import {
   ControlGroup,
   FullWidthGroup,
 } from "@frontforge/ui";
-import { Palette, Copy, Shuffle, Eye } from "lucide-react";
+import { Palette, Copy, Shuffle } from "lucide-react";
 import {
   hexToRgb,
   rgbToHex,
@@ -221,6 +221,7 @@ export function ColorStudioScreen() {
       <ControlGroup label="Color Input">
         <ColorInput
           value={config.hex}
+          label=""
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             updateFromHex(e.target.value)
           }
@@ -262,14 +263,7 @@ export function ColorStudioScreen() {
       </ControlGroup>
 
       <FullWidthGroup>
-        <ControlGroup
-          label={
-            <span className="flex items-center gap-2">
-              <Eye size={16} />
-              Quick Presets
-            </span>
-          }
-        >
+        <ControlGroup label="Quick Presets">
           <div className="grid grid-cols-2 gap-2">
             {colorPresets.map((preset) => (
               <Button

@@ -1,4 +1,5 @@
 import { useState, type JSX } from "react";
+import "./index.css";
 import {
   Button,
   Input,
@@ -161,7 +162,21 @@ export function GradientTextScreen(): JSX.Element {
 
   const previewElement = (
     <div className="flex items-center justify-center min-h-[200px]">
-      <h1 className="gradient-text-element">{config.text}</h1>
+      <h1
+        className="gradient-text-element"
+        style={{
+          fontFamily: config.fontFamily,
+          fontSize: config.fontSize,
+          fontWeight: config.fontWeight,
+          background: generateGradient(),
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          color: "transparent",
+        }}
+      >
+        {config.text}
+      </h1>
     </div>
   );
 
@@ -216,29 +231,31 @@ export function GradientTextScreen(): JSX.Element {
       </div>
 
       {/* Gradient Presets */}
-      <FullWidthGroup title="Gradient Presets">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
-          {gradientPresets.map((preset) => (
-            <Button
-              key={preset.name}
-              variant="secondary"
-              size="sm"
-              onClick={() => applyPreset(preset)}
-              className="text-xs h-12 relative overflow-hidden"
-              style={{
-                background: `linear-gradient(45deg, ${preset.stops.map((s) => `${s.color} ${s.position}%`).join(", ")})`,
-              }}
-            >
-              <span className="relative z-10 text-white font-medium drop-shadow">
-                {preset.name}
-              </span>
-            </Button>
-          ))}
-        </div>
+      <FullWidthGroup>
+        <ControlGroup label="Gradient Presets">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
+            {gradientPresets.map((preset) => (
+              <Button
+                key={preset.name}
+                variant="secondary"
+                size="sm"
+                onClick={() => applyPreset(preset)}
+                className="text-xs h-12 relative overflow-hidden"
+                style={{
+                  background: `linear-gradient(45deg, ${preset.stops.map((s) => `${s.color} ${s.position}%`).join(", ")})`,
+                }}
+              >
+                <span className="relative z-10 text-white font-medium drop-shadow">
+                  {preset.name}
+                </span>
+              </Button>
+            ))}
+          </div>
+        </ControlGroup>
       </FullWidthGroup>
 
       {/* Text Settings */}
-      <ControlGroup title="Text Settings">
+      <ControlGroup label="Text Settings">
         <div>
           <label className="block text-sm font-medium mb-2">Text Content</label>
           <Input
@@ -303,7 +320,7 @@ export function GradientTextScreen(): JSX.Element {
       </ControlGroup>
 
       {/* Gradient Settings */}
-      <ControlGroup title="Gradient Settings">
+      <ControlGroup label="Gradient Settings">
         <div>
           <label className="block text-sm font-medium mb-2">
             Gradient Type
@@ -353,129 +370,133 @@ export function GradientTextScreen(): JSX.Element {
       </ControlGroup>
 
       {/* Gradient Stops */}
-      <FullWidthGroup title="Gradient Colors">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs text-muted-foreground">
-            {config.stops.length} color stops
-          </span>
-        </div>
-
-        {/* Gradient Preview Bar */}
-        <div className="mb-4">
-          <div
-            className="w-full h-8 rounded border border-border relative"
-            style={{
-              background: generateGradient(),
-            }}
-          >
-            {config.stops.map((stop) => (
-              <div
-                key={stop.id}
-                className="absolute w-3 h-3 bg-white border-2 border-gray-400 rounded-full transform -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-                style={{
-                  left: `${stop.position}%`,
-                  top: "50%",
-                }}
-                onClick={() => {
-                  // Focus the corresponding input
-                  const input = document.querySelector(
-                    `input[data-stop-id="${stop.id}"]`
-                  ) as HTMLInputElement;
-                  if (input) input.focus();
-                }}
-              />
-            ))}
+      <FullWidthGroup>
+        <ControlGroup label="Gradient Colors">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs text-muted-foreground">
+              {config.stops.length} color stops
+            </span>
           </div>
-        </div>
 
-        <div className="space-y-3">
-          {config.stops.map((stop, index) => (
-            <div key={stop.id} className="p-3 bg-muted rounded-lg">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">
-                  Color Stop {index + 1}
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => removeGradientStop(stop.id)}
-                  className="text-destructive hover:text-destructive"
-                  disabled={config.stops.length === 1}
-                >
-                  <Trash2 size={14} />
-                </Button>
-              </div>
+          {/* Gradient Preview Bar */}
+          <div className="mb-4">
+            <div
+              className="w-full h-8 rounded border border-border relative"
+              style={{
+                background: generateGradient(),
+              }}
+            >
+              {config.stops.map((stop) => (
+                <div
+                  key={stop.id}
+                  className="absolute w-3 h-3 bg-white border-2 border-gray-400 rounded-full transform -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                  style={{
+                    left: `${stop.position}%`,
+                    top: "50%",
+                  }}
+                  onClick={() => {
+                    // Focus the corresponding input
+                    const input = document.querySelector(
+                      `input[data-stop-id="${stop.id}"]`
+                    ) as HTMLInputElement;
+                    if (input) input.focus();
+                  }}
+                />
+              ))}
+            </div>
+          </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium mb-1">
-                    Color
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="color"
-                      value={stop.color}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        updateGradientStop(stop.id, {
-                          color: e.target.value,
-                        })
-                      }
-                      className="w-8 h-8 rounded border border-border cursor-pointer"
-                    />
+          <div className="space-y-3">
+            {config.stops.map((stop, index) => (
+              <div key={stop.id} className="p-3 bg-muted rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">
+                    Color Stop {index + 1}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeGradientStop(stop.id)}
+                    className="text-destructive hover:text-destructive"
+                    disabled={config.stops.length === 1}
+                  >
+                    <Trash2 size={14} />
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium mb-1">
+                      Color
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="color"
+                        value={stop.color}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          updateGradientStop(stop.id, {
+                            color: e.target.value,
+                          })
+                        }
+                        className="w-8 h-8 rounded border border-border cursor-pointer"
+                      />
+                      <Input
+                        value={stop.color}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          updateGradientStop(stop.id, {
+                            color: e.target.value,
+                          })
+                        }
+                        className="flex-1 text-xs font-mono"
+                        data-stop-id={stop.id}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium mb-1">
+                      Position (%)
+                    </label>
                     <Input
-                      value={stop.color}
+                      type="number"
+                      value={stop.position}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         updateGradientStop(stop.id, {
-                          color: e.target.value,
+                          position: Math.max(
+                            0,
+                            Math.min(100, parseInt(e.target.value) || 0)
+                          ),
                         })
                       }
-                      className="flex-1 text-xs font-mono"
-                      data-stop-id={stop.id}
+                      min={0}
+                      max={100}
+                      className="text-sm"
                     />
                   </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1">
-                    Position (%)
-                  </label>
-                  <Input
-                    type="number"
-                    value={stop.position}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateGradientStop(stop.id, {
-                        position: Math.max(
-                          0,
-                          Math.min(100, parseInt(e.target.value) || 0)
-                        ),
-                      })
-                    }
-                    min={0}
-                    max={100}
-                    className="text-sm"
-                  />
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </ControlGroup>
       </FullWidthGroup>
 
       {/* Browser Support Info */}
-      <FullWidthGroup title="Browser Support">
-        <div className="p-3 bg-muted rounded-lg text-sm">
-          <div className="grid grid-cols-1 gap-2">
-            <div>
-              <strong>Good Support:</strong> Chrome, Firefox, Safari, Edge
+      <FullWidthGroup>
+        <ControlGroup label="Browser Support">
+          <div className="p-3 bg-muted rounded-lg text-sm">
+            <div className="grid grid-cols-1 gap-2">
+              <div>
+                <strong>Good Support:</strong> Chrome, Firefox, Safari, Edge
+              </div>
+              <div>
+                <strong>Fallback:</strong> Solid color for older browsers
+              </div>
             </div>
-            <div>
-              <strong>Fallback:</strong> Solid color for older browsers
-            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Always include a fallback color for browsers that don't support
+              background-clip: text
+            </p>
           </div>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Always include a fallback color for browsers that don't support
-            background-clip: text
-          </p>
-        </div>
+        </ControlGroup>
       </FullWidthGroup>
     </ToolLayout>
   );

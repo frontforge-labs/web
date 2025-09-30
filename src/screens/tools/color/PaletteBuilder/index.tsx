@@ -1,10 +1,19 @@
 import { useState } from "react";
-import { Button, Input, Select, ColorInput } from "@frontforge/ui";
+import {
+  Button,
+  Input,
+  Select,
+  ColorInput,
+  ToolLayout,
+  ControlGroup,
+  FullWidthGroup,
+} from "@frontforge/ui";
 import { Palette, Plus, Trash2, RefreshCw, Copy } from "lucide-react";
-import { ToolContainer } from "../../../../components/ToolContainer";
 import { copyToClipboard } from "../../../../lib/css/format";
 import type { TPaletteColor, TPaletteConfig } from "./types";
 import { generateHarmonyColors, harmonyTypes, palettePresets } from "./utils";
+import { Breadcrumb } from "../../../../components/Breadcrumb";
+import { ProTip } from "../../../../components/ProTip";
 
 export function PaletteBuilderScreen() {
   const [config, setConfig] = useState<TPaletteConfig>({
@@ -134,64 +143,64 @@ export function PaletteBuilderScreen() {
   );
 
   return (
-    <ToolContainer
+    <ToolLayout
       title="Palette Builder Tool"
       description="Build cohesive color palettes for your projects using color theory"
       generatedCSS={generateCSS()}
       onReset={resetTool}
       previewElement={previewElement}
       icon={<Palette size={24} />}
+      breadcrumbs={<Breadcrumb />}
+      controlsGridCols={2}
     >
-      {/* Quick Presets */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Preset Palettes</h4>
-        <div className="grid grid-cols-2 gap-2">
-          {palettePresets.map((preset) => (
-            <Button
-              key={preset.name}
-              variant="secondary"
-              size="sm"
-              onClick={() => applyPreset(preset)}
-              className="w-full text-xs h-8 justify-start"
-            >
-              <div className="flex items-center gap-2">
-                <div className="flex">
-                  {preset.colors.slice(0, 3).map((color) => (
-                    <div
-                      key={color.id}
-                      className="w-3 h-3 rounded-full border border-white"
-                      style={{ backgroundColor: color.hex }}
-                    />
-                  ))}
+      <FullWidthGroup>
+        <ControlGroup label="Preset Palettes">
+          <div className="grid grid-cols-2 gap-2">
+            {palettePresets.map((preset) => (
+              <Button
+                key={preset.name}
+                variant="secondary"
+                size="sm"
+                onClick={() => applyPreset(preset)}
+                className="w-full text-xs h-8 justify-start"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="flex">
+                    {preset.colors.slice(0, 3).map((color) => (
+                      <div
+                        key={color.id}
+                        className="w-3 h-3 rounded-full border border-white"
+                        style={{ backgroundColor: color.hex }}
+                      />
+                    ))}
+                  </div>
+                  <span>{preset.name}</span>
                 </div>
-                <span>{preset.name}</span>
-              </div>
-            </Button>
-          ))}
-        </div>
-      </div>
+              </Button>
+            ))}
+          </div>
+        </ControlGroup>
+      </FullWidthGroup>
 
-      {/* Palette Name */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium mb-2">Palette Name</label>
-        <Input
-          type="text"
-          value={config.name}
-          onChange={(e) =>
-            setConfig((prev) => ({ ...prev, name: e.target.value }))
-          }
-          placeholder="My Palette"
-        />
-      </div>
+      <FullWidthGroup>
+        <ControlGroup label="Palette Name">
+          <Input
+            type="text"
+            value={config.name}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setConfig((prev) => ({ ...prev, name: e.target.value }))
+            }
+            placeholder="My Palette"
+          />
+        </ControlGroup>
+      </FullWidthGroup>
 
-      {/* Color Harmony Generator */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Generate Harmony</h4>
-        <div className="space-y-3">
+      <FullWidthGroup>
+        <ControlGroup label="Generate Harmony">
           <ColorInput
             label="Base Color"
             value={config.baseColor}
-            onChange={({ target }) => {
+            onChange={({ target }: { target: HTMLInputElement }) => {
               setConfig((prev) => ({ ...prev, baseColor: target.value }));
             }}
           />
@@ -201,7 +210,7 @@ export function PaletteBuilderScreen() {
             </label>
             <Select
               value={config.harmonyType}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 setConfig((prev) => ({
                   ...prev,
                   harmonyType: e.target.value as typeof config.harmonyType,
@@ -224,63 +233,69 @@ export function PaletteBuilderScreen() {
             <RefreshCw size={12} className="mr-1" />
             Generate Harmony
           </Button>
-        </div>
-      </div>
-
-      {/* Manual Colors */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="text-sm font-medium">Colors</h4>
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={addColor}
-            className="h-8"
-          >
-            <Plus size={12} className="mr-1" />
-            Add
-          </Button>
-        </div>
-
-        <div className="space-y-3">
-          {config.colors.map((color) => (
-            <div key={color.id} className="flex items-center gap-2">
-              <input
-                type="color"
-                value={color.hex}
-                onChange={(e) => updateColor(color.id, { hex: e.target.value })}
-                className="w-10 h-8 rounded border border-[var(--fe-border)] cursor-pointer"
-              />
-              <Input
-                type="text"
-                value={color.hex}
-                onChange={(e) => updateColor(color.id, { hex: e.target.value })}
-                className="w-20 text-xs h-8"
-                placeholder="#000000"
-              />
-              <Input
-                type="text"
-                value={color.name}
-                onChange={(e) =>
-                  updateColor(color.id, { name: e.target.value })
-                }
-                className="flex-1 text-xs h-8"
-                placeholder="Color name"
-              />
-              {config.colors.length > 1 && (
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => removeColor(color.id)}
-                  className="p-1 h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
-                >
-                  <Trash2 size={12} />
-                </Button>
-              )}
+        </ControlGroup>
+      </FullWidthGroup>
+      <FullWidthGroup>
+        <ControlGroup
+          label={
+            <div className="flex items-center justify-between w-full">
+              <span>Colors</span>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={addColor}
+                className="h-8"
+              >
+                <Plus size={12} className="mr-1" />
+                Add
+              </Button>
             </div>
-          ))}
-        </div>
-      </div>
+          }
+        >
+          <div className="space-y-3">
+            {config.colors.map((color) => (
+              <div key={color.id} className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={color.hex}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    updateColor(color.id, { hex: e.target.value })
+                  }
+                  className="w-10 h-8 rounded border border-[var(--fe-border)] cursor-pointer"
+                />
+                <Input
+                  type="text"
+                  value={color.hex}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    updateColor(color.id, { hex: e.target.value })
+                  }
+                  className="w-20 text-xs h-8"
+                  placeholder="#000000"
+                />
+                <Input
+                  type="text"
+                  value={color.name}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    updateColor(color.id, { name: e.target.value })
+                  }
+                  className="flex-1 text-xs h-8"
+                  placeholder="Color name"
+                />
+                {config.colors.length > 1 && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => removeColor(color.id)}
+                    className="p-1 h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 size={12} />
+                  </Button>
+                )}
+              </div>
+            ))}
+          </div>
+        </ControlGroup>
+      </FullWidthGroup>
 
       {/* Export Options */}
       <div className="mb-6">
@@ -316,20 +331,24 @@ export function PaletteBuilderScreen() {
         </div>
       </div>
 
-      {/* Quick Preview */}
-      <div className="mb-4">
-        <h4 className="text-sm font-medium mb-2">Quick Preview</h4>
-        <div className="w-full h-16 rounded border border-[var(--fe-border)] overflow-hidden flex">
-          {config.colors.map((color) => (
-            <div
-              key={color.id}
-              className="flex-1"
-              style={{ backgroundColor: color.hex }}
-              title={`${color.name}: ${color.hex}`}
-            />
-          ))}
-        </div>
-      </div>
-    </ToolContainer>
+      <FullWidthGroup>
+        <ControlGroup label="Quick Preview">
+          <div className="w-full h-16 rounded border border-[var(--fe-border)] overflow-hidden flex">
+            {config.colors.map((color) => (
+              <div
+                key={color.id}
+                className="flex-1"
+                style={{ backgroundColor: color.hex }}
+                title={`${color.name}: ${color.hex}`}
+              />
+            ))}
+          </div>
+        </ControlGroup>
+      </FullWidthGroup>
+
+      <FullWidthGroup>
+        <ProTip content="Use color harmony principles to create balanced palettes. Complementary colors create high contrast, while analogous colors provide a more subtle, cohesive look. Export your palette as CSS variables for easy integration into your projects." />
+      </FullWidthGroup>
+    </ToolLayout>
   );
 }

@@ -184,7 +184,9 @@ export function FontPairingScreen(): JSX.Element {
             </label>
             <Select
               value={config.headingFont}
-              onChange={(e) => updateConfig({ headingFont: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                updateConfig({ headingFont: e.target.value })
+              }
             >
               {popularFonts.map((font) => (
                 <option key={font} value={font} style={{ fontFamily: font }}>
@@ -197,7 +199,9 @@ export function FontPairingScreen(): JSX.Element {
             <label className="block text-sm font-medium mb-2">Body Font</label>
             <Select
               value={config.bodyFont}
-              onChange={(e) => updateConfig({ bodyFont: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                updateConfig({ bodyFont: e.target.value })
+              }
             >
               {popularFonts.map((font) => (
                 <option key={font} value={font} style={{ fontFamily: font }}>
@@ -220,7 +224,7 @@ export function FontPairingScreen(): JSX.Element {
             <Input
               type="number"
               value={config.headingSize}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 updateConfig({
                   headingSize: parseInt(e.target.value) || 32,
                 })
@@ -236,7 +240,7 @@ export function FontPairingScreen(): JSX.Element {
             <Input
               type="number"
               value={config.bodySize}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 updateConfig({
                   bodySize: parseInt(e.target.value) || 16,
                 })
@@ -251,7 +255,7 @@ export function FontPairingScreen(): JSX.Element {
             </label>
             <Select
               value={config.headingWeight}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 updateConfig({
                   headingWeight: e.target.value,
                 })
@@ -270,7 +274,9 @@ export function FontPairingScreen(): JSX.Element {
             </label>
             <Select
               value={config.bodyWeight}
-              onChange={(e) => updateConfig({ bodyWeight: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                updateConfig({ bodyWeight: e.target.value })
+              }
             >
               {fontWeights.map((weight) => (
                 <option key={weight.value} value={weight.value}>
@@ -286,7 +292,7 @@ export function FontPairingScreen(): JSX.Element {
             <Input
               type="number"
               value={config.lineHeight}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 updateConfig({
                   lineHeight: parseFloat(e.target.value) || 1.5,
                 })
@@ -303,7 +309,7 @@ export function FontPairingScreen(): JSX.Element {
             <Input
               type="number"
               value={config.letterSpacing}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 updateConfig({
                   letterSpacing: parseFloat(e.target.value) || 0,
                 })
@@ -326,7 +332,9 @@ export function FontPairingScreen(): JSX.Element {
             </label>
             <Input
               value={config.headingText}
-              onChange={(e) => updateConfig({ headingText: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                updateConfig({ headingText: e.target.value })
+              }
               placeholder="Enter heading text..."
             />
           </div>
@@ -334,8 +342,10 @@ export function FontPairingScreen(): JSX.Element {
             <label className="block text-sm font-medium mb-2">Body Text</label>
             <textarea
               value={config.bodyText}
-              onChange={(e) => updateConfig({ bodyText: e.target.value })}
-              className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                updateConfig({ bodyText: e.target.value })
+              }
+              className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20 bg-[var(--fe-bg)] text-[var(--fe-text)]"
               rows={3}
               placeholder="Enter body text..."
             />

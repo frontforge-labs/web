@@ -8,8 +8,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { PageHeader, Button } from "@frontforge/ui";
-import { getToolIcon } from "../../lib/toolIcons.tsx";
-import { Breadcrumb } from "../../components/Breadcrumb";
+import { getToolIcon } from "../../../lib/toolIcons.tsx";
+import { Breadcrumb } from "../../../components/Breadcrumb";
 
 const typographyTools = [
   {

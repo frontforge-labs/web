@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { WorkspaceState } from "../lib/types";
+import type { TWorkspaceState } from "../lib/types";
 
-export const useWorkspaceStore = create<WorkspaceState>()(
+export const useWorkspaceStore = create<TWorkspaceState>()(
   persist(
     (set) => ({
       sidebarCollapsed: false,

@@ -1,8 +1,16 @@
 import { useState, type JSX } from "react";
-import { Button, Input, ColorInput } from "@frontforge/ui";
-import { Type, Plus, Trash2, Copy, Eye } from "lucide-react";
-import { ToolContainer } from "../../../../components/ToolContainer";
+import {
+  Button,
+  Input,
+  ColorInput,
+  ToolLayout,
+  ControlGroup,
+  FullWidthGroup,
+} from "@frontforge/ui";
+import { Type, Plus, Trash2, Copy, RotateCcw } from "lucide-react";
 import { copyToClipboard } from "../../../../lib/css/format";
+import { Breadcrumb } from "../../../../components/Breadcrumb";
+import { ProTip } from "../../../../components/ProTip";
 import type { TTextShadowConfig, TShadowLayer } from "./types";
 import { shadowPresets, generateId } from "./utils";
 
@@ -107,6 +115,8 @@ export function TextShadowScreen(): JSX.Element {
     return `/* Text Shadow Effect */\ntext-shadow: ${shadowValues};\ncolor: ${config.textColor};\nfont-size: ${config.fontSize}px;\nfont-weight: ${config.fontWeight};\nfont-family: ${config.fontFamily};`;
   };
 
+  const generatedCSS = generateCSS();
+
   const copyTextShadowOnly = async (): Promise<void> => {
     const enabledShadows = config.shadows.filter((shadow) => shadow.enabled);
     if (enabledShadows.length === 0) {
@@ -126,15 +136,16 @@ export function TextShadowScreen(): JSX.Element {
 
   const previewElement = (
     <div
-      className="w-full h-40 rounded-lg border border-border shadow-sm flex items-center justify-center"
+      className="flex items-center justify-center min-h-[200px]"
       style={{ backgroundColor: config.backgroundColor }}
     >
       <div
+        className="text-center break-words p-4"
         style={{
+          color: config.textColor,
           fontSize: `${config.fontSize}px`,
           fontWeight: config.fontWeight,
           fontFamily: config.fontFamily,
-          color: config.textColor,
           textShadow:
             config.shadows
               .filter((shadow) => shadow.enabled)
@@ -143,8 +154,6 @@ export function TextShadowScreen(): JSX.Element {
                   `${shadow.offsetX}px ${shadow.offsetY}px ${shadow.blurRadius}px ${shadow.color}`
               )
               .join(", ") || "none",
-          textAlign: "center" as const,
-          lineHeight: 1.2,
         }}
       >
         {config.text}
@@ -153,21 +162,31 @@ export function TextShadowScreen(): JSX.Element {
   );
 
   return (
-    <ToolContainer
+    <ToolLayout
       title="Text Shadow Generator"
       description="Create custom text shadows with multiple layers and live preview"
-      generatedCSS={generateCSS()}
-      onReset={resetTool}
-      previewElement={previewElement}
       icon={<Type size={24} />}
+      breadcrumbs={
+        <Breadcrumb
+          items={[
+            { label: "Tools", href: "/tools" },
+            { label: "Typography", href: "/tools/typography" },
+            { label: "Text Shadow", href: "/tools/typography/text-shadow" },
+          ]}
+        />
+      }
+      generatedCSS={generatedCSS}
+      previewElement={previewElement}
     >
+      <ProTip content="Layer multiple text shadows to create depth and complex effects. Use subtle shadows for readability and bold shadows for dramatic impact. Consider your background color when choosing shadow colors for optimal contrast." />
+
       {/* Quick Actions */}
-      <div className="flex gap-2 mb-6">
+      <div className="flex gap-2 flex-wrap">
         <Button
           variant="secondary"
           size="sm"
           onClick={addShadowLayer}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2"
         >
           <Plus size={16} />
           Add Layer
@@ -176,60 +195,66 @@ export function TextShadowScreen(): JSX.Element {
           variant="secondary"
           size="sm"
           onClick={copyTextShadowOnly}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2"
         >
           <Copy size={16} />
           Copy Shadow
         </Button>
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={resetTool}
+          className="flex items-center gap-2"
+        >
+          <RotateCcw size={16} />
+          Reset
+        </Button>
       </div>
 
       {/* Text Settings */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Text Settings</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Sample Text
-            </label>
-            <Input
-              value={config.text}
-              onChange={(e) => updateConfig({ text: e.target.value })}
-              placeholder="Enter your text"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Font Size (px)
-            </label>
-            <Input
-              type="number"
-              value={config.fontSize}
-              onChange={(e) =>
-                updateConfig({ fontSize: parseInt(e.target.value) || 48 })
-              }
-              min={12}
-              max={200}
-            />
-          </div>
-          <ColorInput
-            label="Text Color"
-            value={config.textColor}
-            onChange={(e) => updateConfig({ textColor: e.target.value })}
-          />
-          <ColorInput
-            label="Background Color"
-            value={config.backgroundColor}
-            onChange={(e) => updateConfig({ backgroundColor: e.target.value })}
+      <ControlGroup title="Text Settings">
+        <div>
+          <label className="block text-sm font-medium mb-2">Sample Text</label>
+          <Input
+            value={config.text}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              updateConfig({ text: e.target.value })
+            }
+            placeholder="Enter your text"
           />
         </div>
-      </div>
+        <div>
+          <label className="block text-sm font-medium mb-2">
+            Font Size (px)
+          </label>
+          <Input
+            type="number"
+            value={config.fontSize}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              updateConfig({ fontSize: parseInt(e.target.value) || 48 })
+            }
+            min={12}
+            max={200}
+          />
+        </div>
+        <ColorInput
+          label="Text Color"
+          value={config.textColor}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateConfig({ textColor: e.target.value })
+          }
+        />
+        <ColorInput
+          label="Background Color"
+          value={config.backgroundColor}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateConfig({ backgroundColor: e.target.value })
+          }
+        />
+      </ControlGroup>
 
       {/* Shadow Presets */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium mb-2 flex items-center gap-2">
-          <Eye size={16} />
-          Quick Presets
-        </label>
+      <FullWidthGroup title="Quick Presets">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {shadowPresets.map((preset) => (
             <Button
@@ -243,29 +268,25 @@ export function TextShadowScreen(): JSX.Element {
             </Button>
           ))}
         </div>
-      </div>
+      </FullWidthGroup>
 
       {/* Shadow Layers */}
-      <div className="mb-6">
+      <FullWidthGroup title="Shadow Layers">
         <div className="flex items-center justify-between mb-3">
-          <h4 className="text-sm font-medium">Shadow Layers</h4>
-          <span className="text-xs text-muted">
+          <span className="text-xs text-muted-foreground">
             {config.shadows.length} layers
           </span>
         </div>
 
         <div className="space-y-4">
           {config.shadows.map((shadow, index) => (
-            <div
-              key={shadow.id}
-              className="p-4 bg-surface-1 border border-border rounded-lg"
-            >
+            <div key={shadow.id} className="p-4 bg-muted rounded-lg">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     checked={shadow.enabled}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updateShadowLayer(shadow.id, {
                         enabled: e.target.checked,
                       })
@@ -293,7 +314,7 @@ export function TextShadowScreen(): JSX.Element {
                   <Input
                     type="number"
                     value={shadow.offsetX}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updateShadowLayer(shadow.id, {
                         offsetX: parseInt(e.target.value) || 0,
                       })
@@ -308,7 +329,7 @@ export function TextShadowScreen(): JSX.Element {
                   <Input
                     type="number"
                     value={shadow.offsetY}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updateShadowLayer(shadow.id, {
                         offsetY: parseInt(e.target.value) || 0,
                       })
@@ -321,7 +342,7 @@ export function TextShadowScreen(): JSX.Element {
                   <Input
                     type="number"
                     value={shadow.blurRadius}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updateShadowLayer(shadow.id, {
                         blurRadius: parseInt(e.target.value) || 0,
                       })
@@ -340,15 +361,19 @@ export function TextShadowScreen(): JSX.Element {
                       value={
                         shadow.color.length === 7 ? shadow.color : "#000000"
                       }
-                      onChange={(e) =>
-                        updateShadowLayer(shadow.id, { color: e.target.value })
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateShadowLayer(shadow.id, {
+                          color: e.target.value,
+                        })
                       }
                       className="w-8 h-8 rounded border border-border cursor-pointer"
                     />
                     <Input
                       value={shadow.color}
-                      onChange={(e) =>
-                        updateShadowLayer(shadow.id, { color: e.target.value })
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateShadowLayer(shadow.id, {
+                          color: e.target.value,
+                        })
                       }
                       className="flex-1 text-xs font-mono"
                       placeholder="#000000"
@@ -359,7 +384,7 @@ export function TextShadowScreen(): JSX.Element {
             </div>
           ))}
         </div>
-      </div>
-    </ToolContainer>
+      </FullWidthGroup>
+    </ToolLayout>
   );
 }

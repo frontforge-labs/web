@@ -1,8 +1,17 @@
 import { useState, type JSX } from "react";
-import { Button, Input, Select, ColorInput } from "@frontforge/ui";
+import {
+  Button,
+  Input,
+  Select,
+  ColorInput,
+  ToolLayout,
+  ControlGroup,
+  FullWidthGroup,
+} from "@frontforge/ui";
 import { Palette, Copy, RotateCcw, Plus, Trash2 } from "lucide-react";
-import { ToolContainer } from "../../../../components/ToolContainer";
 import { copyToClipboard } from "../../../../lib/css/format";
+import { Breadcrumb } from "../../../../components/Breadcrumb";
+import { ProTip } from "../../../../components/ProTip";
 import type { TGradientTextConfig, TGradientStop } from "./types";
 import {
   gradientPresets,
@@ -143,67 +152,45 @@ export function GradientTextScreen(): JSX.Element {
     }
   };
 
+  const generatedCSS = generateCSS();
+
   const copyGradientOnly = async (): Promise<void> => {
     const gradient = generateGradient();
     await copyToClipboard(`background: ${gradient};`);
   };
 
   const previewElement = (
-    <div className="w-full h-64 rounded-lg border border-border shadow-sm flex items-center justify-center p-8 bg-white">
-      <link
-        href={`https://fonts.googleapis.com/css2?family=${config.fontFamily.replace(" ", "+")}:wght@${config.fontWeight}&display=swap`}
-        rel="stylesheet"
-      />
-
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-          .gradient-text-element {
-            font-family: '${config.fontFamily}', sans-serif;
-            font-size: ${Math.min(config.fontSize, 40)}px;
-            font-weight: ${config.fontWeight};
-            text-align: center;
-            line-height: 1.2;
-            display: inline-block;
-            background: ${generateGradient()};
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: ${config.fallbackColor};
-            margin: 0;
-            padding: 0;
-          }
-          
-          @supports not (-webkit-background-clip: text) {
-            .gradient-text-element {
-              color: ${config.fallbackColor};
-              -webkit-text-fill-color: unset;
-            }
-          }
-        `,
-        }}
-      />
-
-      <div className="gradient-text-element">{config.text}</div>
+    <div className="flex items-center justify-center min-h-[200px]">
+      <h1 className="gradient-text-element">{config.text}</h1>
     </div>
   );
 
   return (
-    <ToolContainer
+    <ToolLayout
       title="Gradient Text Generator"
       description="Create stunning gradient text effects with CSS background-clip and live preview"
-      generatedCSS={generateCSS()}
-      onReset={resetTool}
-      previewElement={previewElement}
       icon={<Palette size={24} />}
+      breadcrumbs={
+        <Breadcrumb
+          items={[
+            { label: "Tools", href: "/tools" },
+            { label: "Typography", href: "/tools/typography" },
+            { label: "Gradient Text", href: "/tools/typography/gradient-text" },
+          ]}
+        />
+      }
+      generatedCSS={generatedCSS}
+      previewElement={previewElement}
     >
+      <ProTip content="Gradient text effects use background-clip to create stunning typography. Always include a fallback color for browsers that don't support this feature. For best performance, use fewer gradient stops and avoid complex animations." />
+
       {/* Quick Actions */}
-      <div className="flex gap-2 mb-6 flex-wrap">
+      <div className="flex gap-2 flex-wrap">
         <Button
           variant="secondary"
           size="sm"
           onClick={addGradientStop}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2"
         >
           <Plus size={16} />
           Add Color Stop
@@ -212,7 +199,7 @@ export function GradientTextScreen(): JSX.Element {
           variant="secondary"
           size="sm"
           onClick={copyGradientOnly}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2"
         >
           <Copy size={16} />
           Copy Gradient
@@ -221,7 +208,7 @@ export function GradientTextScreen(): JSX.Element {
           variant="secondary"
           size="sm"
           onClick={resetTool}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2"
         >
           <RotateCcw size={16} />
           Reset
@@ -229,10 +216,7 @@ export function GradientTextScreen(): JSX.Element {
       </div>
 
       {/* Gradient Presets */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium mb-2">
-          Gradient Presets
-        </label>
+      <FullWidthGroup title="Gradient Presets">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
           {gradientPresets.map((preset) => (
             <Button
@@ -251,138 +235,127 @@ export function GradientTextScreen(): JSX.Element {
             </Button>
           ))}
         </div>
-      </div>
+      </FullWidthGroup>
 
       {/* Text Settings */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Text Settings</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Text Content
-            </label>
-            <Input
-              value={config.text}
-              onChange={(e) => updateConfig({ text: e.target.value })}
-              placeholder="Enter your text..."
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Font Family
-            </label>
-            <Select
-              value={config.fontFamily}
-              onChange={(e) => updateConfig({ fontFamily: e.target.value })}
-            >
-              {fontFamilies.map((font) => (
-                <option key={font} value={font}>
-                  {font}
-                </option>
-              ))}
-            </Select>
-          </div>
+      <ControlGroup title="Text Settings">
+        <div>
+          <label className="block text-sm font-medium mb-2">Text Content</label>
+          <Input
+            value={config.text}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              updateConfig({ text: e.target.value })
+            }
+            placeholder="Enter your text..."
+          />
         </div>
+        <div>
+          <label className="block text-sm font-medium mb-2">Font Family</label>
+          <Select
+            value={config.fontFamily}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              updateConfig({ fontFamily: e.target.value })
+            }
+          >
+            {fontFamilies.map((font) => (
+              <option key={font} value={font}>
+                {font}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-2">
+            Font Size (px)
+          </label>
+          <Input
+            type="number"
+            value={config.fontSize}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              updateConfig({ fontSize: parseInt(e.target.value) || 48 })
+            }
+            min={12}
+            max={120}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-2">Font Weight</label>
+          <Select
+            value={config.fontWeight}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              updateConfig({ fontWeight: e.target.value })
+            }
+          >
+            {fontWeights.map((weight) => (
+              <option key={weight.value} value={weight.value}>
+                {weight.label}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <ColorInput
+          label="Fallback Color"
+          value={config.fallbackColor}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateConfig({ fallbackColor: e.target.value })
+          }
+        />
+      </ControlGroup>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {/* Gradient Settings */}
+      <ControlGroup title="Gradient Settings">
+        <div>
+          <label className="block text-sm font-medium mb-2">
+            Gradient Type
+          </label>
+          <Select
+            value={config.gradientType}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              updateConfig({
+                gradientType: e.target.value as "linear" | "radial",
+              })
+            }
+          >
+            <option value="linear">Linear</option>
+            <option value="radial">Radial</option>
+          </Select>
+        </div>
+        {config.gradientType === "linear" && (
           <div>
             <label className="block text-sm font-medium mb-2">
-              Font Size (px)
+              Direction (degrees)
             </label>
             <Input
               type="number"
-              value={config.fontSize}
-              onChange={(e) =>
-                updateConfig({ fontSize: parseInt(e.target.value) || 48 })
+              value={config.direction}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                updateConfig({ direction: parseInt(e.target.value) || 45 })
               }
-              min={12}
-              max={120}
+              min={0}
+              max={360}
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Font Weight
-            </label>
-            <Select
-              value={config.fontWeight}
-              onChange={(e) => updateConfig({ fontWeight: e.target.value })}
-            >
-              {fontWeights.map((weight) => (
-                <option key={weight.value} value={weight.value}>
-                  {weight.label}
-                </option>
-              ))}
-            </Select>
-          </div>
-          <ColorInput
-            label="Fallback Color"
-            value={config.fallbackColor}
-            onChange={(e) => updateConfig({ fallbackColor: e.target.value })}
+        )}
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="backgroundClip"
+            checked={config.backgroundClip}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              updateConfig({ backgroundClip: e.target.checked })
+            }
+            className="rounded"
           />
+          <label htmlFor="backgroundClip" className="text-sm whitespace-nowrap">
+            Use background-clip (recommended)
+          </label>
         </div>
-      </div>
-
-      {/* Gradient Settings */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Gradient Settings</h4>
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Gradient Type
-            </label>
-            <Select
-              value={config.gradientType}
-              onChange={(e) =>
-                updateConfig({
-                  gradientType: e.target.value as "linear" | "radial",
-                })
-              }
-            >
-              <option value="linear">Linear</option>
-              <option value="radial">Radial</option>
-            </Select>
-          </div>
-          {config.gradientType === "linear" && (
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Direction (degrees)
-              </label>
-              <Input
-                type="number"
-                value={config.direction}
-                onChange={(e) =>
-                  updateConfig({ direction: parseInt(e.target.value) || 45 })
-                }
-                min={0}
-                max={360}
-              />
-            </div>
-          )}
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="backgroundClip"
-              checked={config.backgroundClip}
-              onChange={(e) =>
-                updateConfig({ backgroundClip: e.target.checked })
-              }
-              className="rounded"
-            />
-            <label
-              htmlFor="backgroundClip"
-              className="text-sm whitespace-nowrap"
-            >
-              Use background-clip (recommended)
-            </label>
-          </div>
-        </div>
-      </div>
+      </ControlGroup>
 
       {/* Gradient Stops */}
-      <div className="mb-6">
+      <FullWidthGroup title="Gradient Colors">
         <div className="flex items-center justify-between mb-3">
-          <h4 className="text-sm font-medium">Gradient Colors</h4>
-          <span className="text-xs text-muted">
+          <span className="text-xs text-muted-foreground">
             {config.stops.length} color stops
           </span>
         </div>
@@ -417,10 +390,7 @@ export function GradientTextScreen(): JSX.Element {
 
         <div className="space-y-3">
           {config.stops.map((stop, index) => (
-            <div
-              key={stop.id}
-              className="p-3 bg-surface-1 border border-border rounded-lg"
-            >
+            <div key={stop.id} className="p-3 bg-muted rounded-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium">
                   Color Stop {index + 1}
@@ -445,15 +415,19 @@ export function GradientTextScreen(): JSX.Element {
                     <input
                       type="color"
                       value={stop.color}
-                      onChange={(e) =>
-                        updateGradientStop(stop.id, { color: e.target.value })
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateGradientStop(stop.id, {
+                          color: e.target.value,
+                        })
                       }
                       className="w-8 h-8 rounded border border-border cursor-pointer"
                     />
                     <Input
                       value={stop.color}
-                      onChange={(e) =>
-                        updateGradientStop(stop.id, { color: e.target.value })
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateGradientStop(stop.id, {
+                          color: e.target.value,
+                        })
                       }
                       className="flex-1 text-xs font-mono"
                       data-stop-id={stop.id}
@@ -467,7 +441,7 @@ export function GradientTextScreen(): JSX.Element {
                   <Input
                     type="number"
                     value={stop.position}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updateGradientStop(stop.id, {
                         position: Math.max(
                           0,
@@ -484,12 +458,11 @@ export function GradientTextScreen(): JSX.Element {
             </div>
           ))}
         </div>
-      </div>
+      </FullWidthGroup>
 
       {/* Browser Support Info */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Browser Support</h4>
-        <div className="p-3 bg-[var(--fe-bg)] border border-border rounded-lg text-sm">
+      <FullWidthGroup title="Browser Support">
+        <div className="p-3 bg-muted rounded-lg text-sm">
           <div className="grid grid-cols-1 gap-2">
             <div>
               <strong>Good Support:</strong> Chrome, Firefox, Safari, Edge
@@ -498,12 +471,12 @@ export function GradientTextScreen(): JSX.Element {
               <strong>Fallback:</strong> Solid color for older browsers
             </div>
           </div>
-          <p className="mt-2 text-xs text-muted">
+          <p className="mt-2 text-xs text-muted-foreground">
             Always include a fallback color for browsers that don't support
             background-clip: text
           </p>
         </div>
-      </div>
-    </ToolContainer>
+      </FullWidthGroup>
+    </ToolLayout>
   );
 }

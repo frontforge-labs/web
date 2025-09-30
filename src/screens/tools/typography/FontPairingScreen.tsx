@@ -1,8 +1,19 @@
 import { useState } from "react";
-import { Button, Input, Select } from "@frontforge/ui";
+import {
+  Button,
+  Input,
+  Select,
+  ToolLayout,
+  ControlGroup,
+  FullWidthGroup,
+  CodePanel,
+  PreviewPanel,
+  Textarea,
+} from "@frontforge/ui";
 import { Type, Copy, RotateCcw } from "lucide-react";
-import { ToolContainer } from "../../../components/ToolContainer";
 import { copyToClipboard } from "../../../lib/css/format";
+import { Breadcrumb } from "../../../components/Breadcrumb";
+import { ProTip } from "../../../components/ProTip";
 
 interface FontPair {
   name: string;
@@ -189,113 +200,84 @@ export function FontPairingScreen() {
     await copyToClipboard(importUrl);
   };
 
-  const previewElement = (
-    <div className="w-full h-64 rounded-lg border border-border shadow-sm p-6 overflow-auto bg-white">
-      <link
-        href={`https://fonts.googleapis.com/css2?family=${config.headingFont.replace(" ", "+")}:wght@${config.headingWeight}&family=${config.bodyFont.replace(" ", "+")}:wght@${config.bodyWeight}&display=swap`}
-        rel="stylesheet"
-      />
-
-      <div className="space-y-4">
-        <h1
-          style={{
-            fontFamily: `'${config.headingFont}', sans-serif`,
-            fontSize: `${config.headingSize}px`,
-            fontWeight: config.headingWeight,
-            lineHeight: config.lineHeight,
-            letterSpacing: `${config.letterSpacing}px`,
-            margin: 0,
-            color: "#1a1a1a",
-          }}
-        >
-          {config.headingText}
-        </h1>
-
-        <p
-          style={{
-            fontFamily: `'${config.bodyFont}', sans-serif`,
-            fontSize: `${config.bodySize}px`,
-            fontWeight: config.bodyWeight,
-            lineHeight: config.lineHeight,
-            letterSpacing: `${config.letterSpacing}px`,
-            margin: 0,
-            color: "#4a4a4a",
-          }}
-        >
-          {config.bodyText}
-        </p>
-      </div>
-    </div>
-  );
-
   return (
-    <ToolContainer
+    <ToolLayout
       title="Font Pairing Previewer"
       description="Test Google Fonts side by side to find perfect font combinations for your designs"
-      generatedCSS={generateCSS()}
-      onReset={resetTool}
-      previewElement={previewElement}
       icon={<Type size={24} />}
+      breadcrumbs={
+        <Breadcrumb
+          items={[
+            { label: "Tools", href: "/tools" },
+            { label: "Typography", href: "/tools/typography" },
+            { label: "Font Pairing", href: "/tools/typography/font-pairing" },
+          ]}
+        />
+      }
     >
-      {/* Quick Actions */}
-      <div className="flex gap-2 mb-6 flex-wrap">
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={copyGoogleFontsImport}
-          className="flex items-center gap-2"
-        >
-          <Copy size={16} />
-          Copy Import
-        </Button>
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={resetTool}
-          className="flex items-center gap-2"
-        >
-          <RotateCcw size={16} />
-          Reset
-        </Button>
-      </div>
+      {/* Controls */}
+      <div className="space-y-6">
+        <ProTip content="Great typography starts with font pairing. Use contrasting fonts for headers and body text to create visual hierarchy. Serif + Sans-serif combinations work well, or stick to different weights within the same font family for a cohesive look." />
 
-      {/* Font Pairing Presets */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium mb-2">
-          Popular Font Pairings
-        </label>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-          {fontPairings.map((pair) => (
-            <Button
-              key={pair.name}
-              variant={
-                config.currentPair.name === pair.name ? "default" : "secondary"
-              }
-              size="sm"
-              onClick={() => applyFontPair(pair)}
-              className="text-xs flex flex-col h-auto p-2"
-            >
-              <span className="font-medium">{pair.name}</span>
-              <span className="text-xs opacity-70">
-                {pair.heading} + {pair.body}
-              </span>
-            </Button>
-          ))}
+        {/* Quick Actions */}
+        <div className="flex gap-2 flex-wrap">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={copyGoogleFontsImport}
+            className="flex items-center gap-2"
+          >
+            <Copy size={16} />
+            Copy Import
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={resetTool}
+            className="flex items-center gap-2"
+          >
+            <RotateCcw size={16} />
+            Reset
+          </Button>
         </div>
-      </div>
 
-      {/* Font Selection */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Font Selection</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Font Pairing Presets */}
+        <FullWidthGroup title="Popular Font Pairings">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+            {fontPairings.map((pair) => (
+              <Button
+                key={pair.name}
+                variant={
+                  config.currentPair.name === pair.name
+                    ? "default"
+                    : "secondary"
+                }
+                size="sm"
+                onClick={() => applyFontPair(pair)}
+                className="text-xs flex flex-col h-auto p-2"
+              >
+                <span className="font-medium">{pair.name}</span>
+                <span className="text-xs opacity-70">
+                  {pair.heading} + {pair.body}
+                </span>
+              </Button>
+            ))}
+          </div>
+        </FullWidthGroup>
+
+        {/* Font Selection */}
+        <ControlGroup title="Font Selection">
           <div>
             <label className="block text-sm font-medium mb-2">
               Heading Font
             </label>
             <Select
               value={config.headingFont}
-              onChange={(e) =>
-                setConfig((prev) => ({ ...prev, headingFont: e.target.value }))
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setConfig((prev) => ({
+                  ...prev,
+                  headingFont: e.target.value,
+                }))
               }
             >
               {popularFonts.map((font) => (
@@ -309,7 +291,7 @@ export function FontPairingScreen() {
             <label className="block text-sm font-medium mb-2">Body Font</label>
             <Select
               value={config.bodyFont}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 setConfig((prev) => ({ ...prev, bodyFont: e.target.value }))
               }
             >
@@ -320,13 +302,10 @@ export function FontPairingScreen() {
               ))}
             </Select>
           </div>
-        </div>
-      </div>
+        </ControlGroup>
 
-      {/* Typography Controls */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Typography Controls</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Typography Controls */}
+        <ControlGroup title="Typography Controls">
           <div>
             <label className="block text-sm font-medium mb-2">
               Heading Size (px)
@@ -334,7 +313,7 @@ export function FontPairingScreen() {
             <Input
               type="number"
               value={config.headingSize}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setConfig((prev) => ({
                   ...prev,
                   headingSize: parseInt(e.target.value) || 32,
@@ -351,7 +330,7 @@ export function FontPairingScreen() {
             <Input
               type="number"
               value={config.bodySize}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setConfig((prev) => ({
                   ...prev,
                   bodySize: parseInt(e.target.value) || 16,
@@ -367,7 +346,7 @@ export function FontPairingScreen() {
             </label>
             <Select
               value={config.headingWeight}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 setConfig((prev) => ({
                   ...prev,
                   headingWeight: e.target.value,
@@ -387,7 +366,7 @@ export function FontPairingScreen() {
             </label>
             <Select
               value={config.bodyWeight}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 setConfig((prev) => ({ ...prev, bodyWeight: e.target.value }))
               }
             >
@@ -405,7 +384,7 @@ export function FontPairingScreen() {
             <Input
               type="number"
               value={config.lineHeight}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setConfig((prev) => ({
                   ...prev,
                   lineHeight: parseFloat(e.target.value) || 1.5,
@@ -423,7 +402,7 @@ export function FontPairingScreen() {
             <Input
               type="number"
               value={config.letterSpacing}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setConfig((prev) => ({
                   ...prev,
                   letterSpacing: parseFloat(e.target.value) || 0,
@@ -434,75 +413,119 @@ export function FontPairingScreen() {
               step={0.1}
             />
           </div>
-        </div>
-      </div>
+        </ControlGroup>
 
-      {/* Sample Text */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Sample Text</h4>
-        <div className="grid grid-cols-1 gap-4">
+        {/* Sample Text */}
+        <ControlGroup title="Sample Text">
           <div>
             <label className="block text-sm font-medium mb-2">
               Heading Text
             </label>
             <Input
               value={config.headingText}
-              onChange={(e) =>
-                setConfig((prev) => ({ ...prev, headingText: e.target.value }))
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setConfig((prev) => ({
+                  ...prev,
+                  headingText: e.target.value,
+                }))
               }
               placeholder="Enter heading text..."
             />
           </div>
           <div>
             <label className="block text-sm font-medium mb-2">Body Text</label>
-            <textarea
+            <Textarea
               value={config.bodyText}
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setConfig((prev) => ({ ...prev, bodyText: e.target.value }))
               }
-              className="w-full px-3 py-2 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-accent/20"
               rows={3}
               placeholder="Enter body text..."
             />
           </div>
-        </div>
+        </ControlGroup>
+
+        {/* Font Information */}
+        <FullWidthGroup title="Current Pairing Info">
+          <div className="p-4 bg-muted rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <span className="text-muted-foreground">Heading:</span>
+                <span className="ml-2 font-medium">
+                  {config.headingFont} {config.headingWeight}
+                </span>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Body:</span>
+                <span className="ml-2 font-medium">
+                  {config.bodyFont} {config.bodyWeight}
+                </span>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Size Ratio:</span>
+                <span className="ml-2 font-medium">
+                  {(config.headingSize / config.bodySize).toFixed(1)}:1
+                </span>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Line Height:</span>
+                <span className="ml-2 font-medium">{config.lineHeight}</span>
+              </div>
+            </div>
+            {config.currentPair.display && (
+              <div className="mt-2 text-xs text-muted-foreground">
+                <strong>Use case:</strong> {config.currentPair.display}
+              </div>
+            )}
+          </div>
+        </FullWidthGroup>
       </div>
 
-      {/* Font Information */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Current Pairing Info</h4>
-        <div className="p-4 bg-bg border border-border rounded-lg">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="text-muted">Heading:</span>
-              <span className="ml-2 font-medium">
-                {config.headingFont} {config.headingWeight}
-              </span>
-            </div>
-            <div>
-              <span className="text-muted">Body:</span>
-              <span className="ml-2 font-medium">
-                {config.bodyFont} {config.bodyWeight}
-              </span>
-            </div>
-            <div>
-              <span className="text-muted">Size Ratio:</span>
-              <span className="ml-2 font-medium">
-                {(config.headingSize / config.bodySize).toFixed(1)}:1
-              </span>
-            </div>
-            <div>
-              <span className="text-muted">Line Height:</span>
-              <span className="ml-2 font-medium">{config.lineHeight}</span>
-            </div>
+      {/* Preview and Code Panels */}
+      <div className="space-y-6">
+        <PreviewPanel title="Font Preview">
+          <link
+            href={`https://fonts.googleapis.com/css2?family=${config.headingFont.replace(" ", "+")}:wght@${config.headingWeight}&family=${config.bodyFont.replace(" ", "+")}:wght@${config.bodyWeight}&display=swap`}
+            rel="stylesheet"
+          />
+
+          <div className="space-y-4">
+            <h1
+              style={{
+                fontFamily: `'${config.headingFont}', sans-serif`,
+                fontSize: `${config.headingSize}px`,
+                fontWeight: config.headingWeight,
+                lineHeight: config.lineHeight,
+                letterSpacing: `${config.letterSpacing}px`,
+                margin: 0,
+                color: "hsl(var(--foreground))",
+              }}
+            >
+              {config.headingText}
+            </h1>
+
+            <p
+              style={{
+                fontFamily: `'${config.bodyFont}', sans-serif`,
+                fontSize: `${config.bodySize}px`,
+                fontWeight: config.bodyWeight,
+                lineHeight: config.lineHeight,
+                letterSpacing: `${config.letterSpacing}px`,
+                margin: 0,
+                color: "hsl(var(--muted-foreground))",
+              }}
+            >
+              {config.bodyText}
+            </p>
           </div>
-          {config.currentPair.display && (
-            <div className="mt-2 text-xs text-muted">
-              <strong>Use case:</strong> {config.currentPair.display}
-            </div>
-          )}
-        </div>
+        </PreviewPanel>
+
+        <CodePanel
+          title="Generated CSS"
+          generatedCSS={generateCSS()}
+          language="css"
+        />
       </div>
-    </ToolContainer>
+    </ToolLayout>
   );
 }

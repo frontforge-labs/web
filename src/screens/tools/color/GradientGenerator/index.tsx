@@ -1,10 +1,18 @@
 import { useState } from "react";
-import { Button, Input, Select } from "@frontforge/ui";
+import {
+  Button,
+  Input,
+  Select,
+  ToolLayout,
+  ControlGroup,
+  FullWidthGroup,
+} from "@frontforge/ui";
 import { Plus, Trash2, Palette } from "lucide-react";
-import { ToolContainer } from "../../../../components/ToolContainer";
 import { buildGradient } from "../../../../lib/css/builders";
 import type { TGradientConfig, TGradientStop } from "./types";
 import { gradientPresets } from "./utils";
+import { Breadcrumb } from "../../../../components/Breadcrumb";
+import { ProTip } from "../../../../components/ProTip";
 
 export function GradientGeneratorScreen() {
   const [config, setConfig] = useState<TGradientConfig>({
@@ -80,52 +88,48 @@ export function GradientGeneratorScreen() {
   );
 
   return (
-    <ToolContainer
+    <ToolLayout
       title="CSS Gradient Tool"
       description="Create beautiful CSS gradients with real-time preview and easy customization"
       generatedCSS={generatedCSS}
       onReset={resetTool}
       previewElement={previewElement}
       icon={<Palette size={24} />}
+      breadcrumbs={<Breadcrumb />}
+      controlsGridCols={2}
     >
-      {/* Quick Presets */}
-      <div className="mb-6">
-        <h4 className="text-sm font-medium mb-3">Quick Presets</h4>
-        <div className="grid grid-cols-2 gap-2">
-          {gradientPresets.map((preset) => (
-            <Button
-              key={preset.name}
-              variant="secondary"
-              size="sm"
-              onClick={() => applyPreset(preset.config)}
-              className="text-xs h-8"
-            >
-              {preset.name}
-            </Button>
-          ))}
-        </div>
-      </div>
+      <FullWidthGroup>
+        <ControlGroup label="Quick Presets">
+          <div className="grid grid-cols-2 gap-2">
+            {gradientPresets.map((preset) => (
+              <Button
+                key={preset.name}
+                variant="secondary"
+                size="sm"
+                onClick={() => applyPreset(preset.config)}
+                className="text-xs h-8"
+              >
+                {preset.name}
+              </Button>
+            ))}
+          </div>
+        </ControlGroup>
+      </FullWidthGroup>
 
-      {/* Type Selection */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium mb-2">Gradient Type</label>
+      <ControlGroup label="Gradient Type">
         <Select
           value={config.type}
-          onChange={(e) =>
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             updateConfig({ type: e.target.value as "linear" | "radial" })
           }
         >
           <option value="linear">Linear Gradient</option>
           <option value="radial">Radial Gradient</option>
         </Select>
-      </div>
+      </ControlGroup>
 
-      {/* Angle Control (only for linear) */}
       {config.type === "linear" && (
-        <div className="mb-6">
-          <label className="block text-sm font-medium mb-2">
-            Angle: {config.angle}°
-          </label>
+        <ControlGroup label={`Angle: ${config.angle}°`}>
           <input
             type="range"
             min="0"
@@ -141,85 +145,98 @@ export function GradientGeneratorScreen() {
             <span>270°</span>
             <span>360°</span>
           </div>
-        </div>
+        </ControlGroup>
       )}
 
-      {/* Color Stops */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="text-sm font-medium">Color Stops</h4>
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={addStop}
-            className="h-8"
-          >
-            <Plus size={12} className="mr-1" />
-            Add
-          </Button>
-        </div>
-
-        <div className="space-y-3">
-          {config.stops.map((stop, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <input
-                type="color"
-                value={stop.color}
-                onChange={(e) => updateStop(index, { color: e.target.value })}
-                className="w-10 h-8 rounded border border-[var(--fe-border)] cursor-pointer"
-              />
-              <Input
-                type="text"
-                value={stop.color}
-                onChange={(e) => updateStop(index, { color: e.target.value })}
-                className="flex-1 text-xs h-8"
-                placeholder="#000000"
-              />
-              <Input
-                type="number"
-                min="0"
-                max="100"
-                value={stop.position}
-                onChange={(e) =>
-                  updateStop(index, { position: parseInt(e.target.value) || 0 })
-                }
-                className="w-16 text-xs h-8"
-              />
-              <span className="text-xs text-[var(--fe-text)]/60 w-4">%</span>
-              {config.stops.length > 2 && (
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => removeStop(index)}
-                  className="p-1 h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
-                >
-                  <Trash2 size={12} />
-                </Button>
-              )}
+      <FullWidthGroup>
+        <ControlGroup
+          label={
+            <div className="flex items-center justify-between w-full">
+              <span>Color Stops</span>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={addStop}
+                className="h-8"
+              >
+                <Plus size={12} className="mr-1" />
+                Add
+              </Button>
             </div>
-          ))}
-        </div>
-      </div>
+          }
+        >
+          <div className="space-y-3">
+            {config.stops.map((stop, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={stop.color}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    updateStop(index, { color: e.target.value })
+                  }
+                  className="w-10 h-8 rounded border border-[var(--fe-border)] cursor-pointer"
+                />
+                <Input
+                  type="text"
+                  value={stop.color}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    updateStop(index, { color: e.target.value })
+                  }
+                  className="flex-1 text-xs h-8"
+                  placeholder="#000000"
+                />
+                <Input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={stop.position}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    updateStop(index, {
+                      position: parseInt(e.target.value) || 0,
+                    })
+                  }
+                  className="w-16 text-xs h-8"
+                />
+                <span className="text-xs text-[var(--fe-text)]/60 w-4">%</span>
+                {config.stops.length > 2 && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => removeStop(index)}
+                    className="p-1 h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 size={12} />
+                  </Button>
+                )}
+              </div>
+            ))}
+          </div>
+        </ControlGroup>
+      </FullWidthGroup>
 
-      {/* Mini Preview in Controls */}
-      <div className="mb-4">
-        <h4 className="text-sm font-medium mb-2">Quick Preview</h4>
-        <div
-          className="w-full h-16 rounded border border-[var(--fe-border)]"
-          style={{
-            background:
-              config.type === "linear"
-                ? `linear-gradient(${config.angle}deg, ${config.stops
-                    .sort((a, b) => a.position - b.position)
-                    .map((stop) => `${stop.color} ${stop.position}%`)
-                    .join(", ")})`
-                : `radial-gradient(circle, ${config.stops
-                    .sort((a, b) => a.position - b.position)
-                    .map((stop) => `${stop.color} ${stop.position}%`)
-                    .join(", ")})`,
-          }}
-        />
-      </div>
-    </ToolContainer>
+      <FullWidthGroup>
+        <ControlGroup label="Quick Preview">
+          <div
+            className="w-full h-16 rounded border border-[var(--fe-border)]"
+            style={{
+              background:
+                config.type === "linear"
+                  ? `linear-gradient(${config.angle}deg, ${config.stops
+                      .sort((a, b) => a.position - b.position)
+                      .map((stop) => `${stop.color} ${stop.position}%`)
+                      .join(", ")})`
+                  : `radial-gradient(circle, ${config.stops
+                      .sort((a, b) => a.position - b.position)
+                      .map((stop) => `${stop.color} ${stop.position}%`)
+                      .join(", ")})`,
+            }}
+          />
+        </ControlGroup>
+      </FullWidthGroup>
+
+      <FullWidthGroup>
+        <ProTip content="Linear gradients work great for backgrounds and overlays. Try different angles and multiple color stops to create unique effects. Radial gradients are perfect for buttons and spotlight effects." />
+      </FullWidthGroup>
+    </ToolLayout>
   );
 }

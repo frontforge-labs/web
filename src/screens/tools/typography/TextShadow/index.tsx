@@ -166,6 +166,7 @@ export function TextShadowScreen(): JSX.Element {
       title="Text Shadow Generator"
       description="Create custom text shadows with multiple layers and live preview"
       icon={<Type size={24} />}
+      iconBgClassName="bg-gradient-to-r from-green-500 to-teal-600"
       breadcrumbs={
         <Breadcrumb
           items={[
@@ -212,7 +213,7 @@ export function TextShadowScreen(): JSX.Element {
       </div>
 
       {/* Text Settings */}
-      <ControlGroup title="Text Settings">
+      <ControlGroup label="Text Settings">
         <div>
           <label className="block text-sm font-medium mb-2">Sample Text</label>
           <Input
@@ -254,136 +255,144 @@ export function TextShadowScreen(): JSX.Element {
       </ControlGroup>
 
       {/* Shadow Presets */}
-      <FullWidthGroup title="Quick Presets">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          {shadowPresets.map((preset) => (
-            <Button
-              key={preset.name}
-              variant="secondary"
-              size="sm"
-              onClick={() => applyPreset(preset)}
-              className="text-xs"
-            >
-              {preset.name}
-            </Button>
-          ))}
-        </div>
+      <FullWidthGroup>
+        <ControlGroup label="Quick Presets">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+            {shadowPresets.map((preset) => (
+              <Button
+                key={preset.name}
+                variant="secondary"
+                size="sm"
+                onClick={() => applyPreset(preset)}
+                className="text-xs"
+              >
+                {preset.name}
+              </Button>
+            ))}
+          </div>
+        </ControlGroup>
       </FullWidthGroup>
 
       {/* Shadow Layers */}
-      <FullWidthGroup title="Shadow Layers">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs text-muted-foreground">
-            {config.shadows.length} layers
-          </span>
-        </div>
+      <FullWidthGroup>
+        <ControlGroup label="Shadow Layers">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs text-muted-foreground">
+              {config.shadows.length} layers
+            </span>
+          </div>
 
-        <div className="space-y-4">
-          {config.shadows.map((shadow, index) => (
-            <div key={shadow.id} className="p-4 bg-muted rounded-lg">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={shadow.enabled}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateShadowLayer(shadow.id, {
-                        enabled: e.target.checked,
-                      })
-                    }
-                    className="rounded"
-                  />
-                  <span className="text-sm font-medium">Layer {index + 1}</span>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => removeShadowLayer(shadow.id)}
-                  className="text-destructive hover:text-destructive"
-                  disabled={config.shadows.length === 1}
-                >
-                  <Trash2 size={14} />
-                </Button>
-              </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div>
-                  <label className="block text-xs font-medium mb-1">
-                    X Offset
-                  </label>
-                  <Input
-                    type="number"
-                    value={shadow.offsetX}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateShadowLayer(shadow.id, {
-                        offsetX: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    className="text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1">
-                    Y Offset
-                  </label>
-                  <Input
-                    type="number"
-                    value={shadow.offsetY}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateShadowLayer(shadow.id, {
-                        offsetY: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    className="text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1">Blur</label>
-                  <Input
-                    type="number"
-                    value={shadow.blurRadius}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateShadowLayer(shadow.id, {
-                        blurRadius: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    min={0}
-                    className="text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1">
-                    Color
-                  </label>
-                  <div className="flex items-center gap-1">
+          <div className="space-y-4">
+            {config.shadows.map((shadow, index) => (
+              <div key={shadow.id} className="p-4 bg-muted rounded-lg">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
                     <input
-                      type="color"
-                      value={
-                        shadow.color.length === 7 ? shadow.color : "#000000"
-                      }
+                      type="checkbox"
+                      checked={shadow.enabled}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         updateShadowLayer(shadow.id, {
-                          color: e.target.value,
+                          enabled: e.target.checked,
                         })
                       }
-                      className="w-8 h-8 rounded border border-border cursor-pointer"
+                      className="rounded"
                     />
+                    <span className="text-sm font-medium">
+                      Layer {index + 1}
+                    </span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeShadowLayer(shadow.id)}
+                    className="text-destructive hover:text-destructive"
+                    disabled={config.shadows.length === 1}
+                  >
+                    <Trash2 size={14} />
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium mb-1">
+                      X Offset
+                    </label>
                     <Input
-                      value={shadow.color}
+                      type="number"
+                      value={shadow.offsetX}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         updateShadowLayer(shadow.id, {
-                          color: e.target.value,
+                          offsetX: parseInt(e.target.value) || 0,
                         })
                       }
-                      className="flex-1 text-xs font-mono"
-                      placeholder="#000000"
+                      className="text-sm"
                     />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium mb-1">
+                      Y Offset
+                    </label>
+                    <Input
+                      type="number"
+                      value={shadow.offsetY}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateShadowLayer(shadow.id, {
+                          offsetY: parseInt(e.target.value) || 0,
+                        })
+                      }
+                      className="text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium mb-1">
+                      Blur
+                    </label>
+                    <Input
+                      type="number"
+                      value={shadow.blurRadius}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateShadowLayer(shadow.id, {
+                          blurRadius: parseInt(e.target.value) || 0,
+                        })
+                      }
+                      min={0}
+                      className="text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium mb-1">
+                      Color
+                    </label>
+                    <div className="flex items-center gap-1">
+                      <input
+                        type="color"
+                        value={
+                          shadow.color.length === 7 ? shadow.color : "#000000"
+                        }
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          updateShadowLayer(shadow.id, {
+                            color: e.target.value,
+                          })
+                        }
+                        className="w-8 h-8 rounded border border-border cursor-pointer"
+                      />
+                      <Input
+                        value={shadow.color}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          updateShadowLayer(shadow.id, {
+                            color: e.target.value,
+                          })
+                        }
+                        className="flex-1 text-xs font-mono"
+                        placeholder="#000000"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </ControlGroup>
       </FullWidthGroup>
     </ToolLayout>
   );

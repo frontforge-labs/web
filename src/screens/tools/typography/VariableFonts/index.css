@@ -1,0 +1,14 @@
+.variable-font-text {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: var(--vf-preview-color, #fff);
+  transition: color 0.2s;
+}
+
+body[data-theme="light"] .variable-font-text {
+  --vf-preview-color: #222;
+}
+body[data-theme="dark"] .variable-font-text {
+  --vf-preview-color: #fff;
+}

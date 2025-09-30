@@ -185,6 +185,7 @@ export function GradientTextScreen(): JSX.Element {
       title="Gradient Text Generator"
       description="Create stunning gradient text effects with CSS background-clip and live preview"
       icon={<Palette size={24} />}
+      iconBgClassName="bg-gradient-to-r from-green-500 to-teal-600"
       breadcrumbs={
         <Breadcrumb
           items={[

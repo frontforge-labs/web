@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./index.css";
 import {
   Button,
   Input,
@@ -133,6 +134,7 @@ ${
           animation: config.isAnimating
             ? `variableAnimation ${config.animationDuration}ms ease-in-out infinite`
             : undefined,
+          color: "var(--vf-preview-color, #222)",
         }}
       >
         {config.text}
@@ -145,6 +147,7 @@ ${
       title="Variable Font Playground"
       description="Explore and experiment with variable font axes and create dynamic typography"
       icon={<Settings size={24} />}
+      iconBgClassName="bg-gradient-to-r from-green-500 to-teal-600"
       breadcrumbs={
         <Breadcrumb
           items={[

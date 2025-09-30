@@ -12,8 +12,11 @@ import { TextShadowScreen } from "./screens/tools/typography/TextShadow";
 import { FontPairingScreen } from "./screens/tools/typography/FontPairing";
 import { GradientTextScreen } from "./screens/tools/typography/GradientText";
 import { VariableFontsScreen } from "./screens/tools/typography/VariableFonts";
-import { EffectsToolsScreen } from "./screens/tools/EffectsToolsScreen";
-import { BoxShadowScreen } from "./screens/tools/effects/BoxShadowScreen";
+import { EffectsScreen } from "./screens/tools/effects";
+import { BoxShadowScreen } from "./screens/tools/effects/BoxShadow";
+import { CSSFiltersScreen } from "./screens/tools/effects/CSSFilters";
+import { GlassmorphismScreen } from "./screens/tools/effects/Glassmorphism";
+import { NoiseTextureScreen } from "./screens/tools/effects/NoiseTexture";
 import { ShapesToolsScreen } from "./screens/tools/ShapesToolsScreen";
 import { BorderRadiusScreen } from "./screens/tools/shapes/BorderRadiusScreen";
 import { LayoutToolsScreen } from "./screens/tools/LayoutToolsScreen";
@@ -98,10 +101,22 @@ export default function App() {
             path="/tools/typography/variable-fonts"
             element={<VariableFontsScreen />}
           />
-          <Route path="/tools/effects" element={<EffectsToolsScreen />} />
+          <Route path="/tools/effects" element={<EffectsScreen />} />
           <Route
             path="/tools/effects/box-shadow"
             element={<BoxShadowScreen />}
+          />
+          <Route
+            path="/tools/effects/filters"
+            element={<CSSFiltersScreen />}
+          />
+          <Route
+            path="/tools/effects/glassmorphism"
+            element={<GlassmorphismScreen />}
+          />
+          <Route
+            path="/tools/effects/noise-texture"
+            element={<NoiseTextureScreen />}
           />
           <Route path="/tools/shapes" element={<ShapesToolsScreen />} />
           <Route

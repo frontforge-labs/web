@@ -130,6 +130,7 @@ export function TextToolsScreen() {
         subtitle="Text transformers, encoders, and string utilities for efficient content processing"
         icon={<FileText size={24} />}
         breadcrumbs={<Breadcrumb />}
+        iconBgClassName="bg-gradient-to-r from-blue-500 to-cyan-500"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

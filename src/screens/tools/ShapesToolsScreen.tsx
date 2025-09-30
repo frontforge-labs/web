@@ -130,6 +130,7 @@ export function ShapesToolsScreen() {
         subtitle="Professional shape generators, border radius tools, and advanced layout builders for modern web design"
         icon={<Shapes size={24} />}
         breadcrumbs={<Breadcrumb />}
+        iconBgClassName="bg-gradient-to-r from-pink-500 to-red-500"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -126,6 +126,7 @@ export function FontPairingScreen(): JSX.Element {
       onReset={resetTool}
       previewElement={previewElement}
       icon={<Type size={24} />}
+      iconBgClassName="bg-gradient-to-r from-green-500 to-teal-600"
     >
       {/* Quick Actions */}
       <div className="flex gap-2 mb-6">

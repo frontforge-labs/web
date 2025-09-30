@@ -130,6 +130,7 @@ export function EffectsToolsScreen() {
         subtitle="Professional visual effects, shadows, filters, and modern UI effects for contemporary web design"
         icon={<Sparkles size={24} />}
         breadcrumbs={<Breadcrumb />}
+        iconBgClassName="bg-gradient-to-r from-purple-500 to-pink-500"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -130,6 +130,7 @@ export function LayoutToolsScreen() {
         subtitle="Flexbox playground, grid generator, and layout helpers for modern responsive design"
         icon={<LayoutGrid size={24} />}
         breadcrumbs={<Breadcrumb />}
+        iconBgClassName="bg-gradient-to-r from-orange-500 to-yellow-400"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

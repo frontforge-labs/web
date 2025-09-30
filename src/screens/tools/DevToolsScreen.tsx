@@ -128,6 +128,7 @@ export function DevToolsScreen() {
         subtitle="JSON formatter, text diff, and developer utilities for efficient coding workflows"
         icon={<FileJson size={24} />}
         breadcrumbs={<Breadcrumb />}
+        iconBgClassName="bg-gradient-to-r from-gray-700 to-gray-400"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

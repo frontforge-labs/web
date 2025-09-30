@@ -130,6 +130,7 @@ export function AnimationToolsScreen() {
         subtitle="Keyframe builder, transitions, and easing visualizer for smooth, performant web animations"
         icon={<Zap size={24} />}
         breadcrumbs={<Breadcrumb />}
+        iconBgClassName="bg-gradient-to-r from-yellow-400 to-orange-500"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

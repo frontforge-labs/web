@@ -130,6 +130,7 @@ export function TypographyToolsScreen() {
         subtitle="Professional text styling, font pairing, and typography effects for modern web design"
         icon={<Type size={24} />}
         breadcrumbs={<Breadcrumb />}
+        iconBgClassName="bg-gradient-to-r from-green-500 to-teal-600"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

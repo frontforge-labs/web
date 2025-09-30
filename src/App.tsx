@@ -17,8 +17,11 @@ import { BoxShadowScreen } from "./screens/tools/effects/BoxShadow";
 import { CSSFiltersScreen } from "./screens/tools/effects/CSSFilters";
 import { GlassmorphismScreen } from "./screens/tools/effects/Glassmorphism";
 import { NoiseTextureScreen } from "./screens/tools/effects/NoiseTexture";
-import { ShapesToolsScreen } from "./screens/tools/ShapesToolsScreen";
-import { BorderRadiusScreen } from "./screens/tools/shapes/BorderRadiusScreen";
+import { ShapesScreen } from "./screens/tools/shapes";
+import { BorderRadiusScreen } from "./screens/tools/shapes/BorderRadius";
+import { ClipPathScreen } from "./screens/tools/shapes/ClipPath";
+import { BlobGeneratorScreen } from "./screens/tools/shapes/BlobGenerator";
+import { GridBuilderScreen } from "./screens/tools/shapes/GridBuilder";
 import { LayoutToolsScreen } from "./screens/tools/LayoutToolsScreen";
 import { FlexboxScreen } from "./screens/tools/layout/FlexboxScreen";
 import { AnimationToolsScreen } from "./screens/tools/AnimationToolsScreen";
@@ -118,10 +121,22 @@ export default function App() {
             path="/tools/effects/noise-texture"
             element={<NoiseTextureScreen />}
           />
-          <Route path="/tools/shapes" element={<ShapesToolsScreen />} />
+          <Route path="/tools/shapes" element={<ShapesScreen />} />
           <Route
             path="/tools/shapes/border-radius"
             element={<BorderRadiusScreen />}
+          />
+          <Route
+            path="/tools/shapes/clip-path"
+            element={<ClipPathScreen />}
+          />
+          <Route
+            path="/tools/shapes/blob-generator"
+            element={<BlobGeneratorScreen />}
+          />
+          <Route
+            path="/tools/shapes/grid-builder"
+            element={<GridBuilderScreen />}
           />
           <Route path="/tools/layout" element={<LayoutToolsScreen />} />
           <Route path="/tools/layout/flexbox" element={<FlexboxScreen />} />

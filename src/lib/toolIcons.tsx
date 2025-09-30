@@ -18,7 +18,13 @@ import {
   Lock,
   RefreshCw,
   Settings,
-  AlignLeft
+  AlignLeft,
+  Box,
+  Droplets,
+  Waves,
+  Circle,
+  Hexagon,
+  Shapes
 } from 'lucide-react';
 
 // Icon mapping for individual tools
@@ -36,12 +42,16 @@ export const toolIcons: Record<string, React.ReactNode> = {
   'Variable Font Playground': <Settings size={20} />,
 
   // Effects Tools
-  'Box Shadow': <Sparkles size={20} />,
-  'CSS Filters': <Filter size={20} />,
+  'Box Shadow Generator': <Box size={20} />,
+  'CSS Filter Playground': <Filter size={20} />,
+  'Glassmorphism Generator': <Droplets size={20} />,
+  'Noise Texture Generator': <Waves size={20} />,
 
   // Shapes Tools
-  'Border Radius': <CornerUpLeft size={20} />,
-  'Clip Path': <Scissors size={20} />,
+  'Border Radius Previewer': <Circle size={20} />,
+  'Clip-Path Maker': <Scissors size={20} />,
+  'Blob Shape Generator': <Hexagon size={20} />,
+  'CSS Grid Layout Builder': <Grid3X3 size={20} />,
 
   // Layout Tools
   'Flexbox Playground': <Columns size={20} />,

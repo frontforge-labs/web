@@ -1,124 +1,124 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Sparkles,
+  Shapes,
   Lightbulb,
   BookOpen,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import { PageHeader, Button } from "@frontforge/ui";
-import { getToolIcon } from "../../lib/toolIcons.tsx";
-import { Breadcrumb } from "../../components/Breadcrumb";
+import { getToolIcon } from "../../../lib/toolIcons.tsx";
+import { Breadcrumb } from "../../../components/Breadcrumb";
 
-const effectsTools = [
+const shapesTools = [
   {
-    name: "Box Shadow Generator",
-    path: "/tools/effects/box-shadow",
+    name: "Border Radius Previewer",
+    path: "/tools/shapes/border-radius",
     status: "ready" as const,
     description:
-      "Create multi-layer box shadows with precise control over inset, outset, and positioning",
+      "Create custom border radius with individual corner control and live preview",
     features: [
-      "Multiple shadow layers",
-      "Inset & outset shadows",
+      "Individual corner control",
+      "Multiple radius formats",
       "Live preview updates",
-      "CSS code output",
+      "Copy CSS output",
     ],
   },
   {
-    name: "CSS Filter Playground",
-    path: "/tools/effects/filters",
+    name: "Clip-Path Maker",
+    path: "/tools/shapes/clip-path",
     status: "ready" as const,
     description:
-      "Interactive playground for CSS filters including blur, brightness, contrast, and more",
+      "Interactive tool for creating CSS clip-path shapes with polygon, circle, and ellipse support",
     features: [
-      "All CSS filter functions",
-      "Real-time preview",
-      "Combine multiple filters",
-      "Export CSS code",
+      "Multiple shape types",
+      "Visual point editing",
+      "Preset shapes library",
+      "Percentage-based coordinates",
     ],
   },
   {
-    name: "Glassmorphism Generator",
-    path: "/tools/effects/glassmorphism",
+    name: "Blob Shape Generator",
+    path: "/tools/shapes/blob-generator",
     status: "ready" as const,
     description:
-      "Generate frosted glass UI effects with backdrop-filter and transparency",
+      "Generate organic blob shapes with randomization for unique design elements",
     features: [
-      "Backdrop blur control",
-      "Transparency options",
-      "Border styles",
-      "Modern glass effects",
+      "Random blob generation",
+      "Complexity control",
+      "SVG export",
+      "Multiple variations",
     ],
   },
   {
-    name: "Noise Texture Generator",
-    path: "/tools/effects/noise-texture",
+    name: "CSS Grid Layout Builder",
+    path: "/tools/shapes/grid-builder",
     status: "ready" as const,
     description:
-      "Create subtle CSS-based noise and texture overlays for backgrounds",
+      "Visual grid layout builder with column and row configuration for responsive designs",
     features: [
-      "Noise pattern generation",
-      "Opacity control",
-      "Pattern scaling",
-      "CSS background output",
+      "Visual grid builder",
+      "Gap and sizing controls",
+      "Responsive templates",
+      "Complete CSS output",
     ],
   },
 ];
 
-const effectsTips = [
+const shapesTips = [
   {
-    title: "Layer Your Box Shadows",
+    title: "Master Border Radius Variations",
     content:
-      "Use multiple shadow layers for depth. Start with a subtle close shadow, add a larger blurred shadow for depth, and finish with an optional inset shadow for dimension.",
+      "Border radius accepts up to 8 values for complex shapes. Use 'border-radius: 10px 20px 30px 40px / 5px 10px 15px 20px' to create unique organic shapes with different horizontal and vertical radii.",
   },
   {
-    title: "Keep Filter Performance in Mind",
+    title: "Clip-Path for Performance",
     content:
-      "CSS filters can impact performance, especially blur and drop-shadow. Use them sparingly on elements that don't change frequently, and test on lower-end devices.",
+      "Clip-path is GPU-accelerated and more performant than CSS masking. Use it for image cropping, custom shapes, and creative layouts without adding extra DOM elements or images.",
   },
   {
-    title: "Glassmorphism Best Practices",
+    title: "Combine Shapes for Creativity",
     content:
-      "Effective glassmorphism requires proper backdrop content. Use backdrop-filter: blur() with semi-transparent backgrounds and ensure sufficient contrast for readability.",
+      "Layer multiple elements with different clip-paths to create complex compositions. Use blend modes and opacity to achieve unique visual effects that stand out.",
   },
   {
-    title: "Subtle Effects Work Best",
+    title: "Responsive Shape Design",
     content:
-      "Visual effects should enhance, not dominate your design. Start with subtle values and gradually increase intensity until you achieve the desired impact without overwhelming content.",
+      "Use percentage values in clip-path for responsive shapes that scale with their containers. Test shapes across different viewport sizes to ensure they maintain visual appeal.",
   },
   {
-    title: "Consider Dark Mode",
+    title: "Blob Shapes for Organic Feel",
     content:
-      "Effects like glows and shadows behave differently in dark themes. Test your effects in both light and dark modes, adjusting colors and intensities accordingly.",
+      "Organic blob shapes add playfulness and modernity to designs. Use them as section backgrounds, decorative elements, or to break up rigid grid layouts with flowing, natural forms.",
   },
   {
-    title: "Use CSS Custom Properties",
+    title: "CSS Grid for Complex Layouts",
     content:
-      "Define shadow and filter values as CSS custom properties for easy theming and dynamic adjustments. This enables consistent effects across your design system.",
+      "CSS Grid excels at two-dimensional layouts. Use grid-template-areas for semantic layout definitions, and combine with flexbox for one-dimensional child alignment.",
   },
   {
-    title: "Optimize for Accessibility",
+    title: "Browser Support Considerations",
     content:
-      "Respect user preferences for reduced motion. Some effects can trigger vestibular disorders, so provide alternatives when prefers-reduced-motion is enabled.",
+      "While clip-path has excellent modern browser support, always provide fallbacks for older browsers. Use @supports to progressively enhance designs with clipping and masking.",
   },
   {
-    title: "Progressive Enhancement",
+    title: "Animate Shapes Carefully",
     content:
-      "Not all browsers support modern CSS effects equally. Use @supports queries to provide fallbacks and ensure your design works without advanced effects.",
+      "Animating clip-path or border-radius creates engaging effects, but use will-change and transform properties to maintain smooth 60fps performance across devices.",
   },
 ];
 
-export function EffectsToolsScreen() {
+export function ShapesScreen() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const nextTip = () => {
-    setCurrentTipIndex((prev) => (prev + 1) % effectsTips.length);
+    setCurrentTipIndex((prev) => (prev + 1) % shapesTips.length);
   };
 
   const prevTip = () => {
     setCurrentTipIndex(
-      (prev) => (prev - 1 + effectsTips.length) % effectsTips.length
+      (prev) => (prev - 1 + shapesTips.length) % shapesTips.length
     );
   };
 
@@ -126,11 +126,11 @@ export function EffectsToolsScreen() {
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
       <PageHeader
-        title="Effects & Filters"
-        subtitle="Professional visual effects, shadows, filters, and modern UI effects for contemporary web design"
-        icon={<Sparkles size={24} />}
+        title="Shapes & Layout"
+        subtitle="Professional shape generators, clip-path tools, and layout builders for modern web design"
+        icon={<Shapes size={24} />}
         breadcrumbs={<Breadcrumb />}
-        iconBgClassName="bg-gradient-to-r from-purple-500 to-pink-500"
+        iconBgClassName="bg-gradient-to-r from-purple-500 to-pink-600"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -140,7 +140,7 @@ export function EffectsToolsScreen() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-6">Available Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {effectsTools.map((tool) => (
+              {shapesTools.map((tool) => (
                 <Link
                   key={tool.name}
                   to={tool.path}
@@ -156,7 +156,7 @@ export function EffectsToolsScreen() {
                   }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-orange-500 to-red-600 flex items-center justify-center text-white">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center text-white">
                       {getToolIcon(tool.name)}
                     </div>
 
@@ -206,59 +206,60 @@ export function EffectsToolsScreen() {
           {/* Article Content */}
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-6">
-              Modern CSS Effects and Visual Enhancement
+              Master CSS Shapes for Creative Web Design
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Visual effects are the finishing touches that elevate web designs
-              from functional to exceptional. Our effects toolkit provides
-              professional-grade shadow generators, CSS filters, and modern
-              glassmorphism effects that enhance user interfaces while
-              maintaining optimal performance and accessibility standards.
+              Shapes are fundamental to visual design, creating structure,
+              hierarchy, and visual interest. Our comprehensive shape tools help
+              you create custom border radius, craft unique clip-path shapes,
+              generate organic blobs, and build complex grid layouts with
+              precision and creative freedom.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Box Shadows and Depth Psychology
+              Border Radius: Beyond Simple Rounded Corners
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Shadows create visual hierarchy through simulated depth, guiding
-              user attention and establishing element relationships.
-              Multi-layered shadows combine close, sharp shadows for definition
-              with distant, soft shadows for elevation, creating realistic
-              lighting effects that improve interface comprehension.
+              Border radius offers more than simple rounded corners. Use
+              individual corner values to create asymmetric shapes, or leverage
+              the slash notation (horizontal / vertical) to create elliptical
+              corners. Combine different values to create unique, organic shapes
+              that add personality to cards, buttons, and containers.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              CSS Filters for Dynamic Enhancement
+              Clip-Path: Cutting-Edge Shape Creation
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              CSS filter functions enable real-time image and element
-              manipulation directly in the browser. Combine blur, brightness,
-              contrast, and hue adjustments for hover states, focus indicators,
-              and interactive feedback without requiring additional images or
-              JavaScript processing.
+              CSS clip-path enables complex shape creation without images or SVG
+              files. Create polygons, circles, ellipses, and custom paths to
+              crop images, create unique layouts, and add visual interest.
+              Clip-path is GPU-accelerated, performant, and perfect for
+              responsive designs with percentage-based coordinates.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Glassmorphism and Modern Transparency
+              Organic Blob Shapes for Modern Design
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Glassmorphism creates sophisticated frosted glass effects using
-              backdrop-filter and careful transparency. This design trend works
-              particularly well for overlay elements, modal dialogs, and
-              navigation components, providing visual separation while
-              maintaining content context.
+              Blob shapes break away from rigid geometric forms, adding organic,
+              playful elements to modern designs. Use SVG-based blob generators
+              to create unique background shapes, decorative elements, and
+              section dividers. Randomization ensures every blob is unique,
+              perfect for distinctive brand identities.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Performance and Browser Compatibility
+              CSS Grid: Two-Dimensional Layout Mastery
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              Modern CSS effects leverage GPU acceleration for smooth
-              performance, but require careful implementation. Use transform3d()
-              to trigger hardware acceleration, implement progressive
-              enhancement for older browsers, and consider user preferences for
-              reduced motion to ensure inclusive experiences.
+              CSS Grid revolutionizes layout design with powerful
+              two-dimensional control. Define rows and columns with flexible
+              units (fr, px, %, auto), use grid-template-areas for semantic
+              layouts, and combine with gap properties for perfect spacing.
+              Grid enables complex magazine-style layouts previously requiring
+              JavaScript or complex float techniques.
             </p>
           </div>
         </div>
@@ -273,16 +274,16 @@ export function EffectsToolsScreen() {
                 <h3 className="font-semibold">Pro Tips</h3>
               </div>
               <div className="flex items-center gap-1 text-xs text-muted">
-                {currentTipIndex + 1} of {effectsTips.length}
+                {currentTipIndex + 1} of {shapesTips.length}
               </div>
             </div>
 
             <div className="mb-4">
               <h4 className="font-medium text-sm mb-2">
-                {effectsTips[currentTipIndex].title}
+                {shapesTips[currentTipIndex].title}
               </h4>
               <p className="text-sm text-muted leading-relaxed">
-                {effectsTips[currentTipIndex].content}
+                {shapesTips[currentTipIndex].content}
               </p>
             </div>
 
@@ -291,7 +292,7 @@ export function EffectsToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={prevTip}
-                disabled={effectsTips.length <= 1}
+                disabled={shapesTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 <ChevronLeft size={14} />
@@ -299,7 +300,7 @@ export function EffectsToolsScreen() {
               </Button>
 
               <div className="flex gap-1">
-                {effectsTips.map((_, index) => (
+                {shapesTips.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTipIndex(index)}
@@ -314,7 +315,7 @@ export function EffectsToolsScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={nextTip}
-                disabled={effectsTips.length <= 1}
+                disabled={shapesTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 Next
@@ -337,29 +338,29 @@ export function EffectsToolsScreen() {
                 Browse All Articles →
               </Link>
               <Link
-                to="/articles/css-effects-guide"
+                to="/articles/clip-path-guide"
                 className="block text-sm text-accent hover:underline"
               >
-                CSS Effects Complete Guide
+                Complete Clip-Path Guide
               </Link>
               <Link
-                to="/articles/glassmorphism-design"
+                to="/articles/css-grid-layout"
                 className="block text-sm text-accent hover:underline"
               >
-                Glassmorphism Design Principles
+                CSS Grid Layout Mastery
               </Link>
               <Link
-                to="/articles/shadow-design-systems"
+                to="/articles/border-radius-techniques"
                 className="block text-sm text-accent hover:underline"
               >
-                Shadow Design Systems
+                Advanced Border Radius Techniques
               </Link>
             </div>
           </div>
 
           {/* Quick Stats */}
           <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
-            <h3 className="font-semibold mb-4">Effects Tools Stats</h3>
+            <h3 className="font-semibold mb-4">Shapes Tools Stats</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-muted">Tools Available</span>

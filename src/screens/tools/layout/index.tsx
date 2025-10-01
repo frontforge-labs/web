@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Shapes,
+  LayoutGrid,
   Lightbulb,
   BookOpen,
   ChevronLeft,
@@ -11,114 +11,114 @@ import { PageHeader, Button } from "@frontforge/ui";
 import { getToolIcon } from "../../../lib/toolIcons.tsx";
 import { Breadcrumb } from "../../../components/Breadcrumb";
 
-const shapesTools = [
+const layoutTools = [
   {
-    name: "Border Radius Previewer",
-    path: "/tools/shapes/border-radius",
+    name: "Flexbox Playground",
+    path: "/tools/layout/flexbox",
     status: "ready" as const,
     description:
-      "Create custom border radius with individual corner control and live preview",
+      "Interactive flexbox layout builder with visual controls for all flex properties",
     features: [
-      "Individual corner control",
-      "Multiple radius formats",
-      "Live preview updates",
-      "Copy CSS output",
+      "All flex properties",
+      "Visual alignment",
+      "Responsive preview",
+      "Complete CSS output",
     ],
   },
   {
-    name: "Clip-Path Maker",
-    path: "/tools/shapes/clip-path",
+    name: "Grid Generator",
+    path: "/tools/layout/grid",
     status: "ready" as const,
     description:
-      "Interactive tool for creating CSS clip-path shapes with polygon, circle, and ellipse support",
+      "Visual CSS Grid layout builder with column and row configuration for responsive designs",
     features: [
-      "Multiple shape types",
-      "Visual point editing",
-      "Preset shapes library",
-      "Percentage-based coordinates",
+      "Visual grid builder",
+      "Template areas",
+      "Gap controls",
+      "Responsive templates",
     ],
   },
   {
-    name: "Blob Shape Generator",
-    path: "/tools/shapes/blob-generator",
+    name: "CSS Positioning Playground",
+    path: "/tools/layout/positioning",
     status: "ready" as const,
     description:
-      "Generate organic blob shapes with randomization for unique design elements",
+      "Experiment with CSS positioning properties including static, relative, absolute, fixed, and sticky",
     features: [
-      "Random blob generation",
-      "Complexity control",
-      "SVG export",
-      "Multiple variations",
+      "All position types",
+      "Visual offset controls",
+      "Z-index management",
+      "Real-time preview",
     ],
   },
   {
-    name: "SVG Path Visualizer",
-    path: "/tools/shapes/svg-path",
+    name: "Responsive Breakpoint Tester",
+    path: "/tools/layout/breakpoints",
     status: "ready" as const,
     description:
-      "Preview and tweak custom SVG path commands interactively with visual feedback",
+      "Test responsive designs across common device breakpoints with live preview",
     features: [
-      "Live SVG preview",
-      "Path command editor",
-      "Point visualization",
-      "SVG export",
+      "Common breakpoints",
+      "Custom sizes",
+      "Device presets",
+      "Media query generator",
     ],
   },
 ];
 
-const shapesTips = [
+const layoutTips = [
   {
-    title: "Master Border Radius Variations",
+    title: "Master Flexbox Fundamentals",
     content:
-      "Border radius accepts up to 8 values for complex shapes. Use 'border-radius: 10px 20px 30px 40px / 5px 10px 15px 20px' to create unique organic shapes with different horizontal and vertical radii.",
+      "Flexbox excels at one-dimensional layouts (rows or columns). Use justify-content for main axis alignment, align-items for cross axis, and flex-grow/shrink for responsive sizing.",
   },
   {
-    title: "Clip-Path for Performance",
+    title: "CSS Grid for Two-Dimensional Layouts",
     content:
-      "Clip-path is GPU-accelerated and more performant than CSS masking. Use it for image cropping, custom shapes, and creative layouts without adding extra DOM elements or images.",
+      "Grid is perfect for complex two-dimensional layouts. Use grid-template-areas for semantic layouts, fr units for flexible sizing, and minmax() for responsive column widths.",
   },
   {
-    title: "Combine Shapes for Creativity",
+    title: "Combine Flexbox and Grid",
     content:
-      "Layer multiple elements with different clip-paths to create complex compositions. Use blend modes and opacity to achieve unique visual effects that stand out.",
+      "Don't choose one over the other - use Grid for page layout and Flexbox for component layout. Grid defines structure, Flexbox handles alignment and distribution within grid items.",
   },
   {
-    title: "Responsive Shape Design",
+    title: "Understand Position Context",
     content:
-      "Use percentage values in clip-path for responsive shapes that scale with their containers. Test shapes across different viewport sizes to ensure they maintain visual appeal.",
+      "Absolute positioning is relative to the nearest positioned ancestor (not static). Fixed positioning is relative to viewport. Sticky combines relative and fixed based on scroll position.",
   },
   {
-    title: "Blob Shapes for Organic Feel",
+    title: "Mobile-First Responsive Design",
     content:
-      "Organic blob shapes add playfulness and modernity to designs. Use them as section backgrounds, decorative elements, or to break up rigid grid layouts with flowing, natural forms.",
+      "Start with mobile styles as base, then use min-width media queries to add complexity for larger screens. This progressive enhancement approach is more maintainable than desktop-first.",
   },
   {
-    title: "CSS Grid for Complex Layouts",
+    title: "Use Logical Properties",
     content:
-      "CSS Grid excels at two-dimensional layouts. Use grid-template-areas for semantic layout definitions, and combine with flexbox for one-dimensional child alignment.",
+      "Prefer logical properties like inline-start over left for better internationalization. These properties adapt to writing direction (LTR/RTL) automatically.",
   },
   {
-    title: "Browser Support Considerations",
+    title: "Z-Index Stacking Context",
     content:
-      "While clip-path has excellent modern browser support, always provide fallbacks for older browsers. Use @supports to progressively enhance designs with clipping and masking.",
+      "Z-index only works on positioned elements. Each positioned element creates a stacking context for its children. Understanding stacking contexts prevents layering issues.",
   },
   {
-    title: "Animate Shapes Carefully",
+    title: "Container Queries for Components",
     content:
-      "Animating clip-path or border-radius creates engaging effects, but use will-change and transform properties to maintain smooth 60fps performance across devices.",
+      "Use container queries (@container) instead of media queries for component-based responsive design. Components can adapt to their container size rather than viewport width.",
   },
 ];
 
-export function ShapesScreen() {
+export function LayoutScreen() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const nextTip = () => {
-    setCurrentTipIndex((prev) => (prev + 1) % shapesTips.length);
+    setCurrentTipIndex((prev) => (prev + 1) % layoutTips.length);
   };
 
   const prevTip = () => {
     setCurrentTipIndex(
-      (prev) => (prev - 1 + shapesTips.length) % shapesTips.length
+      (prev) => (prev - 1 + layoutTips.length) % layoutTips.length
     );
   };
 
@@ -126,11 +126,11 @@ export function ShapesScreen() {
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
       <PageHeader
-        title="Shapes & Layout"
-        subtitle="Professional shape generators, clip-path tools, and layout builders for modern web design"
-        icon={<Shapes size={24} />}
+        title="Layout Tools"
+        subtitle="Professional layout generators for flexbox, grid, positioning, and responsive design"
+        icon={<LayoutGrid size={24} />}
         breadcrumbs={<Breadcrumb />}
-        iconBgClassName="bg-gradient-to-r from-purple-500 to-pink-600"
+        iconBgClassName="bg-gradient-to-r from-cyan-500 to-blue-600"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -140,7 +140,7 @@ export function ShapesScreen() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-6">Available Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {shapesTools.map((tool) => (
+              {layoutTools.map((tool) => (
                 <Link
                   key={tool.name}
                   to={tool.path}
@@ -156,7 +156,7 @@ export function ShapesScreen() {
                   }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center text-white">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-white">
                       {getToolIcon(tool.name)}
                     </div>
 
@@ -206,60 +206,58 @@ export function ShapesScreen() {
           {/* Article Content */}
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-6">
-              Master CSS Shapes for Creative Web Design
+              Master CSS Layout for Modern Web Design
             </h2>
 
             <p className="text-muted leading-relaxed mb-6">
-              Shapes are fundamental to visual design, creating structure,
-              hierarchy, and visual interest. Our comprehensive shape tools help
-              you create custom border radius, craft unique clip-path shapes,
-              generate organic blobs, and build complex grid layouts with
-              precision and creative freedom.
+              Layout is the foundation of web design, defining structure, flow,
+              and visual hierarchy. Our comprehensive layout tools help you
+              master flexbox, CSS Grid, positioning, and responsive design with
+              interactive controls and real-time preview.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Border Radius: Beyond Simple Rounded Corners
+              Flexbox: One-Dimensional Layout Mastery
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Border radius offers more than simple rounded corners. Use
-              individual corner values to create asymmetric shapes, or leverage
-              the slash notation (horizontal / vertical) to create elliptical
-              corners. Combine different values to create unique, organic shapes
-              that add personality to cards, buttons, and containers.
+              Flexbox revolutionizes one-dimensional layouts with powerful
+              alignment and distribution controls. Master flex-direction,
+              justify-content, align-items, and flex-grow/shrink to create
+              responsive navigation, card layouts, and component arrangements
+              that adapt to content and screen size.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Clip-Path: Cutting-Edge Shape Creation
+              CSS Grid: Two-Dimensional Layout Power
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              CSS clip-path enables complex shape creation without images or SVG
-              files. Create polygons, circles, ellipses, and custom paths to
-              crop images, create unique layouts, and add visual interest.
-              Clip-path is GPU-accelerated, performant, and perfect for
-              responsive designs with percentage-based coordinates.
+              CSS Grid enables complex two-dimensional layouts previously
+              requiring floats or JavaScript. Define rows and columns with
+              flexible units, use grid-template-areas for semantic layouts, and
+              leverage auto-placement for dynamic content. Grid transforms
+              magazine-style layouts from nightmare to simple and maintainable.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              Organic Blob Shapes for Modern Design
+              CSS Positioning: Precise Element Control
             </h3>
             <p className="text-muted leading-relaxed mb-4">
-              Blob shapes break away from rigid geometric forms, adding organic,
-              playful elements to modern designs. Use SVG-based blob generators
-              to create unique background shapes, decorative elements, and
-              section dividers. Randomization ensures every blob is unique,
-              perfect for distinctive brand identities.
+              Understanding CSS positioning is crucial for overlays, dropdowns,
+              tooltips, and fixed navigation. Master the differences between
+              static, relative, absolute, fixed, and sticky positioning. Each
+              type serves specific use cases and creates different stacking
+              contexts affecting z-index behavior.
             </p>
 
             <h3 className="text-xl font-semibold mb-4">
-              CSS Grid: Two-Dimensional Layout Mastery
+              Responsive Design: Mobile-First Approach
             </h3>
             <p className="text-muted leading-relaxed mb-6">
-              CSS Grid revolutionizes layout design with powerful
-              two-dimensional control. Define rows and columns with flexible
-              units (fr, px, %, auto), use grid-template-areas for semantic
-              layouts, and combine with gap properties for perfect spacing.
-              Grid enables complex magazine-style layouts previously requiring
-              JavaScript or complex float techniques.
+              Responsive design ensures optimal experiences across all devices.
+              Start with mobile styles and progressively enhance for larger
+              screens using min-width media queries. Test common breakpoints
+              (320px, 768px, 1024px, 1440px) and use relative units for
+              flexible, accessible layouts that scale beautifully.
             </p>
           </div>
         </div>
@@ -274,16 +272,16 @@ export function ShapesScreen() {
                 <h3 className="font-semibold">Pro Tips</h3>
               </div>
               <div className="flex items-center gap-1 text-xs text-muted">
-                {currentTipIndex + 1} of {shapesTips.length}
+                {currentTipIndex + 1} of {layoutTips.length}
               </div>
             </div>
 
             <div className="mb-4">
               <h4 className="font-medium text-sm mb-2">
-                {shapesTips[currentTipIndex].title}
+                {layoutTips[currentTipIndex].title}
               </h4>
               <p className="text-sm text-muted leading-relaxed">
-                {shapesTips[currentTipIndex].content}
+                {layoutTips[currentTipIndex].content}
               </p>
             </div>
 
@@ -292,7 +290,7 @@ export function ShapesScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={prevTip}
-                disabled={shapesTips.length <= 1}
+                disabled={layoutTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 <ChevronLeft size={14} />
@@ -300,7 +298,7 @@ export function ShapesScreen() {
               </Button>
 
               <div className="flex gap-1">
-                {shapesTips.map((_, index) => (
+                {layoutTips.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTipIndex(index)}
@@ -315,7 +313,7 @@ export function ShapesScreen() {
                 variant="ghost"
                 size="sm"
                 onClick={nextTip}
-                disabled={shapesTips.length <= 1}
+                disabled={layoutTips.length <= 1}
                 className="flex items-center gap-1"
               >
                 Next
@@ -338,10 +336,10 @@ export function ShapesScreen() {
                 Browse All Articles →
               </Link>
               <Link
-                to="/articles/clip-path-guide"
+                to="/articles/flexbox-guide"
                 className="block text-sm text-accent hover:underline"
               >
-                Complete Clip-Path Guide
+                Complete Flexbox Guide
               </Link>
               <Link
                 to="/articles/css-grid-layout"
@@ -350,17 +348,17 @@ export function ShapesScreen() {
                 CSS Grid Layout Mastery
               </Link>
               <Link
-                to="/articles/border-radius-techniques"
+                to="/articles/responsive-design"
                 className="block text-sm text-accent hover:underline"
               >
-                Advanced Border Radius Techniques
+                Responsive Design Best Practices
               </Link>
             </div>
           </div>
 
           {/* Quick Stats */}
           <div className="bg-surface-1 rounded-lg border border-border p-6 shadow-sm">
-            <h3 className="font-semibold mb-4">Shapes Tools Stats</h3>
+            <h3 className="font-semibold mb-4">Layout Tools Stats</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-muted">Tools Available</span>

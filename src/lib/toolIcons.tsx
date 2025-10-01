@@ -24,7 +24,8 @@ import {
   Waves,
   Circle,
   Hexagon,
-  Shapes
+  Shapes,
+  Pen
 } from 'lucide-react';
 
 // Icon mapping for individual tools
@@ -51,7 +52,7 @@ export const toolIcons: Record<string, React.ReactNode> = {
   'Border Radius Previewer': <Circle size={20} />,
   'Clip-Path Maker': <Scissors size={20} />,
   'Blob Shape Generator': <Hexagon size={20} />,
-  'CSS Grid Layout Builder': <Grid3X3 size={20} />,
+  'SVG Path Visualizer': <Pen size={20} />,
 
   // Layout Tools
   'Flexbox Playground': <Columns size={20} />,

@@ -123,8 +123,8 @@ export const toolCategories: ToolCategory[] = [
         status: "ready",
       },
       {
-        name: "CSS Grid Layout Builder",
-        path: "/tools/shapes/grid-builder",
+        name: "SVG Path Visualizer",
+        path: "/tools/shapes/svg-path",
         status: "ready",
       },
     ],

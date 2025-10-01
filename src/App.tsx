@@ -21,9 +21,12 @@ import { ShapesScreen } from "./screens/tools/shapes";
 import { BorderRadiusScreen } from "./screens/tools/shapes/BorderRadius";
 import { ClipPathScreen } from "./screens/tools/shapes/ClipPath";
 import { BlobGeneratorScreen } from "./screens/tools/shapes/BlobGenerator";
-import { GridBuilderScreen } from "./screens/tools/shapes/GridBuilder";
-import { LayoutToolsScreen } from "./screens/tools/LayoutToolsScreen";
-import { FlexboxScreen } from "./screens/tools/layout/FlexboxScreen";
+import { SVGPathScreen } from "./screens/tools/shapes/SVGPath";
+import { LayoutScreen } from "./screens/tools/layout";
+import { FlexboxScreen } from "./screens/tools/layout/Flexbox";
+import { GridBuilderScreen } from "./screens/tools/layout/GridBuilder";
+import { PositioningScreen } from "./screens/tools/layout/Positioning";
+import { BreakpointsScreen } from "./screens/tools/layout/Breakpoints";
 import { AnimationToolsScreen } from "./screens/tools/AnimationToolsScreen";
 import { KeyframesScreen } from "./screens/tools/animation/KeyframesScreen";
 import { DevToolsScreen } from "./screens/tools/DevToolsScreen";
@@ -109,10 +112,7 @@ export default function App() {
             path="/tools/effects/box-shadow"
             element={<BoxShadowScreen />}
           />
-          <Route
-            path="/tools/effects/filters"
-            element={<CSSFiltersScreen />}
-          />
+          <Route path="/tools/effects/filters" element={<CSSFiltersScreen />} />
           <Route
             path="/tools/effects/glassmorphism"
             element={<GlassmorphismScreen />}
@@ -126,20 +126,17 @@ export default function App() {
             path="/tools/shapes/border-radius"
             element={<BorderRadiusScreen />}
           />
-          <Route
-            path="/tools/shapes/clip-path"
-            element={<ClipPathScreen />}
-          />
+          <Route path="/tools/shapes/clip-path" element={<ClipPathScreen />} />
           <Route
             path="/tools/shapes/blob-generator"
             element={<BlobGeneratorScreen />}
           />
-          <Route
-            path="/tools/shapes/grid-builder"
-            element={<GridBuilderScreen />}
-          />
-          <Route path="/tools/layout" element={<LayoutToolsScreen />} />
+          <Route path="/tools/shapes/svg-path" element={<SVGPathScreen />} />
+          <Route path="/tools/layout" element={<LayoutScreen />} />
           <Route path="/tools/layout/flexbox" element={<FlexboxScreen />} />
+          <Route path="/tools/layout/grid" element={<GridBuilderScreen />} />
+          <Route path="/tools/layout/positioning" element={<PositioningScreen />} />
+          <Route path="/tools/layout/breakpoints" element={<BreakpointsScreen />} />
           <Route path="/tools/animation" element={<AnimationToolsScreen />} />
           <Route
             path="/tools/animation/keyframes"

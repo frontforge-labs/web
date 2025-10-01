@@ -1,4 +1,4 @@
-import type { TClipPathConfig, TPolygonPoint } from "./types";
+import type { TClipPathConfig } from "./types";
 
 export const defaultConfig: TClipPathConfig = {
   type: "polygon",

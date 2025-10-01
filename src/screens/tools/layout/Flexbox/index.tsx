@@ -10,7 +10,7 @@ import {
 import { Columns, RotateCcw, Plus, Minus } from "lucide-react";
 import { Breadcrumb } from "../../../../components/Breadcrumb";
 import { ProTip } from "../../../../components/ProTip";
-import type { TFlexboxConfig } from "./types";
+import type { TFlexboxConfig, TFlexItemConfig } from "./types";
 import { defaultConfig, flexboxPresets, createDefaultItem } from "./utils";
 
 export function FlexboxScreen(): JSX.Element {
@@ -55,7 +55,7 @@ export function FlexboxScreen(): JSX.Element {
     }
   };
 
-  const updateItemConfig = (index: number, updates: any): void => {
+  const updateItemConfig = (index: number, updates: Partial<TFlexItemConfig>): void => {
     const newConfigs = config.itemConfigs.map((item, i) =>
       i === index ? { ...item, ...updates } : item
     );
@@ -225,7 +225,7 @@ export function FlexboxScreen(): JSX.Element {
         <Select
           value={config.flexDirection}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            updateConfig({ flexDirection: e.target.value as any })
+            updateConfig({ flexDirection: e.target.value as TFlexboxConfig["flexDirection"] })
           }
         >
           <option value="row">Row →</option>
@@ -239,7 +239,7 @@ export function FlexboxScreen(): JSX.Element {
         <Select
           value={config.justifyContent}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            updateConfig({ justifyContent: e.target.value as any })
+            updateConfig({ justifyContent: e.target.value as TFlexboxConfig["justifyContent"] })
           }
         >
           <option value="flex-start">Flex Start</option>
@@ -255,7 +255,7 @@ export function FlexboxScreen(): JSX.Element {
         <Select
           value={config.alignItems}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            updateConfig({ alignItems: e.target.value as any })
+            updateConfig({ alignItems: e.target.value as TFlexboxConfig["alignItems"] })
           }
         >
           <option value="flex-start">Flex Start</option>
@@ -270,7 +270,7 @@ export function FlexboxScreen(): JSX.Element {
         <Select
           value={config.flexWrap}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            updateConfig({ flexWrap: e.target.value as any })
+            updateConfig({ flexWrap: e.target.value as TFlexboxConfig["flexWrap"] })
           }
         >
           <option value="nowrap">No Wrap</option>
@@ -284,7 +284,7 @@ export function FlexboxScreen(): JSX.Element {
           <Select
             value={config.alignContent}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              updateConfig({ alignContent: e.target.value as any })
+              updateConfig({ alignContent: e.target.value as TFlexboxConfig["alignContent"] })
             }
           >
             <option value="flex-start">Flex Start</option>

@@ -58,22 +58,24 @@ export function ClipPathScreen(): JSX.Element {
     let clipPath = "";
 
     switch (config.type) {
-      case "polygon":
+      case "polygon": {
         const points = config.points
           .map((p) => `${p.x}% ${p.y}%`)
           .join(", ");
         clipPath = `polygon(${points})`;
         break;
+      }
       case "circle":
         clipPath = `circle(${config.circleRadius}% at ${config.circleX}% ${config.circleY}%)`;
         break;
       case "ellipse":
         clipPath = `ellipse(${config.ellipseRadiusX}% ${config.ellipseRadiusY}% at ${config.ellipseX}% ${config.ellipseY}%)`;
         break;
-      case "inset":
+      case "inset": {
         const round = config.insetRound > 0 ? ` round ${config.insetRound}%` : "";
         clipPath = `inset(${config.insetTop}% ${config.insetRight}% ${config.insetBottom}% ${config.insetLeft}%${round})`;
         break;
+      }
     }
 
     return `/* Clip-Path Shape */
@@ -90,9 +92,10 @@ clip-path: ${clipPath};`;
         return `circle(${config.circleRadius}% at ${config.circleX}% ${config.circleY}%)`;
       case "ellipse":
         return `ellipse(${config.ellipseRadiusX}% ${config.ellipseRadiusY}% at ${config.ellipseX}% ${config.ellipseY}%)`;
-      case "inset":
+      case "inset": {
         const round = config.insetRound > 0 ? ` round ${config.insetRound}%` : "";
         return `inset(${config.insetTop}% ${config.insetRight}% ${config.insetBottom}% ${config.insetLeft}%${round})`;
+      }
       default:
         return "none";
     }

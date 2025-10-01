@@ -27,8 +27,11 @@ import { FlexboxScreen } from "./screens/tools/layout/Flexbox";
 import { GridBuilderScreen } from "./screens/tools/layout/GridBuilder";
 import { PositioningScreen } from "./screens/tools/layout/Positioning";
 import { BreakpointsScreen } from "./screens/tools/layout/Breakpoints";
-import { AnimationToolsScreen } from "./screens/tools/AnimationToolsScreen";
-import { KeyframesScreen } from "./screens/tools/animation/KeyframesScreen";
+import { AnimationScreen } from "./screens/tools/animation";
+import { KeyframesScreen } from "./screens/tools/animation/Keyframes";
+import { TransitionsScreen } from "./screens/tools/animation/Transitions";
+import { EasingScreen } from "./screens/tools/animation/Easing";
+import { ScrollAnimationsScreen } from "./screens/tools/animation/ScrollAnimations";
 import { DevToolsScreen } from "./screens/tools/DevToolsScreen";
 import { JsonFormatterScreen } from "./screens/tools/dev/JsonFormatterScreen";
 import { TextToolsScreen } from "./screens/tools/TextToolsScreen";
@@ -137,10 +140,22 @@ export default function App() {
           <Route path="/tools/layout/grid" element={<GridBuilderScreen />} />
           <Route path="/tools/layout/positioning" element={<PositioningScreen />} />
           <Route path="/tools/layout/breakpoints" element={<BreakpointsScreen />} />
-          <Route path="/tools/animation" element={<AnimationToolsScreen />} />
+          <Route path="/tools/animation" element={<AnimationScreen />} />
           <Route
             path="/tools/animation/keyframes"
             element={<KeyframesScreen />}
+          />
+          <Route
+            path="/tools/animation/transitions"
+            element={<TransitionsScreen />}
+          />
+          <Route
+            path="/tools/animation/easing"
+            element={<EasingScreen />}
+          />
+          <Route
+            path="/tools/animation/scroll-animations"
+            element={<ScrollAnimationsScreen />}
           />
           <Route path="/tools/dev-tools" element={<DevToolsScreen />} />
           <Route

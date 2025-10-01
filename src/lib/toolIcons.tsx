@@ -3,9 +3,7 @@ import {
   Pipette,
   Layers,
   Eye,
-  Sparkles,
   Filter,
-  CornerUpLeft,
   Scissors,
   PenTool,
   Grid3X3,
@@ -24,7 +22,6 @@ import {
   Waves,
   Circle,
   Hexagon,
-  Shapes,
   Pen
 } from 'lucide-react';
 
@@ -59,8 +56,10 @@ export const toolIcons: Record<string, React.ReactNode> = {
   'Grid Generator': <Grid3X3 size={20} />,
 
   // Animation Tools
-  'Keyframe Builder': <Zap size={20} />,
-  'Easing Visualizer': <Gauge size={20} />,
+  'Keyframes Generator': <Zap size={20} />,
+  'Transition Playground': <Zap size={20} />,
+  'Easing Curve Visualizer': <Gauge size={20} />,
+  'Scroll Animation Builder': <Zap size={20} />,
 
   // Dev Tools
   'JSON Formatter': <FileJson size={20} />,

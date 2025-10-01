@@ -90,7 +90,7 @@ position: relative;
             backgroundImage: `url("${getNoiseDataURL()}")`,
             backgroundSize: `${config.scale}%`,
             opacity: config.opacity / 100,
-            mixBlendMode: config.blendMode as any,
+            mixBlendMode: config.blendMode as React.CSSProperties["mixBlendMode"],
           }}
         />
         <span className="relative z-10">Noise Texture</span>

@@ -203,7 +203,7 @@ export function PositioningScreen(): JSX.Element {
         <Select
           value={config.position}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            updateConfig({ position: e.target.value as any })
+            updateConfig({ position: e.target.value as TPositioningConfig["position"] })
           }
         >
           <option value="static">Static (Default)</option>

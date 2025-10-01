@@ -1,7 +1,6 @@
 import { useState, type JSX } from "react";
 import {
   Button,
-  Input,
   Select,
   ToolLayout,
   ControlGroup,
